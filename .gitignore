@@ -4,6 +4,7 @@
 /data/*
 !__main__.py
 !.gitignore
+!requirements.txt
 
 __pycache__/
 *.py[cod]
