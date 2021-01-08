@@ -1,0 +1,9 @@
+/*
+!/food_project/
+!/data
+/data/*
+!__main__.py
+!.gitignore
+
+__pycache__/
+*.py[cod]
