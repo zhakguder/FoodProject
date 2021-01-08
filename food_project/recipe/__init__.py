@@ -1,15 +1,25 @@
 #!/usr/bin/env python3
+from functools import partial
 from food_project.recipe.similarity import SimilarityController, SimilarityControllerVisitor
-from food_project.recipe.models import RawRecipeModel, RecipeDBInitiator, RecipeFilePathSetter
+from food_project.recipe.models import RawRecipeModel, RecipeDBInitiator, RecipeFilePathSetter, RawRecipeReader
+
 
 rrm = RawRecipeModel()
+rrr = RawRecipeReader()
 
 def connect_to_database(uri, uname, pwd):
     rrmv = RecipeDBInitiator(uri, uname, pwd)
     rrm.accept(rrmv)
-    return rrm
 
-def set_recipe_file_pathprefix(prefix):
+def _set_recipe_filename(prefix, obj):
     rfps = RecipeFilePathSetter(prefix)
-    rrm.accept(rfps)
-    return rrm
+    obj.accept(rfps)
+
+set_recipe_reader_fname = partial(_set_recipe_filename, obj=rrr)
+
+def read_recipe(fname):
+    set_recipe_reader_fname(fname)
+    return rrr.read()
+
+def recipe_ids():
+    return rrr.recipe_ids

@@ -4,7 +4,7 @@ from food_project.recipe.cluster import ingredient_clusters
 from food_project.recipe.ingredient import Ingredient, IngredientCluster
 from functools import partial
 from pymongo import MongoClient
-import json
+from food_project.util import read_json
 
 
 class QueryModel:
@@ -60,7 +60,7 @@ class RawRecipeModel:
         self.username = None
         self.password = None
         self.uri = None
-        self.json_prefix = None
+        self.fname = None
 
     def _connect(self):
         client = MongoClient(self.uri)
@@ -71,9 +71,10 @@ class RawRecipeModel:
         pass
 
     def save(self, entry=16836):
-        filename = f"{self.json_prefix}_{entry}.json"
-        with open(filename, 'r')as f:
-            data = json.load(f)
+        try:
+            data = read_json(self.fname)
+        except Exception as e:
+            raise e
         try:
             self.collection.insert_one(data)
             print(f"Inserted recipe id {entry}")
@@ -94,8 +95,32 @@ class RecipeDBInitiator:
         element.uri = f"mongodb://{self.uname}:{self.pwd}@{self.db_uri}"
         element._connect()
 
+class RawRecipeReader:
+    def __init__(self):
+        self._reset()
+    def _reset(self):
+        self.fname = None
+        self.data = None
+        self._recipe_ids = None
+
+
+    def read(self):
+        '''Returns recipe data in json format'''
+        self.data = read_json(self.fname)
+
+    @property
+    def recipe_ids(self):
+        if not self._recipe_ids:
+            self._recipe_ids = [x["recipe_ID"] for x in self.data]
+        return self._recipe_ids
+
+    def accept(self, visitor):
+        self._reset()
+        visitor.visit(self)
+
+
 class RecipeFilePathSetter:
     def __init__(self, path):
         self.path = path
     def visit(self, element):
-        element.json_prefix = self.path
+        element.fname = self.path
