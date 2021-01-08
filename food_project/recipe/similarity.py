@@ -40,5 +40,7 @@ class SimilarityController:
 
 
 class SimilarityControllerVisitor:
-    def visit(self, element, scoring):
-        element.scoring_strategy = scoring
+    def __init__(self, scoring):
+        self.scoring = scoring
+    def visit(self, element):
+        element.scoring_strategy = self.scoring
