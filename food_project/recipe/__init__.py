@@ -23,7 +23,7 @@ set_recipe_group_dirname = _set_recipe_filename
 #     return rrr.read()
 
 def recipe_ids():
-    if not rrr.ready():
+    if not rrr.ready:
         rrr.read()
     return rrr.recipe_ids
 
