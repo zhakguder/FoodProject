@@ -28,5 +28,5 @@ def matching_columns(df, text):
     return df.columns.str.contains(text)
 
 def list_files_with_suffix(path, suffix):
-    breakpoint()
+    path = os.path.join(os.getcwd(), path)
     return [x for x in os.listdir(path) if x.endswith(suffix)]
