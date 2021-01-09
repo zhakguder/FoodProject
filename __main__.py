@@ -16,8 +16,8 @@ pwd = os.getenv("MONGODB_PWD")
 # read_recipe('MexicanBread/MexicanBread_16836.json')
 
 rcg = RawRecipeGroup()
-res = set_recipe_group_dirname('data/raw/ArgentinianRecipes', rcg)
-print(res)
+set_recipe_group_dirname('data/raw/ArgentinianRecipes', rcg)
+print(rcg.process())
 
 
 # print(recipe_ids())
