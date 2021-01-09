@@ -108,6 +108,9 @@ class RawRecipeReader:
         self.data = read_json(self.fname)
 
     @property
+    def ready(self):
+        return self.data is not None
+    @property
     def recipe_ids(self):
         if not self._recipe_ids:
             self._recipe_ids = [x["recipe_ID"] for x in self.data]
