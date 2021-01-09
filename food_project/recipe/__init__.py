@@ -30,5 +30,5 @@ def recipe_ids():
 def list_recipe_files(recipe_group_obj):
     return recipe_group_obj.process()
 
-def recipe_from_json_by_id(recipe_group_obj, recipe_id):
-    return recipe_group_obj.recipe_from_json_by_id(recipe_id)
+def recipe_from_json_by_id(recipe_id):
+    return rrr.recipe_from_json_by_id(recipe_id)
