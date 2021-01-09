@@ -16,6 +16,7 @@ class QueryModel:
 
 
 class RecipeModel:
+    '''Data after parsing raw recipes. Consolidated into clusters.'''
     # TODO: Model should only load/save data, extract logic in this to a controller helper class
     def __init__(self):
         self.filename = 'data/recipe_ingredients_scaled_units_wide_df.pkl'
@@ -53,6 +54,18 @@ class RecipeModel:
         row_totals = df.sum(axis=1)
         return df.div(row_totals, axis=0)
 
+class RecipeDBInitiator:
+    def __init__(self, uri, uname, pwd):
+        self.db_uri = uri
+        self.uname = uname
+        self.pwd = pwd
+    def visit(self, element):
+        '''Sets username and password for recipe database and establishes connection to database'''
+        element.username = self.uname
+        element.password = self.pwd
+        element.uri = f"mongodb://{self.uname}:{self.pwd}@{self.db_uri}"
+        element._connect()
+
 
 class RawRecipeModel:
     def __init__(self):
@@ -69,30 +82,18 @@ class RawRecipeModel:
     def load(self, id):
         pass
 
-    def save(self, entry=16836):
+    def save(self, recipe_id, raw_recipe_reader_object):
         try:
-            data = read_json(self.fname)
+            data = raw_recipe_reader_object.recipe_by_id(recipe_id)
         except Exception as e:
             raise e
         try:
             self.collection.insert_one(data)
-            print(f"Inserted recipe id {entry}")
+            print(f"Inserted recipe id {recipe_id}")
         except:
-            print(f"Couldn't insert recipe id {entry}")
+            print(f"Couldn't insert recipe id {recipe_id}")
     def accept(self, visitor):
         visitor.visit(self)
-
-class RecipeDBInitiator:
-    def __init__(self, uri, uname, pwd):
-        self.db_uri = uri
-        self.uname = uname
-        self.pwd = pwd
-    def visit(self, element):
-        '''Sets username and password for recipe database and establishes connection to database'''
-        element.username = self.uname
-        element.password = self.pwd
-        element.uri = f"mongodb://{self.uname}:{self.pwd}@{self.db_uri}"
-        element._connect()
 
 class RawRecipeReader:
     def __init__(self):
@@ -119,7 +120,7 @@ class RawRecipeReader:
     def _filter_by_id(self, recipe_id):
         return [x for x in self.data if x['recipe_ID']==recipe_id][0]
 
-    def recipe_from_json_by_id(self, recipe_id):
+    def recipe_by_id(self, recipe_id):
         x = self._filter_by_id(recipe_id)
         return {x['recipe_ID']: x}
 
