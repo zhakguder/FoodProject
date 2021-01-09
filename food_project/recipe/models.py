@@ -1,11 +1,10 @@
 #!/usr/bin/env python3
-from food_project.util import read_pickle, column_name, column_value, dataframe_from_dict
+import os
+from functools import partial
+from food_project.util import read_pickle, column_name, column_value, dataframe_from_dict, read_json, list_files_with_suffix
 from food_project.recipe.cluster import ingredient_clusters
 from food_project.recipe.ingredient import Ingredient, IngredientCluster
-from functools import partial
 from pymongo import MongoClient
-from food_project.util import read_json
-
 
 class QueryModel:
     def _set_data(self, ingredients):
@@ -118,6 +117,17 @@ class RawRecipeReader:
         self._reset()
         visitor.visit(self)
 
+class RawRecipeGroup:
+    def __init__(self):
+        self.path = None
+        self.inner_dir = 'original_recipe_info'
+
+    def process(self):
+        path = os.path.join(self.path, self.inner_dir)
+        return list_files_with_suffix(path, 'json')
+
+    def accept(self, visitor):
+        visitor.visit(self)
 
 class RecipeFilePathSetter:
     def __init__(self, path):

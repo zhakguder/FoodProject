@@ -3,6 +3,7 @@
 import pickle
 import pandas as pd
 import json
+import os
 
 
 def read_json(path):
@@ -20,8 +21,11 @@ def column_name(df, i):
 def column_value(df, i):
     return df.iloc[:, i]
 
-def dataframe_from_dict(dict):
-    return pd.DataFrame(dict)
+def dataframe_from_dict(mydict):
+    return pd.DataFrame(mydict)
 
 def matching_columns(df, text):
     return df.columns.str.contains(text)
+
+def list_files_with_suffix(path, suffix):
+    return [x for x in os.listdir(path) if x.endswith(suffix)]
