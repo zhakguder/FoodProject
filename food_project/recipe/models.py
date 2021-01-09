@@ -59,7 +59,7 @@ class RawRecipeModel:
         self.username = None
         self.password = None
         self.uri = None
-        self.fname = None
+        self.path = None
 
     def _connect(self):
         client = MongoClient(self.uri)
@@ -98,7 +98,7 @@ class RawRecipeReader:
     def __init__(self):
         self._reset()
     def _reset(self):
-        self.fname = None
+        self.path = None
         self.data = None
         self._recipe_ids = None
 
@@ -133,4 +133,4 @@ class RecipeFilePathSetter:
     def __init__(self, path):
         self.path = path
     def visit(self, element):
-        element.fname = self.path
+        element.path = self.path
