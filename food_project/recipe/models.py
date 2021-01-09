@@ -146,3 +146,6 @@ class RecipeFilePathSetter:
         self.path = path
     def visit(self, element):
         element.path = self.path
+
+raw_recipe_model = RawRecipeModel()
+raw_recipe_reader = RawRecipeReader()

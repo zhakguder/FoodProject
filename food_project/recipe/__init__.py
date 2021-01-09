@@ -1,37 +1,8 @@
 #!/usr/bin/env python3
 from functools import partial
-from food_project.recipe.similarity import SimilarityController, SimilarityControllerVisitor
-from food_project.recipe.models import RawRecipeModel, RecipeDBInitiator, RecipeFilePathSetter, RawRecipeReader, RawRecipeGroup
-
-
-rrm = RawRecipeModel()
-rrr = RawRecipeReader()
+from food_project.recipe.models import RecipeDBInitiator, RecipeFilePathSetter,  RawRecipeGroup, raw_recipe_model
+from food_project.recipe.flat_to_db import populate_db
 
 def connect_to_database(uri, uname, pwd):
     rrmv = RecipeDBInitiator(uri, uname, pwd)
-    rrm.accept(rrmv)
-
-def _set_recipe_filename(path, obj):
-    rfps = RecipeFilePathSetter(path)
-    obj.accept(rfps)
-
-set_recipe_reader_fname = partial(_set_recipe_filename, obj=rrr)
-set_recipe_group_dirname = _set_recipe_filename
-
-# def read_recipe(fname):
-#     set_recipe_reader_fname(fname)
-#     return rrr.read()
-
-def recipe_ids():
-    if not rrr.ready:
-        rrr.read()
-    return rrr.recipe_ids
-
-def list_recipe_files(recipe_group_obj):
-    return recipe_group_obj.process()
-
-def recipe_from_json_by_id(recipe_id):
-    return rrr.recipe_by_id(recipe_id)
-
-def save_recipe_by_id(recipe_id):
-    rrm.save(recipe_id, rrr)
+    raw_recipe_model.accept(rrmv)
