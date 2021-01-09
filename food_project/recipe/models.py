@@ -122,7 +122,9 @@ class RawRecipeReader:
 
     def recipe_by_id(self, recipe_id):
         x = self._filter_by_id(recipe_id)
-        return {x['recipe_ID']: x}
+        x["_id"] = x['recipe_ID']
+        del x['recipe_ID']
+        return x
 
     def accept(self, visitor):
         self._reset()
