@@ -123,7 +123,7 @@ class RawRecipeReader:
     def recipe_by_id(self, recipe_id):
         x = self._filter_by_id(recipe_id)
         x["_id"] = x['recipe_ID']
-        return {k:v for k,v in x.iteritems() if k!='recipe_ID'}
+        return {k:v for k,v in x.items() if k!='recipe_ID'}
 
     def accept(self, visitor):
         self._reset()
