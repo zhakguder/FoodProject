@@ -16,7 +16,7 @@ def _set_recipe_filename(path, obj):
     obj.accept(rfps)
 
 set_recipe_reader_fname = partial(_set_recipe_filename, obj=rrr)
-# set_recipe_group_dirname = _set_recipe_filename
+set_recipe_group_dirname = _set_recipe_filename
 
 # def read_recipe(fname):
 #     set_recipe_reader_fname(fname)
