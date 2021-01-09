@@ -21,7 +21,7 @@ for recipe_file in list_recipe_files(rcg):
     set_recipe_reader_fname(recipe_file)
     ids = recipe_ids()
     for id_ in ids:
-        recipe = recipe_from_json_by_id(rcg, id_)
+        recipe = recipe_from_json_by_id(id_)
         print(recipe)
 
 
