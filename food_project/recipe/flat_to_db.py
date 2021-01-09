@@ -7,7 +7,7 @@ def _set_recipe_filename(path, obj):
     rfps = RecipeFilePathSetter(path)
     obj.accept(rfps)
 
-set_recipe_reader_fname = partial(_set_recipe_filename, obj=rrr)
+set_recipe_reader_fname = partial(_set_recipe_filename, obj=raw_recipe_reader)
 set_recipe_group_dirname = _set_recipe_filename
 
 def recipe_ids():
