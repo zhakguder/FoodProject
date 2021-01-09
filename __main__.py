@@ -5,7 +5,7 @@ import os
 from dotenv import load_dotenv
 from food_project.recipe import SimilarityController, SimilarityControllerVisitor
 from food_project.recipe.matcher import match_score, uniform_score
-from food_project.recipe import connect_to_database, recipe_ids, RawRecipeGroup, set_recipe_group_dirname, set_recipe_reader_fname, list_recipe_files
+from food_project.recipe import connect_to_database, recipe_ids, RawRecipeGroup, set_recipe_group_dirname, set_recipe_reader_fname, list_recipe_files, recipe_from_json_by_id
 
 load_dotenv()
 uri = os.getenv("MONGODB_URI")
