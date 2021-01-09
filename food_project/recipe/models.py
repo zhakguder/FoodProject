@@ -124,8 +124,7 @@ class RawRecipeReader:
         breakpoint()
         x = self._filter_by_id(recipe_id)
         x["_id"] = x['recipe_ID']
-        del x['recipe_ID']
-        return x
+        return {k:v for k,v in x.iteritems() if k!='recipe_ID'}
 
     def accept(self, visitor):
         self._reset()
