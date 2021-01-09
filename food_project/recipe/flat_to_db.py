@@ -1,4 +1,5 @@
 #!/usr/bin/env python3
+from functools import partial
 from food_project.recipe.models import RecipeFilePathSetter,  raw_recipe_model, raw_recipe_reader, RawRecipeGroup
 
 
