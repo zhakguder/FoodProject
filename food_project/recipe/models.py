@@ -113,6 +113,13 @@ class RawRecipeReader:
             self._recipe_ids = [x["recipe_ID"] for x in self.data]
         return self._recipe_ids
 
+    def _filter_by_id(self, recipe_id):
+        return [x for x in self.data if x['recipe_ID']==recipe_id][0]
+
+    def recipe_from_json_by_id(self, recipe_id):
+        x = self._filter_by_id(recipe_id)
+        return {x['recipe_ID']: x}
+
     def accept(self, visitor):
         self._reset()
         visitor.visit(self)

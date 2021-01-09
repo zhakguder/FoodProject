@@ -11,19 +11,22 @@ def connect_to_database(uri, uname, pwd):
     rrmv = RecipeDBInitiator(uri, uname, pwd)
     rrm.accept(rrmv)
 
-def _set_recipe_filename(prefix, obj):
-    rfps = RecipeFilePathSetter(prefix)
+def _set_recipe_filename(path, obj):
+    rfps = RecipeFilePathSetter(path)
     obj.accept(rfps)
 
 set_recipe_reader_fname = partial(_set_recipe_filename, obj=rrr)
-set_recipe_group_dirname = _set_recipe_filename
+# set_recipe_group_dirname = _set_recipe_filename
 
-def read_recipe(fname):
-    set_recipe_reader_fname(fname)
-    return rrr.read()
+# def read_recipe(fname):
+#     set_recipe_reader_fname(fname)
+#     return rrr.read()
 
 def recipe_ids():
     return rrr.recipe_ids
 
-def list_recipes(obj):
-    return obj.process()
+def list_recipe_files(recipe_group_obj):
+    return recipe_group_obj.process()
+
+def recipe_from_json_by_id(recipe_group_obj, recipe_id):
+    return recipe_group_obj.recipe_from_json_by_id(recipe_id)
