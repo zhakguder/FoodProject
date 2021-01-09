@@ -26,6 +26,8 @@ def recipe_ids():
     return rrr.recipe_ids
 
 def list_recipe_files(recipe_group_obj):
+    if not recipe_group_obj.ready():
+        recipe_group_obj.read()
     return recipe_group_obj.process()
 
 def recipe_from_json_by_id(recipe_group_obj, recipe_id):
