@@ -85,13 +85,15 @@ class RawRecipeModel:
     def save(self, data):
         try:
             self.collection.insert_one(data)
-            print(f"Inserted recipe id {recipe_id}")
+            id = data._id #TODO: fix according to recipe class
+            print(f"Inserted recipe id {id}")
         except:
-            print(f"Couldn't insert recipe id {recipe_id}")
+            print(f"Couldn't insert recipe id {id}")
     def accept(self, visitor):
         visitor.visit(self)
 
 class RawRecipeReader:
+    #TODO: factor out a recipe class with _id, etc
     def __init__(self):
         self._reset()
     def _reset(self):
