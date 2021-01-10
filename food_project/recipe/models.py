@@ -83,7 +83,7 @@ class RawRecipeModel:
         pass
 
     def save(self, data):
-        id = data._id #TODO: fix according to recipe class
+        id = data['_id'] #TODO: fix according to recipe class
         try:
             self.collection.insert_one(data)
             print(f"Inserted recipe id {id}")
