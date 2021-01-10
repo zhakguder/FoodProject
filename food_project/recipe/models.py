@@ -134,7 +134,7 @@ class RawDataGroup:
     def process(self):
         path = os.path.join(self.path, self.inner_dir)
         # return list_files_with_suffix(path, self.suffix)
-        return self.match_cond(path)
+        return list_content_with_matches(path, self.match_cond)
 
     def accept(self, visitor):
         visitor.visit(self)
