@@ -83,9 +83,9 @@ class RawRecipeModel:
         pass
 
     def save(self, data):
+        id = data._id #TODO: fix according to recipe class
         try:
             self.collection.insert_one(data)
-            id = data._id #TODO: fix according to recipe class
             print(f"Inserted recipe id {id}")
         except:
             print(f"Couldn't insert recipe id {id}")
