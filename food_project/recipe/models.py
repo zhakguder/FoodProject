@@ -127,6 +127,18 @@ class RawRecipeReader:
         self._reset()
         visitor.visit(self)
 
+class RawDataGroup:
+    def __init__(self):
+        self.path = None
+
+    def process(self):
+        path = os.path.join(self.path, self.inner_dir)
+        # return list_files_with_suffix(path, self.suffix)
+        return self.match_cond(path)
+
+    def accept(self, visitor):
+        visitor.visit(self)
+
 class RawRecipeGroup(RawDataGroup):
     def __init__(self):
         super().__init__()
@@ -140,18 +152,6 @@ class RawRecipeImageGroup(RawDataGroup):
         self.inner_dir = 'imgs'
         self.suffix = 'jpg'
         self.match_cond = is_a_dir
-
-class RawDataGroup:
-    def __init__(self):
-        self.path = None
-
-    def process(self):
-        path = os.path.join(self.path, self.inner_dir)
-        # return list_files_with_suffix(path, self.suffix)
-        return self.match_cond(path)
-
-    def accept(self, visitor):
-        visitor.visit(self)
 
 class RecipeFilePathSetter:
     def __init__(self, path):
