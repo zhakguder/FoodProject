@@ -18,9 +18,13 @@ def list_recipe_files(recipe_group_obj):
     return recipe_group_obj.process()
 
 def save_recipe_by_id(recipe_id):
-    raw_recipe_model.save(recipe_id, raw_recipe_reader)
+    try:
+        data = raw_recipe_reader.recipe_by_id(recipe_id)
+    except Exception as e:
+        raise e
+    raw_recipe_model.save(data)
 
-def populate_db(path):
+def populate_db_recipes(path):
     rcg = RawRecipeGroup()
     set_recipe_group_dirname('data/raw/ArgentinianRecipes', rcg)
     for recipe_file in list_recipe_files(rcg):
