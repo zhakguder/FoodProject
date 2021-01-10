@@ -28,9 +28,6 @@ def dataframe_from_dict(mydict):
 def matching_columns(df, text):
     return df.columns.str.contains(text)
 
-# def list_files_with_suffix(path, suffix):
-#     return [os.path.join(path, x) for x in os.listdir(path) if x.endswith(suffix)]
-
 def _content_matches(path, match_cond):
     return match_cond.match(path)
 
@@ -46,6 +43,6 @@ class FilesystemMatch:
     def match(self, dir_content):
         return self.fn(dir_content, *self.args)
 
-file_ends_with_json = FilesystemMatch(str.endswith, 'json')
-
-is_a_dir = FilesystemMatch(os.path.isdir)
+is_json = FilesystemMatch(str.endswith, 'json')
+is_dir = FilesystemMatch(os.path.isdir)
+is_jpg = FilesystemMatch(str.endswith, 'jpg')

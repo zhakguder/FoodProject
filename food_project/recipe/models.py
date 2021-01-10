@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 import os
 from functools import partial
-from food_project.util import read_pickle, column_name, column_value, dataframe_from_dict, read_json, file_ends_with_json, is_a_dir, list_content_with_matches
+from food_project.util import read_pickle, column_name, column_value, dataframe_from_dict, read_json, is_json, is_jpg, is_dir, list_content_with_matches
 from food_project.recipe.cluster import ingredient_clusters
 from food_project.recipe.ingredient import Ingredient, IngredientCluster
 from pymongo import MongoClient
@@ -133,7 +133,6 @@ class RawDataGroup:
 
     def process(self):
         path = os.path.join(self.path, self.inner_dir)
-        # return list_files_with_suffix(path, self.suffix)
         return list_content_with_matches(path, self.match_cond)
 
     def accept(self, visitor):
@@ -144,22 +143,24 @@ class RawRecipeGroup(RawDataGroup):
         super().__init__()
         self.inner_dir = 'original_recipes_info'
         self.suffix = 'json'
-        self.match_cond = file_ends_with_json
+        self.match_cond = is_json
 
 class RawRecipeImageGroup(RawDataGroup):
      def __init__(self):
         super().__init__()
         self.inner_dir = 'imgs'
-        self.suffix = 'jpg'
         self.match_cond = is_a_dir
+
+class RawImage:
+    def __init__(self):
+        self.suffix = 'jpg'
+        self.match_cond = is_jpg
 
 class RecipeFilePathSetter:
     def __init__(self, path):
         self.path = path
     def visit(self, element):
         element.path = self.path
-
-
 
 
 raw_recipe_model = RawRecipeModel()
