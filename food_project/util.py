@@ -47,6 +47,6 @@ class FilesystemMatch:
         return self.fn(dir_content, *self.args)
 
 file_ends_with = partial(FilesystemMatch, fn=str.endswith)
-file_ends_with_json = file_ends_with('json')
+file_ends_with_json = partial(file_ends_with, 'json'))
 
 is_a_dir = partial(FilesystemMatch, fn=os.path.isdir)
