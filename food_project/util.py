@@ -44,6 +44,7 @@ class FilesystemMatch:
         self.args = args
 
     def match(self, dir_content):
+        breakpoint()
         return self.fn(dir_content, *self.args)
 
 file_ends_with = partial(FilesystemMatch, fn=str.endswith)
