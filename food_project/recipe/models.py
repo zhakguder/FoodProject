@@ -82,11 +82,7 @@ class RawRecipeModel:
     def load(self, id):
         pass
 
-    def save(self, recipe_id, raw_recipe_reader_object):
-        try:
-            data = raw_recipe_reader_object.recipe_by_id(recipe_id)
-        except Exception as e:
-            raise e
+    def save(self, data):
         try:
             self.collection.insert_one(data)
             print(f"Inserted recipe id {recipe_id}")
@@ -146,6 +142,8 @@ class RecipeFilePathSetter:
         self.path = path
     def visit(self, element):
         element.path = self.path
+
+# class RawRecipeImageModel:
 
 raw_recipe_model = RawRecipeModel()
 raw_recipe_reader = RawRecipeReader()
