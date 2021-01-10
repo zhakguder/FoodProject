@@ -44,10 +44,8 @@ class FilesystemMatch:
         self.args = args
 
     def match(self, dir_content):
-        breakpoint()
         return self.fn(dir_content, *self.args)
 
-file_ends_with = partial(FilesystemMatch, fn=str.endswith)
-file_ends_with_json = partial(file_ends_with, 'json')
+file_ends_with_json = FilesystemMatch(str.endswith, 'json')
 
-is_a_dir = partial(FilesystemMatch, fn=os.path.isdir)
+is_a_dir = FilesystemMatch(os.path.isdir)
