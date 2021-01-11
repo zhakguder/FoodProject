@@ -8,6 +8,7 @@ from sys import argv
 image_paths = argv[1:]
 f = Image.open
 images_for_prediction = np.stack([f(x) for x in image_paths])
+logits = model.predict(images_for_prediction)
 
 # partition = 'validation'
 # path = partition + '_ds'
@@ -21,7 +22,6 @@ model = tf.keras.models.load_model('hyvee.best.hdf5')
 # val_data_y = val_data.map(lambda x, y: y)
 # preds = trained_model.predict(val_data_x)
 
-logits = model.predict(images)
 predicted_class_indexes = tf.argmax(tf.nn.softmax(logits), axis=1)
 
 with open('hyvee_label.dict', 'rb') as f:
