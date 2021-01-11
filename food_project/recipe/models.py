@@ -97,7 +97,8 @@ class RawRecipeModel:
         '''data: key value pair'''
         id_ = str(id_)
         try:
-            inserted = self.collection.find_one_and_update({self.key_field: id_}, {"$set": data}, upsert=True)
+            updated = self.collection.find_one_and_update({self.key_field: id_}, {"$set": data}, upsert=True)
+            print(f"Updated recipe id {id_}")
         except:
             print(f"Couldn't update {id_}")
         return inserted
