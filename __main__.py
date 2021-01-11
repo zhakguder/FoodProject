@@ -33,7 +33,7 @@ print(recipe['name'])
 for image in recipe['images']:
     preds = image_classification_model.get_ingredients(image)
     preds = [x.strip() for x in preds.split(',')]
-    res = sim_ctrl.handle(preds, 100)
+    res = sim_ctrl.handle(preds, 10)
     recipe_ids = [int(x) for x in res.index.values]
     for recipe_id in recipe_ids:
         try:
