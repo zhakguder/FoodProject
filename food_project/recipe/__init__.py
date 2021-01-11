@@ -5,5 +5,5 @@ from food_project.recipe.models import RecipeDBInitiator, RecipeFilePathSetter, 
 from food_project.recipe.similarity import SimilarityController, SimilarityControllerVisitor
 
 def connect_to_database(uri, uname, pwd):
-    rrmv = RecipeDBInitiator(uri, uname, pwd)
-    raw_recipe_model.accept(rrmv)
+    rdi = RecipeDBInitiator(uri, uname, pwd)
+    raw_recipe_model.accept(rdi)

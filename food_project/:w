@@ -32,7 +32,6 @@ def _content_matches(path, match_cond):
     return match_cond.match(path)
 
 def list_content_with_matches(path, match_cond):
-    breakpoint()
     contents = os.listdir(path)
     def abs_path(x):
         return os.path.join(path, x)
