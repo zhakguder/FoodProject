@@ -9,7 +9,7 @@ from PIL import Image
 image_paths = argv[1:]
 f = Image.open
 images_for_prediction = np.stack([f(x) for x in image_paths])
-model = tf.keras.models.load_model('hyvee.best.hdf5')
+model = tf.keras.models.load_model('/FoodProject/data/image_classification/model/hyvee.best.hdf5')
 logits = model.predict(images_for_prediction)
 
 # partition = 'validation'
