@@ -26,7 +26,7 @@ recipes = get_recipe_from_db(277888)
 for image in recipes['images']:
     preds = image_classification_model.get_ingredients(image)
     preds = [x.strip() for x in preds.split(',')]
-
+    print(preds)
 
 # print(recipe_ids())
 # sim_ctrl = SimilarityController()
