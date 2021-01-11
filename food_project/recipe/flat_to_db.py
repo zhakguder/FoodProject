@@ -56,7 +56,7 @@ def populate_db_processed(path):
         prr = ProcessedRecipeReader()
         set_recipe_filename(recipe, prr)
         data = prr.read()
-        raw_recipe_model.update(recipe_id, {'processed_ingredients': data})
+        raw_recipe_model.update(prr.recipe_id, {'processed_ingredients': data})
 
 
         # recipe_id = os.path.basename(recipe_image_folder)
