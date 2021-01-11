@@ -23,8 +23,8 @@ set_image_predictor(classification_uri, classification_port, classification_rout
 
 
 sim_ctrl = SimilarityController()
-sim_ctrl_vis = SimilarityControllerVisitor()
-sim_ctrl_vis.visit(sim_ctrl, match_score)
+sim_ctrl_vis = SimilarityControllerVisitor(match_score)
+sim_ctrl_vis.visit(sim_ctrl)
 
 # populate_db_recipes('data/raw/ArgentinianRecipes')
 # populate_db_images('data/raw/ArgentinianRecipes')
