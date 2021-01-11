@@ -9,8 +9,8 @@ class ImageClassificationModel:
         with open(img_path, "rb") as img:
             img_name = os.path.basename(img_path)
             files = {'image': (img_name, img, "multipart/form-data", {"Expires": "0"})}
-        with requests.Session() as s:
-            r = s.post(self.uri, files=files)
+            with requests.Session() as s:
+                r = s.post(self.uri, files=files)
         return r.text
 
     def accept(self, visitor):
