@@ -26,7 +26,7 @@ def save_recipe_by_id(recipe_id):
 
 def save_recipe_image_paths(recipe_id):
     rig = RawImageGroup()
-    set_group_dirname(recipe_group, rig)
+    set_group_dirname(recipe_id, rig)
     for recipe_image in list_group_files(rig):
         breakpoint()
 
