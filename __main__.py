@@ -6,7 +6,7 @@ from dotenv import load_dotenv
 from food_project.recipe import SimilarityController, SimilarityControllerVisitor
 from food_project.recipe.matcher import match_score, uniform_score
 from food_project.recipe import connect_to_database, populate_db_recipes, populate_db_images, get_recipe_from_db, populate_db_processed
-from food_project.image_prediction import set_image_predictor, image_classification_model
+from food_project.image_prediction import set_image_predictor, dish_image_classification_model
 
 load_dotenv()
 uri = os.getenv("MONGODB_URI")
@@ -20,7 +20,7 @@ classification_route = os.getenv("CLASSIFICATION_ROUTE")
 n_most_similar_recipes = int(os.getenv("N_SIMILAR"))
 
 connect_to_database(uri, uname, pwd)
-set_image_predictor(classification_uri, classification_port, classification_route)
+set_image_predictor(classification_uri, classification_port, classification_route, 'dish')
 
 
 sim_ctrl = SimilarityController()
@@ -35,7 +35,7 @@ print(recipe['name'])
 print(recipe['processed_ingredients'])
 print("PREDICTIONS")
 for image in recipe['images']:
-    preds = image_classification_model.get_ingredients(image)
+    preds = dish_image_classification_model.get_ingredients(image)
     preds = [x.strip() for x in preds.split(',')]
     res = sim_ctrl.handle(preds, n_most_similar_recipes)
     recipe_ids = [int(x) for x in res.index.values]

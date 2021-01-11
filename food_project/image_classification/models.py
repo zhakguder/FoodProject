@@ -2,7 +2,7 @@
 import requests
 import os
 
-class ImageClassificationModel:
+class DishImageClassificationModel:
     def _init__(self):
         self.uri = None
     def get_ingredients(self, img_path):
@@ -23,4 +23,4 @@ class ImageClassificationModelInitiator:
     def visit(self, element):
         element.uri = self.uri
 
-image_classification_model = ImageClassificationModel()
+image_classification_models = {'dish': DishImageClassificationModel(), 'ingredient': IngredientImageClassificationModel()}
