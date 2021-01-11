@@ -138,7 +138,7 @@ class RawDataGroup:
             return self.path
 
     def process(self):
-        return list_content_with_matches(self.content_path, self.match_cond)
+        return list_content_with_matches(self.content_path(), self.match_cond)
 
     def accept(self, visitor):
         visitor.visit(self)
