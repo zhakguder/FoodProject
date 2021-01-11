@@ -1,4 +1,5 @@
 #!/usr/bin/env python3
+import os
 from functools import partial
 from food_project.recipe.models import RecipeFilePathSetter,  raw_recipe_model, raw_recipe_reader, RawRecipeGroup, RawRecipeImageGroup, RawImageGroup
 
@@ -25,6 +26,7 @@ def save_recipe_by_id(recipe_id):
     raw_recipe_model.save(data)
 
 def save_recipe_image_paths(recipe_id):
+    recipe_id = os.path.basename(recipe_id)
     rig = RawImageGroup()
     set_group_dirname(recipe_id, rig)
     for recipe_image in list_group_files(rig):
