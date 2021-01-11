@@ -55,10 +55,10 @@ def populate_db_processed(path):
     for recipe in list_group_files(prg):
         prr = ProcessedRecipeReader()
         set_recipe_filename(recipe, prr)
-        if not prr.ready:
-            data = prr.read()
-            print(prr.recipe_id)
-            print(data)
+        data = prr.read()
+        raw_recipe_model.update(recipe_id, {'processed_ingredients': data})
+
+
         # recipe_id = os.path.basename(recipe_image_folder)
         # images = list_group_files(rig)
         # raw_recipe_model.update(recipe_id, {'images': images})
