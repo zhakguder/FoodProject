@@ -17,6 +17,7 @@ classification_uri = os.getenv("CLASSIFICATION_URI")
 classification_port = os.getenv("CLASSIFICATION_PORT")
 classification_route = os.getenv("CLASSIFICATION_ROUTE")
 
+n_most_similar_recipes = os.getenv("N_SIMILAR")
 
 connect_to_database(uri, uname, pwd)
 set_image_predictor(classification_uri, classification_port, classification_route)
@@ -33,7 +34,7 @@ print(recipe['name'])
 for image in recipe['images']:
     preds = image_classification_model.get_ingredients(image)
     preds = [x.strip() for x in preds.split(',')]
-    res = sim_ctrl.handle(preds, 10)
+    res = sim_ctrl.handle(preds, n_most_similar_recipes)
     recipe_ids = [int(x) for x in res.index.values]
     for recipe_id in recipe_ids:
         try:
@@ -42,13 +43,3 @@ for image in recipe['images']:
             print(recipe['ingredients'])
         except:
             pass
-
-
-# print(recipe_ids())
-
-# test = ["apple", "cinnamon", "walnut"]
-
-# mask = sim_ctrl.handle(test, 5)
-
-
-# Documentation for mongodb docker: https://hub.docker.com/_/mongo
