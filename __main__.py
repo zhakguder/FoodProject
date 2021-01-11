@@ -37,6 +37,7 @@ for image in recipes['images']:
     for recipe_id in recipe_ids:
         try:
             recipe = get_recipe_from_db(recipe_id)
+            print(recipe['name'])
             print(recipe['ingredients'])
         except:
             pass
