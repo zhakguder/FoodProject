@@ -144,6 +144,28 @@ class RawRecipeReader:
         self._reset()
         visitor.visit(self)
 
+
+class ProcessedRecipeReader:
+    def __init__(self):
+        self._reset()
+    def _reset(self):
+        self.path = None
+        self.data = None
+        self._recipe_id = None
+    @property
+    def ready(self):
+        return self.data is not None
+    def read(self):
+        self.data = read_json(self.path)
+        return self.data
+    @property
+    def recipe_id(self):
+        if not self._recipe_id:
+            self._recipe_id = os.path.basename(self.path).split('.')[0]
+        return self._recipe_id
+    def accept(self, visitor):
+        self._reset()
+        visitor.visit(self)
 class RawDataGroup:
     def __init__(self):
         self.path = None

@@ -1,14 +1,14 @@
 #!/usr/bin/env python3
 import os
 from functools import partial
-from food_project.recipe.models import RecipeFilePathSetter,  raw_recipe_model, raw_recipe_reader, RawRecipeGroup, RawRecipeImageGroup, RawImageGroup, ProcessedRecipeGroup
+from food_project.recipe.models import RecipeFilePathSetter,  raw_recipe_model, raw_recipe_reader, RawRecipeGroup, RawRecipeImageGroup, RawImageGroup, ProcessedRecipeGroup, ProcessedRecipeReader
 
 def _set_recipe_filename(path, obj):
     rfps = RecipeFilePathSetter(path)
     obj.accept(rfps)
 
 set_recipe_reader_fname = partial(_set_recipe_filename, obj=raw_recipe_reader)
-set_group_dirname = _set_recipe_filename
+set_group_dirname, set_processed_fname = _set_recipe_filename
 
 def recipe_ids():
     if not raw_recipe_reader.ready:
@@ -24,6 +24,8 @@ def save_recipe_by_id(recipe_id):
     except Exception as e:
         raise e
     raw_recipe_model.save(data)
+
+
 
 def save_recipe_image_paths(recipe_image_folder):
     # recipe_id = os.path.basename(recipe_id)
@@ -51,4 +53,9 @@ def populate_db_images(path):
 def populate_db_processed(path):
     prg = ProcessedRecipeGroup()
     set_group_dirname(path, prg)
-    print(list_group_files(prg))
+    for recipe in list_group_files(prg):
+        prr = ProcessedRecipeReader()
+        set_processed_fname(recipe, prr)
+        if not prr.ready():
+            data = prr.read()
+        print(data)
