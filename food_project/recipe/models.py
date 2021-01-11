@@ -158,6 +158,7 @@ class RawRecipeImageGroup(RawDataGroup):
 
 class RawImageGroup(RawDataGroup):
     def __init__(self):
+        super().__init__()
         self.suffix = 'jpg'
         self.match_cond = is_jpg
 
