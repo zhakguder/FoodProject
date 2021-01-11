@@ -1,5 +1,7 @@
 #!/usr/bin/env python3
 import os
+
+from bson.objectid import ObjectId
 from functools import partial
 from food_project.util import read_pickle, column_name, column_value, dataframe_from_dict, read_json, is_json, is_jpg, is_dir, list_content_with_matches
 from food_project.recipe.cluster import ingredient_clusters
@@ -79,8 +81,9 @@ class RawRecipeModel:
         db = client['food']
         self.collection = db['recipe']
 
-    def load(self, id):
-        pass
+    def load(self, id_):
+        id_ = str(id_)
+        return self.collection.find_one({'recipe_ID': id_})
 
     def save(self, data):
         id = data['_id'] #TODO: fix according to recipe class
@@ -121,7 +124,8 @@ class RawRecipeReader:
     def recipe_by_id(self, recipe_id):
         x = self._filter_by_id(recipe_id)
         x["_id"] = x['recipe_ID']
-        return {k:v for k,v in x.items() if k!='recipe_ID'}
+        # return {k:v for k,v in x.items() if k!='recipe_ID'}
+        return x
 
     def accept(self, visitor):
         self._reset()

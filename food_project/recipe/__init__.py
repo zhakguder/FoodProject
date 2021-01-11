@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 from food_project.recipe.flat_to_db import populate_db_recipes, populate_db_images
+from food_project.recipe.db_to_local import get_recipe_from_db
 from food_project.recipe.models import RecipeDBInitiator, RecipeFilePathSetter,  RawRecipeGroup, raw_recipe_model
 from food_project.recipe.similarity import SimilarityController, SimilarityControllerVisitor
 
