@@ -130,9 +130,9 @@ class RawRecipeReader:
 class RawDataGroup:
     def __init__(self):
         self.path = None
-
+        self.inner_dir = None
     def content_path(self):
-        if self.inner_dir:
+        if self.inner_dir is not None:
             return os.path.join(self.path, self.inner_dir)
         else:
             return self.path
