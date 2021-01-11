@@ -17,13 +17,15 @@ classification_uri = os.getenv("CLASSIFICATION_URI")
 classification_port = os.getenv("CLASSIFICATION_PORT")
 classification_route = os.getenv("CLASSIFICATION_ROUTE")
 
+
 connect_to_database(uri, uname, pwd)
 set_image_predictor(classification_uri, classification_port, classification_route)
 # populate_db_recipes('data/raw/ArgentinianRecipes')
-populate_db_images('data/raw/ArgentinianRecipes')
+# populate_db_images('data/raw/ArgentinianRecipes')
 recipes = get_recipe_from_db(277888)
 for image in recipes['images']:
     preds = image_classification_model.get_ingredients(image)
+    preds = preds.split(',')
     print(preds)
 
 # print(recipe_ids())
