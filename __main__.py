@@ -20,12 +20,12 @@ classification_route = os.getenv("CLASSIFICATION_ROUTE")
 n_most_similar_recipes = int(os.getenv("N_SIMILAR"))
 
 connect_to_database(uri, uname, pwd)
-set_image_predictor(classification_uri, classification_port, classification_route)
+# set_image_predictor(classification_uri, classification_port, classification_route)
 
 
-sim_ctrl = SimilarityController()
-sim_ctrl_vis = SimilarityControllerVisitor(match_score)
-sim_ctrl_vis.visit(sim_ctrl)
+# sim_ctrl = SimilarityController()
+# sim_ctrl_vis = SimilarityControllerVisitor(match_score)
+# sim_ctrl_vis.visit(sim_ctrl)
 
 # populate_db_recipes('data/raw/ArgentinianRecipes')
 # populate_db_images('data/raw/ArgentinianRecipes')
