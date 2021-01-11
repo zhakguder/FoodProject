@@ -9,6 +9,7 @@ from PIL import Image
 image_paths = argv[1:]
 f = Image.open
 images_for_prediction = np.stack([f(x) for x in image_paths])
+model = tf.keras.models.load_model('hyvee.best.hdf5')
 logits = model.predict(images_for_prediction)
 
 # partition = 'validation'
@@ -17,7 +18,6 @@ logits = model.predict(images_for_prediction)
 
 # val_data = tf.data.experimental.load(path, spec)
 
-model = tf.keras.models.load_model('hyvee.best.hdf5')
 
 # val_data_x = val_data.map(lambda x, y: x)
 # val_data_y = val_data.map(lambda x, y: y)
