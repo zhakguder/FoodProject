@@ -101,7 +101,7 @@ class RawRecipeModel:
             print(f"Updated recipe id {id_}")
         except:
             print(f"Couldn't update {id_}")
-        return inserted
+        return updated
 
     def accept(self, visitor):
         visitor.visit(self)
