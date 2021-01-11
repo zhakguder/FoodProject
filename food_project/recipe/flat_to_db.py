@@ -3,12 +3,12 @@ import os
 from functools import partial
 from food_project.recipe.models import RecipeFilePathSetter,  raw_recipe_model, raw_recipe_reader, RawRecipeGroup, RawRecipeImageGroup, RawImageGroup, ProcessedRecipeGroup, ProcessedRecipeReader
 
-def _set_recipe_filename(path, obj):
+def set_recipe_filename(path, obj):
     rfps = RecipeFilePathSetter(path)
     obj.accept(rfps)
 
-set_recipe_reader_fname = partial(_set_recipe_filename, obj=raw_recipe_reader)
-set_group_dirname, set_processed_fname = _set_recipe_filename
+set_recipe_reader_fname = partial(set_recipe_filename, obj=raw_recipe_reader)
+set_group_dirname = set_recipe_filename
 
 def recipe_ids():
     if not raw_recipe_reader.ready:
@@ -55,7 +55,7 @@ def populate_db_processed(path):
     set_group_dirname(path, prg)
     for recipe in list_group_files(prg):
         prr = ProcessedRecipeReader()
-        set_processed_fname(recipe, prr)
+        set_recipe_filename(recipe, prr)
         if not prr.ready():
             data = prr.read()
         print(data)
