@@ -156,7 +156,8 @@ class ProcessedRecipeReader:
     def ready(self):
         return self.data is not None
     def read(self):
-        self.data = read_json(self.path)
+        with open(self.path, 'r') as f:
+            self.data = f.readlines()
         return self.data
     @property
     def recipe_id(self):
