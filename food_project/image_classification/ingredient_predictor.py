@@ -4,6 +4,7 @@ import numpy as np
 import pandas as pd
 import pickle
 from sys import argv
+from PIL import Image
 
 image_paths = argv[1:]
 f = Image.open
