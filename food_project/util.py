@@ -47,7 +47,3 @@ class FilesystemMatch:
 
 def comparison(fn, *args):
     return FilesystemMatch(fn, args)
-# is_json = FilesystemMatch(str.endswith, 'json')
-# is_dir = FilesystemMatch(os.path.isdir)
-# is_jpg = FilesystemMatch(str.endswith, 'jpg')
-# is_out = FilesystemMatch(str.endswith, 'out')
