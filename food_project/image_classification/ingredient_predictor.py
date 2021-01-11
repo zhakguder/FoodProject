@@ -31,5 +31,6 @@ with open(prefix+'hyvee_label.dict', 'rb') as f:
     mapping = pickle.load(f)
 
 reverse_map = {v:k for k,v in mapping.items()}
+breakpoint()
 predicted_classes = [reverse_map[x] for x in predicted_class_indexes]
 print(predicted_classes)
