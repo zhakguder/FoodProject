@@ -36,6 +36,5 @@ def populate_db_recipes(path):
 def populate_db_images(path):
     rcig = RawRecipeImageGroup()
     set_group_dirname(path, rcig)
-    breakpoint()
     for recipe_group in list_group_files(rcig):
         print(recipe_group)
