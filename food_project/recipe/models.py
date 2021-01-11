@@ -3,7 +3,7 @@ import os
 
 from bson.objectid import ObjectId
 from functools import partial
-from food_project.util import read_pickle, column_name, column_value, dataframe_from_dict, read_json, is_json, is_jpg, is_dir, list_content_with_matches
+from food_project.util import read_pickle, column_name, column_value, dataframe_from_dict, read_json, list_content_with_matches, comparison
 from food_project.recipe.cluster import ingredient_clusters
 from food_project.recipe.ingredient import Ingredient, IngredientCluster
 from pymongo import MongoClient
@@ -165,19 +165,26 @@ class RawRecipeGroup(RawDataGroup):
         super().__init__()
         self.inner_dir = 'original_recipes_info'
         self.suffix = 'json'
-        self.match_cond = is_json
+        self.match_cond = comparison(str.endswith, self.suffix)
+
+class ProcessedRecipeGroup(RawDataGroup):
+    def __init__(self):
+        super().__init__()
+        self.suffix = 'out'
+        self.match_cond = comparison(str.endswith, self.suffix)
 
 class RawRecipeImageGroup(RawDataGroup):
      def __init__(self):
         super().__init__()
         self.inner_dir = 'imgs'
-        self.match_cond = is_dir
+        self.match_cond = comparison(os.path.isdir)
 
 class RawImageGroup(RawDataGroup):
     def __init__(self):
         super().__init__()
         self.suffix = 'jpg'
-        self.match_cond = is_jpg
+        self.match_cond = comparison(str.endswith, self.suffix)
+
 
 
 class RecipeFilePathSetter:
