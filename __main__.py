@@ -30,7 +30,7 @@ sim_ctrl_vis.visit(sim_ctrl)
 # populate_db_images('data/raw/ArgentinianRecipes')
 recipe = get_recipe_from_db(277888)
 print(recipe['name'])
-for image in recipes['images']:
+for image in recipe['images']:
     preds = image_classification_model.get_ingredients(image)
     preds = [x.strip() for x in preds.split(',')]
     res = sim_ctrl.handle(preds, 100)
