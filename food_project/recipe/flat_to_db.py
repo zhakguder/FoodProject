@@ -26,7 +26,6 @@ def save_recipe_by_id(recipe_id):
     raw_recipe_model.save(data)
 
 
-
 def save_recipe_image_paths(recipe_image_folder):
     # recipe_id = os.path.basename(recipe_id)
     rig = RawImageGroup()
@@ -58,4 +57,8 @@ def populate_db_processed(path):
         set_recipe_filename(recipe, prr)
         if not prr.ready:
             data = prr.read()
-        print(data)
+            print(prr.recipe_id)
+            print(data)
+        # recipe_id = os.path.basename(recipe_image_folder)
+        # images = list_group_files(rig)
+        # raw_recipe_model.update(recipe_id, {'images': images})
