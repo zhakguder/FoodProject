@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 from functools import partial
-from food_project.recipe.models import RecipeFilePathSetter,  raw_recipe_model, raw_recipe_reader, RawRecipeGroup, RawRecipeImageGroup
+from food_project.recipe.models import RecipeFilePathSetter,  raw_recipe_model, raw_recipe_reader, RawRecipeGroup, RawRecipeImageGroup, RawImageGroup
 
 def _set_recipe_filename(path, obj):
     rfps = RecipeFilePathSetter(path)
@@ -37,4 +37,7 @@ def populate_db_images(path):
     rcig = RawRecipeImageGroup()
     set_group_dirname(path, rcig)
     for recipe_group in list_group_files(rcig):
-        print(recipe_group)
+        rig = RawImageGroup()
+        set_group_dirname(recipe_group, rig)
+        for recipe_image in list_group_files(rig):
+            print(recipe_image)

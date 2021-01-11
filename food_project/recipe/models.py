@@ -131,9 +131,14 @@ class RawDataGroup:
     def __init__(self):
         self.path = None
 
+    def content_path(self):
+        if self.inner_dir:
+            return os.path.join(self.path, self.inner_dir)
+        else:
+            return self.path
+
     def process(self):
-        path = os.path.join(self.path, self.inner_dir)
-        return list_content_with_matches(path, self.match_cond)
+        return list_content_with_matches(self.content_path, self.match_cond)
 
     def accept(self, visitor):
         visitor.visit(self)
@@ -151,10 +156,11 @@ class RawRecipeImageGroup(RawDataGroup):
         self.inner_dir = 'imgs'
         self.match_cond = is_dir
 
-class RawImage:
+class RawImageGroup(RawDataGroup):
     def __init__(self):
         self.suffix = 'jpg'
         self.match_cond = is_jpg
+
 
 class RecipeFilePathSetter:
     def __init__(self, path):
