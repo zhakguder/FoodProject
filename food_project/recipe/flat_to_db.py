@@ -24,6 +24,13 @@ def save_recipe_by_id(recipe_id):
         raise e
     raw_recipe_model.save(data)
 
+def save_recipe_image_paths(recipe_id):
+    rig = RawImageGroup()
+    set_group_dirname(recipe_group, rig)
+    for recipe_image in list_group_files(rig):
+        breakpoint()
+
+
 def populate_db_recipes(path):
     rcg = RawRecipeGroup()
     set_group_dirname(path, rcg)
@@ -37,7 +44,4 @@ def populate_db_images(path):
     rcig = RawRecipeImageGroup()
     set_group_dirname(path, rcig)
     for recipe_group in list_group_files(rcig):
-        rig = RawImageGroup()
-        set_group_dirname(recipe_group, rig)
-        for recipe_image in list_group_files(rig):
-            print(recipe_image)
+        save_recipe_image_paths(recipe_group)

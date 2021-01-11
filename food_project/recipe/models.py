@@ -16,7 +16,7 @@ class QueryModel:
         self._set_data(ingredients)
         return self.ingredients
 
-
+# TODO: Change name to reflect that this is not a db model
 class RecipeModel:
     '''Data after parsing raw recipes. Consolidated into clusters.'''
     # TODO: Model should only load/save data, extract logic in this to a controller helper class
@@ -75,7 +75,7 @@ class RawRecipeModel:
         self.password = None
         self.uri = None
         self.path = None
-
+        self.key_field = 'recipe_ID'
     def _connect(self):
         client = MongoClient(self.uri)
         db = client['food']
@@ -83,7 +83,7 @@ class RawRecipeModel:
 
     def load(self, id_):
         id_ = str(id_)
-        return self.collection.find_one({'recipe_ID': id_})
+        return self.collection.find_one({self.key_field: id_})
 
     def save(self, data):
         id = data['_id'] #TODO: fix according to recipe class
@@ -92,8 +92,20 @@ class RawRecipeModel:
             print(f"Inserted recipe id {id}")
         except:
             print(f"Couldn't insert recipe id {id}")
+
+    def update(self, id_, data):
+        '''data: key value pair'''
+        id_ = str(id_)
+        try:
+            inserted = self.collection.find_one_and_update({self.key_field: id_}, {"$set": data}, upsert=True)
+        except:
+            print(f"Couldn't update {id_}")
+        return inserted
+
     def accept(self, visitor):
         visitor.visit(self)
+
+
 
 class RawRecipeReader:
     #TODO: factor out a recipe class with _id, etc
