@@ -20,19 +20,24 @@ classification_route = os.getenv("CLASSIFICATION_ROUTE")
 
 connect_to_database(uri, uname, pwd)
 set_image_predictor(classification_uri, classification_port, classification_route)
+
+
+sim_ctrl = SimilarityController()
+sim_ctrl_vis = SimilarityControllerVisitor()
+sim_ctrl_vis.visit(sim_ctrl, match_score)
+
 # populate_db_recipes('data/raw/ArgentinianRecipes')
 # populate_db_images('data/raw/ArgentinianRecipes')
 recipes = get_recipe_from_db(277888)
 for image in recipes['images']:
     preds = image_classification_model.get_ingredients(image)
     preds = [x.strip() for x in preds.split(',')]
-    print(preds)
+    res = sim_ctrl.handle(preds, 10)
+    print(res)
+
 
 # print(recipe_ids())
-# sim_ctrl = SimilarityController()
-# sim_ctrl_vis = SimilarityControllerVisitor()
 
-# sim_ctrl_vis.visit(sim_ctrl, uniform_score)
 # test = ["apple", "cinnamon", "walnut"]
 
 # mask = sim_ctrl.handle(test, 5)
