@@ -30,8 +30,8 @@ def save_recipe_image_paths(recipe_image_folder):
     rig = RawImageGroup()
     set_group_dirname(recipe_image_folder, rig)
     recipe_id = os.path.basename(recipe_image_folder)
-    files = [os.path.basename(recipe_image) for recipe_image in list_group_files(rig)]
-    breakpoint()
+    images = list_group_files(rig)
+    raw_recipe_model.update(recipe_id, {'images': images})
 
 def populate_db_recipes(path):
     rcg = RawRecipeGroup()
