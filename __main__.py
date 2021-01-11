@@ -12,7 +12,7 @@ uname = os.getenv("MONGODB_USERNAME")
 pwd = os.getenv("MONGODB_PWD")
 
 connect_to_database(uri, uname, pwd)
-populate_db_recipes('data/raw/ArgentinianRecipes')
+# populate_db_recipes('data/raw/ArgentinianRecipes')
 populate_db_images('data/raw/ArgentinianRecipes')
 
 # print(recipe_ids())

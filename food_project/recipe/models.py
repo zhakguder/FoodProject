@@ -149,7 +149,7 @@ class RawRecipeImageGroup(RawDataGroup):
      def __init__(self):
         super().__init__()
         self.inner_dir = 'imgs'
-        self.match_cond = is_a_dir
+        self.match_cond = is_dir
 
 class RawImage:
     def __init__(self):
