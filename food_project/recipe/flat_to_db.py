@@ -56,6 +56,6 @@ def populate_db_processed(path):
     for recipe in list_group_files(prg):
         prr = ProcessedRecipeReader()
         set_recipe_filename(recipe, prr)
-        if not prr.ready():
+        if not prr.ready:
             data = prr.read()
         print(data)
