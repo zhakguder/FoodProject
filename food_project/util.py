@@ -8,6 +8,7 @@ import os
 from functools import partial
 
 def read_json(path):
+    breakpoint()
     with open(path, 'r') as f:
         content =  json.load(f)
     return content
