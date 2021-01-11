@@ -32,11 +32,14 @@ recipes = get_recipe_from_db(277888)
 for image in recipes['images']:
     preds = image_classification_model.get_ingredients(image)
     preds = [x.strip() for x in preds.split(',')]
-    res = sim_ctrl.handle(preds, 10)
+    res = sim_ctrl.handle(preds, 100)
     recipe_ids = [int(x) for x in res.index.values]
     for recipe_id in recipe_ids:
-        recipe = get_recipe_from_db(recipe_id)
-        print(recipe['ingredients'])
+        try:
+            recipe = get_recipe_from_db(recipe_id)
+            print(recipe['ingredients'])
+        except:
+            pass
 
 
 # print(recipe_ids())
