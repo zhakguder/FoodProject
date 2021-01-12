@@ -7,6 +7,7 @@ from sys import argv
 from PIL import Image
 from flask import Flask, request, Response
 from urllib import parse
+from functools import wraps
 app = Flask(__name__)
 
 
