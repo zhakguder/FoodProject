@@ -32,6 +32,17 @@ def predict_class_labels(arr):
     indexes = predict_class_indexes(arr).numpy()
     return [reverse_map[x].replace('_', ' ') for x in indexes]
 
+def limit_content_length(max_length):
+    def decorator(f):
+        @wraps(f)
+        def wrapper(*args, **kwargs):
+            cl = request.content_length
+            if cl is not None and cl > max_length:
+                abort(413)
+            return f(*args, **kwargs)
+        return wrapper
+    return decorator
+
 
 @app.route('/predict-label/', methods=['POST'])
 @limit_content_length(1000 * 1024 * 1024)
