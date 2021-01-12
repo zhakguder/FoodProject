@@ -52,6 +52,7 @@ def predict():
     image = np.array(Image.open(image), dtype=float)
     shp = image.shape
     image = image.reshape(1, *shp)
+    breakpoint()
     predictions = predict_class_labels(image)
     result = [parse.unquote_plus(x) for x in predictions]
     return Response(result, status=200)
