@@ -31,8 +31,7 @@ def predict_class_indexes(np_arr):
 
 def predict_class_labels(arr):
     indexes = predict_class_indexes(arr).numpy()
-    breakpoint()
-    return [reverse_map[x].replace('_', ' ') for x in indexes]
+    return [reverse_map[x] for x in indexes]
 
 def limit_content_length(max_length):
     def decorator(f):
