@@ -9,18 +9,23 @@ from food_project.recipe import connect_to_database, populate_db_recipes, popula
 from food_project.image_prediction import set_image_predictor, dish_image_classification_model
 
 load_dotenv()
+
+
+classification_type = "DISH" #or INGR
+
 uri = os.getenv("MONGODB_URI")
 uname = os.getenv("MONGODB_USERNAME")
 pwd = os.getenv("MONGODB_PWD")
+classification_uri = os.getenv("SERVER_URI")
 
-classification_uri = os.getenv("CLASSIFICATION_URI")
-classification_port = os.getenv("CLASSIFICATION_PORT")
-classification_route = os.getenv("CLASSIFICATION_ROUTE")
+prefix = classification_type + '_CLASS_'
+classification_port = os.getenv(prefix + "PORT")
+classification_route = os.getenv(prefix + "ROUTE")
 
 n_most_similar_recipes = int(os.getenv("N_SIMILAR"))
 
 connect_to_database(uri, uname, pwd)
-set_image_predictor(classification_uri, classification_port, classification_route, 'dish')
+set_image_predictor(classification_uri, classification_port, classification_route)
 
 
 sim_ctrl = SimilarityController()
