@@ -49,6 +49,8 @@ def limit_content_length(max_length):
 @limit_content_length(1000 * 1024 * 1024)
 def predict():
     image = request.files['image']
+    shp = image.shape
+    image = image.reshape(1, *shp)
     prediction = predict_class_labels(image)
     result = parse.unquote_plus(prediction)
     return Response(result, status=200)
