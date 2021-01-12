@@ -52,8 +52,8 @@ def predict():
     image = np.array(Image.open(image))
     shp = image.shape
     image = image.reshape(1, *shp)
-    prediction = predict_class_labels(image)
-    result = parse.unquote_plus(prediction)
+    predictions = predict_class_labels(image)
+    result = [parse.unquote_plus(x) for x in predictions]
     return Response(result, status=200)
 
 if __name__ == "__main__":
