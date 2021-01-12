@@ -14,8 +14,8 @@ app = Flask(__name__)
 
 # f = Image.open
 
-images_for_prediction = np.stack([f(x) for x in image_paths])
-prefix = "/FoodProject/data/image_classification/model/"
+# images_for_prediction = np.stack([f(x) for x in image_paths])
+# prefix = "/FoodProject/data/image_classification/model/"
 
 model = tf.keras.models.load_model(prefix + "hyvee.best.hdf5")
 with open(prefix + "hyvee_label.dict", "rb") as f:
