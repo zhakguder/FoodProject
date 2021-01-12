@@ -49,7 +49,7 @@ def limit_content_length(max_length):
 @limit_content_length(1000 * 1024 * 1024)
 def predict():
     image = request.files['image']
-    image = np.array(Image.open(image))
+    image = np.array(Image.open(image), dtype=float)
     shp = image.shape
     image = image.reshape(1, *shp)
     predictions = predict_class_labels(image)
