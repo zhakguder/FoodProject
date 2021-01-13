@@ -55,16 +55,20 @@ hits = []
 for recipe_id in all_recipe_ids:
     hit = []
     recipe = get_recipe_from_db(int(recipe_id))
+    recipe_ingredients = recipe['processed_ingredients']
     for image in recipe["images"]:
         preds = image_classification_model.get_ingredients(image)
         res = sim_ctrl.handle(preds, n_most_similar_recipes)
         recipe_ids = [int(x) for x in res.index.values]
+        for id_ in recipe_ids:
+            print(get_recipe_from_db(id_)['processed_ingredients'])
         hit.append(int(recipe_id) in recipe_ids)
+
+
     hits.append(hit)
     if len(hits) == 10:
         break
-
-breakpoint()
+print(hits)
 # recipe = get_recipe_from_db(277888)
 # print(recipe['name'])
 # print(recipe['processed_ingredients'])
