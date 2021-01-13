@@ -56,7 +56,7 @@ for recipe_id in all_recipe_ids:
     hit = []
     recipe = get_recipe_from_db(int(recipe_id))
     breakpoint()
-    recipe_ingredients = recipe.get(['processed_ingredients'], [])
+    recipe_ingredients = recipe.get('processed_ingredients', '')
     for image in recipe["images"]:
         preds = image_classification_model.get_ingredients(image)
         res = sim_ctrl.handle(preds, n_most_similar_recipes)
