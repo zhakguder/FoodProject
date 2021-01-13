@@ -61,6 +61,9 @@ for recipe_id in all_recipe_ids:
     print("*"*10)
     for image in recipe["images"]:
         preds = image_classification_model.get_ingredients(image)
+        print('-'*10)
+        print(preds)
+        print('-'*10)
         res = sim_ctrl.handle(preds, n_most_similar_recipes)
         recipe_ids = [int(x) for x in res.index.values]
         for id_ in recipe_ids:
