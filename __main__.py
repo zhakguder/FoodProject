@@ -56,8 +56,10 @@ for recipe_id in get_recipe_ids_from_db():
         preds = image_classification_model.get_ingredients(image)
         res = sim_ctrl.handle(preds, n_most_similar_recipes)
         recipe_ids = [int(x) for x in res.index.values]
-        print(recipe_ids)
+
+        print(int(recipe_id) in recipe_ids)
         break
+    break
 # recipe = get_recipe_from_db(277888)
 # print(recipe['name'])
 # print(recipe['processed_ingredients'])
