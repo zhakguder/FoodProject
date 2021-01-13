@@ -17,7 +17,7 @@ from food_project.image_classification import (
     set_image_predictor,
     image_classification_model,
 )
-
+from random import choices
 load_dotenv()
 
 
@@ -52,6 +52,7 @@ processed_data_dir = "data/recipes/processed"
 
 all_recipe_ids = get_recipe_ids_from_db()
 hits = []
+random_ids = choices(all_recipe_ids, k=10)
 for recipe_id in all_recipe_ids:
     hit = []
     recipe = get_recipe_from_db(int(recipe_id))
@@ -73,8 +74,6 @@ for recipe_id in all_recipe_ids:
 
 
     hits.append(hit)
-    if len(hits) == 10:
-        break
 print(hits)
 # recipe = get_recipe_from_db(277888)
 # print(recipe['name'])
