@@ -54,3 +54,8 @@ for image in recipe['images']:
 
 # To copy processed recipes from HCC to pandas
 #find  ArgentinianRecipes -type f -regextype sed -regex ".*[0-9]\.out" -exec scp '{}' zeynep@sbbi-panda.unl.edu:/home/zeynep/projects/FoodProject/backend/data/processed/ArgentinianRecipes ';'
+#
+#To mv jsons in original_recipe_data folders nested e.g. in American recipes
+#find .. -name \*data.json -exec sh -c 'new=$(echo "{}" | tr "/" "-" | tr " " "_"| sed s/..// |sed s/original_recipes_info//|sed s/-//g); mv "{}" "$new"' \;
+#find .. -type d -regextype sed -regex ".*imgs/.*[0-9]*" -exec  mv '{}' . ';'
+#mkdir original_recipes_info imgs
