@@ -23,7 +23,6 @@ class SimilarityController:
         matcher = IngredientMatcher(
                                 self.scaled_cluster_ingredients,
                                 self.scoring_strategy)
-        breakpoint()
         query_ingredients = self.query_model.get_data(*request)
         test = IngredientQuery(*query_ingredients)
         mask = matcher.query_mask(test)

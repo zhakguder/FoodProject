@@ -66,7 +66,6 @@ for recipe_id in random_ids:
         print(preds)
         print('-'*10)
         res = sim_ctrl.handle(preds, n_most_similar_recipes)
-        breakpoint()
         recipe_ids = [int(x) for x in res.index.values]
         for id_ in recipe_ids:
             print(get_recipe_from_db(id_).get('processed_ingredients', []))
