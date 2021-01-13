@@ -10,6 +10,7 @@ from food_project.recipe import (
     populate_db_recipes,
     populate_db_images,
     get_recipe_from_db,
+    get_recipe_ids_from_db,
     populate_db_processed,
 )
 from food_project.image_classification import (
@@ -44,17 +45,24 @@ sim_ctrl_vis.visit(sim_ctrl)
 raw_data_dir = "data/recipes/raw"
 processed_data_dir = "data/recipes/processed"
 
-for directory in os.listdir(raw_data_dir):
-    populate_db_recipes(os.path.join(raw_data_dir, directory))
-    populate_db_images(os.path.join(raw_data_dir, directory))
-    populate_db_processed(os.path.join(processed_data_dir, directory))
+# for directory in os.listdir(raw_data_dir):
+#     populate_db_recipes(os.path.join(raw_data_dir, directory))
+#     populate_db_images(os.path.join(raw_data_dir, directory))
+#     populate_db_processed(os.path.join(processed_data_dir, directory))
 
+for recipe_id in get_recipe_ids_from_db():
+    recipe = get_recipe_from_db(int(recipe_id))
+    for image in recipe['images']:
+        preds = image_classification_model.get_ingredients(image)
+        res = sim_ctrl.handle(preds, n_most_similar_recipes)
+        recipe_ids = [int(x) for x in res.index.values]
+        print(recipe_ids)
 # recipe = get_recipe_from_db(277888)
 # print(recipe['name'])
 # print(recipe['processed_ingredients'])
 # print("PREDICTIONS")
 # for image in recipe['images']:
-#     preds = dish_image_classification_model.get_ingredients(image)
+#     preds = image_classification_model.get_ingredients(image)
 #     preds = [x.strip() for x in preds.split(',')]
 #     res = sim_ctrl.handle(preds, n_most_similar_recipes)
 #     recipe_ids = [int(x) for x in res.index.values]
@@ -65,11 +73,3 @@ for directory in os.listdir(raw_data_dir):
 #             print(recipe['processed_ingredients'])
 #         except:
 #             pass
-
-# To copy processed recipes from HCC to pandas
-# find  ArgentinianRecipes -type f -regextype sed -regex ".*[0-9]\.out" -exec scp '{}' zeynep@sbbi-panda.unl.edu:/home/zeynep/projects/FoodProject/backend/data/processed/ArgentinianRecipes ';'
-#
-# To mv jsons in original_recipe_data folders nested e.g. in American recipes
-# find .. -name \*data.json -exec sh -c 'new=$(echo "{}" | tr "/" "-" | tr " " "_"| sed s/..// |sed s/original_recipes_info//|sed s/-//g); mv "{}" "$new"' \;
-# find .. -type d -regextype sed -regex ".*imgs/.*[0-9]*" -exec  mv '{}' . ';'
-# mkdir original_recipes_info imgs

@@ -106,6 +106,11 @@ class RawRecipeModel:
             pass
         return updated
 
+    def _retrieve_all(self):
+        return self.collection.find()
+    def retrieve_field(self, field_name):
+        coll = self._retrieve_all()
+        return [x[field_name] for x in coll]
     def accept(self, visitor):
         visitor.visit(self)
 
