@@ -89,18 +89,20 @@ class RawRecipeModel:
         id = data['_id'] #TODO: fix according to recipe class
         try:
             self.collection.insert_one(data)
-            print(f"Inserted recipe id {id}")
+            # print(f"Inserted recipe id {id}")
         except:
-            print(f"Couldn't insert recipe id {id}")
+            # print(f"Couldn't insert recipe id {id}")
+            pass
 
     def update(self, id_, data):
         '''data: key value pair'''
         id_ = str(id_)
         try:
             updated = self.collection.find_one_and_update({self.key_field: id_}, {"$set": data}, upsert=True)
-            print(f"Updated recipe id {id_}")
+            # print(f"Updated recipe id {id_}")
         except:
-            print(f"Couldn't update {id_}")
+            # print(f"Couldn't update {id_}")
+            pass
         return updated
 
     def accept(self, visitor):
