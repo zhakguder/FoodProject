@@ -50,16 +50,19 @@ processed_data_dir = "data/recipes/processed"
 #     populate_db_images(os.path.join(raw_data_dir, directory))
 #     populate_db_processed(os.path.join(processed_data_dir, directory))
 
-for recipe_id in get_recipe_ids_from_db():
+all_recipe_ids = get_recipe_ids_from_db()
+hits = []
+for recipe_id in all_recipe_ids:
+    hit = []
     recipe = get_recipe_from_db(int(recipe_id))
-    for image in recipe['images']:
+    for image in recipe["images"]:
         preds = image_classification_model.get_ingredients(image)
         res = sim_ctrl.handle(preds, n_most_similar_recipes)
         recipe_ids = [int(x) for x in res.index.values]
-        print(len(recipe_ids))
-        print(int(recipe_id) in recipe_ids)
+        hit.append(int(recipe_id) in recipe_ids)
+    hits.append(hit)
+    if len(hits) == 10:
         break
-    break
 # recipe = get_recipe_from_db(277888)
 # print(recipe['name'])
 # print(recipe['processed_ingredients'])
