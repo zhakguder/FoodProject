@@ -13,7 +13,8 @@ class ImageClassificationModel:
             files = {"image": (img_name, img, "multipart/form-data", {"Expires": "0"})}
             with requests.Session() as s:
                 r = s.post(self.uri, files=files)
-        return r.text
+
+        return [x.strip() for x in r.text.split(',')]
 
     def accept(self, visitor):
         visitor.visit(self)
