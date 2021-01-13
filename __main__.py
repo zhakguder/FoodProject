@@ -6,7 +6,7 @@ from dotenv import load_dotenv
 from food_project.recipe import SimilarityController, SimilarityControllerVisitor
 from food_project.recipe.matcher import match_score, uniform_score
 from food_project.recipe import connect_to_database, populate_db_recipes, populate_db_images, get_recipe_from_db, populate_db_processed
-from food_project.image_prediction import set_image_predictor, dish_image_classification_model
+from food_project.image_classification import set_image_predictor, dish_image_classification_model
 
 load_dotenv()
 
