@@ -30,6 +30,7 @@ class SimilarityController:
 
     def _get_similarity_scores(self, mask):
         ingredient_similarity_scores = mask * self.scaled_cluster_ingredients
+        breakpoint()
         return ingredient_similarity_scores.sum(axis=1)
 
     def _get_n_most_similar(self, arr, n):
