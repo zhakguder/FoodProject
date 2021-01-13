@@ -99,8 +99,7 @@ class RawRecipeModel:
         id_ = str(id_)
         try:
             updated = self.collection.find_one_and_update({self.key_field: id_}, {"$set": data}, upsert=True)
-            print(data)
-            print(f"Updated recipe id {id_}")
+            # print(f"Updated recipe id {id_}")
 
         except:
             # print(f"Couldn't update {id_}")

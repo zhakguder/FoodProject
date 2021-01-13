@@ -45,8 +45,7 @@ raw_data_dir = "data/recipes/raw"
 processed_data_dir = "data/recipes/processed"
 
 for directory in os.listdir(raw_data_dir):
-    print(directory)
-    # populate_db_recipes(os.path.join(raw_data_dir, directory))
+    populate_db_recipes(os.path.join(raw_data_dir, directory))
     populate_db_images(os.path.join(raw_data_dir, directory))
     populate_db_processed(os.path.join(processed_data_dir, directory))
 
