@@ -43,7 +43,11 @@ class FilesystemMatch:
         self.args = args
 
     def match(self, dir_content):
-        return self.fn(dir_content, *self.args)
+        try:
+            res = self.fn(dir_content, *self.args)
+            return res
+        except:
+            breakpoint()
 
 def comparison(fn, *args):
     return FilesystemMatch(fn, args)
