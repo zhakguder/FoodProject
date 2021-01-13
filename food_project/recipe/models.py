@@ -21,7 +21,7 @@ class RecipeModel:
     '''Data after parsing raw recipes. Consolidated into clusters.'''
     # TODO: Model should only load/save data, extract logic in this to a controller helper class
     def __init__(self):
-        self.filename = 'data/recipe_ingredients_scaled_units_wide_df.pkl'
+        self.filename = 'data/recipes/recipe_ingredients_scaled_units_wide_df.pkl'
         self.scaled_ingredients = None
 
     def get_data(self):
