@@ -50,4 +50,4 @@ class FilesystemMatch:
             breakpoint()
 
 def comparison(fn, *args):
-    return FilesystemMatch(fn, args)
+    return FilesystemMatch(fn, *args)
