@@ -63,6 +63,8 @@ for recipe_id in all_recipe_ids:
     hits.append(hit)
     if len(hits) == 10:
         break
+
+breakpoint()
 # recipe = get_recipe_from_db(277888)
 # print(recipe['name'])
 # print(recipe['processed_ingredients'])
