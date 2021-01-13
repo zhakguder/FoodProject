@@ -37,9 +37,9 @@ processed_data_dir = 'data/recipes/processed'
 
 for directory in os.listdir(raw_data_dir):
 
-    populate_db_recipes(os.path.join(raw_data_dir, 'ArgentinianRecipes'))
-    populate_db_images(os.path.join(raw_data_dir, 'ArgentinianRecipes'))
-    populate_db_processed(os.path.join(processed_data_dir, 'data/recipes/processed/ArgentinianRecipes'))
+    populate_db_recipes(os.path.join(raw_data_dir, directory))
+    populate_db_images(os.path.join(raw_data_dir, directory))
+    populate_db_processed(os.path.join(processed_data_dir, directory))
 
 # recipe = get_recipe_from_db(277888)
 # print(recipe['name'])
