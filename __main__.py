@@ -61,7 +61,7 @@ for recipe_id in all_recipe_ids:
         res = sim_ctrl.handle(preds, n_most_similar_recipes)
         recipe_ids = [int(x) for x in res.index.values]
         for id_ in recipe_ids:
-            print(get_recipe_from_db(id_)['processed_ingredients'])
+            print(get_recipe_from_db(id_).get('processed_ingredients', []))
         hit.append(int(recipe_id) in recipe_ids)
 
 
