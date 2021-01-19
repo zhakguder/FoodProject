@@ -37,7 +37,7 @@ class Entropy:
         """Only keeps the ingredients with n highest entropies in each recipe"""
         if self.ranked_ingredient_entropies is None:
             self._rank_entropies()
-        if self.ranked.recipe_entropies is None:
+        if self.ranked_recipe_entropies is None:
             self._rank_recipe_entropies(df)
         print('A')
         breakpoint()
