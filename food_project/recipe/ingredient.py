@@ -8,16 +8,18 @@ class Ingredient:
         self.quantity = quantity
         self.entropy = entropy
 
+
 # clusters = {}
 ingredients_to_clusters = {}  # TODO: put this into mongo
 # TODO: separate populating this into an independent task, do it upfront once
 # not with every run of the program
 
+
 class IngredientCluster:
     def __init__(self, name, *ingredients):
         self.name = name
         self.ingredients = ingredients
-        self.quantity = 0
+        # self.quantity = 0
         # clusters[name] = self
         self.save_ingredients()  # TODO: functions shouldn't have side-effects!!!
 
@@ -30,12 +32,15 @@ class IngredientCluster:
         self.ingredients += (ingredient,)
 
     def get_quantity(self):
-        self.quantity = sum([x.quantity for x in self.ingredients])
-        return self.quantity
+        # self.quantity = sum([x.quantity for x in self.ingredients])
+        # return self.quantity
+        return sum([x.quantity for x in self.ingredients])
 
     def get_entropy(self):
-        self.entropy =  sum([x.entropy for x in self.ingredients])
-        return self.entropy
+        # self.entropy =  sum([x.entropy for x in self.ingredients])
+        # return self.entropy
+        return sum([x.entropy for x in self.ingredients])
+
     @staticmethod
     def ingredient_in_cluster(ing_name):
         # return [
