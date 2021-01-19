@@ -29,6 +29,7 @@ class Entropy:
         return self.freqs
 
     def _rank_recipe_entropies(self):
+        breakpoint()
         self.ranked_ingredient_entropies = self.entropies.rank(method="max", ascending=False)
 
     def entropy_mask(self, n):
