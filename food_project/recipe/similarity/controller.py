@@ -16,7 +16,11 @@ class SimilarityController:
         self.scoring_strategy = match_score
         self.scaled_cluster_ingredients = None
         self.scaled_ingredients = None
-        self.loaded = lambda: self.scaled_cluster_ingredients is not None and self.scaled_ingredients is not None
+        self.loaded = (
+            lambda: self.scaled_cluster_ingredients is not None
+            and self.scaled_ingredients is not None
+        )
+
     def handle(self, request, n):
         """Calculates similarities using mask and the scaled_cluster_ingredients df.
             Returns ids and similarity scores of the top n most similar recipes.
@@ -40,11 +44,13 @@ class SimilarityController:
             self.scaled_cluster_ingredients, self.scoring_strategy
         )
         query_ingredients = self.query_model.get_data(*request)
-        #TODO use IngredientCluster.ingredient_in_cluster to get relevant clusters for all ingredients
-        #TODO you have to run this on pandas to get access to images
+        # TODO use IngredientCluster.ingredient_in_cluster to get relevant clusters for all ingredients
+        # TODO you have to run this on pandas to get access to images
         clusters = []
         for ingredient in query_ingredients:
-            cluster = IngredientCluster.ingredient_in_cluster(ingredient)
+            cluster = IngredientCluster.ingredient_in_cluster(
+                "_".join(ingredient.split(" "))
+            )
             clusters.append(cluster)
 
         breakpoint()
