@@ -27,6 +27,7 @@ class SimilarityController:
             Returns ids and similarity scores of the top n most similar recipes.
         """
         if not self.loaded():
+            breakpoint()
             self.load_data()
 
         cluster_entropy_update(self.recipe_cluster_entropies) # this is not good here
