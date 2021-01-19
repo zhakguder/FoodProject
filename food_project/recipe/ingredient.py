@@ -24,7 +24,7 @@ class IngredientCluster:
     def save_ingredients(self):
         # TODO: not written well
         for ingredient in self.ingredients:
-            ingredients_to_clusters[ingredient] = self.name
+            ingredients_to_clusters[ingredient.name] = self.name
 
     def add_ingredient(self, ingredient):
         self.ingredients += (ingredient,)
