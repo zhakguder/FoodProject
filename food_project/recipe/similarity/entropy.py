@@ -13,8 +13,14 @@ class Entropy:
             collection = pd.Series(self.collection)
             counts = collection.value_counts()
             freqs = counts/self.n_collection
+            breakpoint()
+            # self.entropies = -math.log10(freqs)
             self.freqs = freqs.to_dict()
         return self.freqs
+
+    def entopy_mask(self, n):
+        '''Only keeps the ingredients with n highest entropies in each recipe'''
+        pass
 
     def accept(self, visitor):
         visitor.visit(self)
