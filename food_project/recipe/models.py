@@ -8,6 +8,7 @@ from food_project.util import (
     column_name,
     column_value,
     dataframe_from_dict,
+    series_from_dict,
     read_json,
     list_content_with_matches,
     comparison,
@@ -65,12 +66,13 @@ class RecipeClusterModel(RecipeModel):
         super().__init__()
         self.clusters = None
         self.is_clusters_formed = lambda: self.clusters is not None
+
     def _consolidate_clusters(self):
         clusters = []
         for k, v in ingredient_clusters.items():
             ingredients = []
             for i in v:
-                name =  self._get_ingredient_name(i)
+                name = self._get_ingredient_name(i)
                 quantity = self._get_ingredient_quantity(i)
                 entropy = self._get_ingredient_entropy(name)
                 ingredients.append(Ingredient(name, i, quantity, entropy))
@@ -92,11 +94,11 @@ class RecipeClusterModel(RecipeModel):
             clusters = self._consolidate_clusters()
         df = dataframe_from_dict({x.name: x.get_quantity() for x in clusters})
         return self._recipe_percentage_normalize(df)
+
     def get_entropy(self):
         if not self.is_clusters_formed():
             clusters = self._consolidate_clusters()
-        breakpoint()
-        return dataframe_from_dict({x.name: x.get_entropy() for x in clusters})
+        return series_from_dict({x.name: x.get_entropy() for x in clusters})
 
 
 class RecipeIngredientModel(RecipeModel):

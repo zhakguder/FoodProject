@@ -32,6 +32,10 @@ def dataframe_from_dict(mydict):
     return pd.DataFrame(mydict)
 
 
+def series_from_dict(mydict):
+    return pd.Series(mydict)
+
+
 def matching_columns(df, text):
     return df.columns.str.contains(text)
 
