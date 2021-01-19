@@ -33,7 +33,7 @@ class IngredientCluster:
         self.quantity = sum([x.quantity for x in self.ingredients])
         return self.quantity
 
-    def get_entropy(self, ingredient_entropies):
+    def get_entropy(self):
         self.entropy =  sum([x.entropy for x in self.ingredients])
         return self.entropy
     @staticmethod
