@@ -26,3 +26,6 @@ def entropy_update(collection):
 def cluster_entropy_update(cluster_entropies):
     ecv = EntropyClusterVisitor(cluster_entropies)
     __entropy.accept(ecv)
+
+def get_cluster_entropies():
+    return __entropy.cluster_entropies

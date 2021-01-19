@@ -37,7 +37,7 @@ class SimilarityController:
     def load_data(self):
         self.scaled_cluster_ingredients = self.recipe_cluster_model.get_data()
         self.scaled_ingredients = self.recipe_ingredient_model.get_data()
-        self.recipe_cluster_entropies = self.recipe_cluster_model.get_entropy()
+        # self.recipe_cluster_entropies = self.recipe_cluster_model.get_entropy()
         self.loaded_flag = True
 
     def _get_mask(self, request):
