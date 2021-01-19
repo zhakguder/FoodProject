@@ -9,7 +9,7 @@ class Entropy:
         self.freqs = {}
         self.entropies = None
         self.ranked_recipe_entropies = None
-        self.ranked_entropies = lambda: self.ranked_recipe_entropies is not None
+        self.ranked_ingredient_entropies = None
 
     def get_item_entropy(self, item_name: str) -> float:
         if not self.freqs:
@@ -28,14 +28,18 @@ class Entropy:
             self.freqs = freqs.to_dict()
         return self.freqs
 
-    def _rank_recipe_entropies(self):
-        breakpoint()
+    def _rank_entropies(self):
         self.ranked_ingredient_entropies = self.entropies.rank(method="max", ascending=False)
 
-    def entropy_mask(self, n):
+    def _rank_recipe_entropies(self, recipe_df):
+        breakpoint()
+        self.ranked_recipe_entropies = None
+    def entropy_mask(self, df, n):
         """Only keeps the ingredients with n highest entropies in each recipe"""
-        if not self.ranked_entropies():
-            self._rank_recipe_entropies()
+        if self.ranked_ingredient_entropies is None:
+            self._rank_entropies()
+        if self.ranked.recipe_entropies is None:
+            self._rank_recipe_entropies(df)
         breakpoint()
         res = self.ranked_recipe_entropies[self.ranked_recipe_entropies < n].fillna(0)
         res[res!=0] = 1
