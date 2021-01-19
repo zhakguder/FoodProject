@@ -55,7 +55,7 @@ class SimilarityController:
 
         breakpoint()
         print(query_ingredients)
-        entropy_mask = get_entropy_mask(len(query_ingredients))
+        entropy_mask = get_entropy_mask(self.scaled_cluster_ingredients, len(query_ingredients))
         test = IngredientQuery(*query_ingredients)
         mask = matcher.query_mask(test)
         return mask
