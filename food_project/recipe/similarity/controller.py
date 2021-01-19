@@ -22,7 +22,9 @@ class SimilarityController:
             Returns ids and similarity scores of the top n most similar recipes.
         """
         if not self.loaded_flag:
+            print('A')
             self.load_data()
+        print('B')
         mask = self._get_mask(request)
         similarity_scores = self._get_similarity_scores(mask)
         return self._get_n_most_similar(similarity_scores, n)
@@ -33,6 +35,7 @@ class SimilarityController:
         self.recipe_ingredient_entropies = (
             self.recipe_ingredient_model.calculate_recipe_ingredient_entropies()
         )
+
 
     def _get_mask(self, request):
         matcher = IngredientMatcher(
