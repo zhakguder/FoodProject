@@ -6,7 +6,7 @@ from food_project.recipe.models import (
     RecipeIngredientModel,
 )
 from food_project.recipe.ingredient import IngredientCluster
-
+from food_project.recipe.similarity import get_entropy_mask
 
 class SimilarityController:
     def __init__(self):
@@ -55,6 +55,7 @@ class SimilarityController:
 
         breakpoint()
         print(query_ingredients)
+        entropy_mask = get_entropy_mask(len(query_ingredients))
         test = IngredientQuery(*query_ingredients)
         mask = matcher.query_mask(test)
         return mask
