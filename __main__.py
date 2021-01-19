@@ -60,7 +60,6 @@ hits = []
 random_ids = choices(all_recipe_ids, k=10)
 for recipe_id in random_ids:
     hit = []
-    breakpoint()
     recipe = get_recipe_from_db(int(recipe_id))
     recipe_ingredients = recipe.get('processed_ingredients', '')
     print("*"*10)

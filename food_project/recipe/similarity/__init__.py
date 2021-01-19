@@ -10,7 +10,7 @@ def calculate_entropies(collection:list) -> dict:
     __entropy.accept(visitor)
     return __entropy.calculate()
 
-def get_entropy_mask(n):
+def get_entropy_mask(df, n):
     '''Returns the n highest entropies in every recipe'''
     breakpoint()
     return __entropy.entropy_mask(n)
