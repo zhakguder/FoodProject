@@ -95,6 +95,7 @@ class RecipeClusterModel(RecipeModel):
     def get_entropy(self):
         if not self.is_clusters_formed():
             clusters = self._consolidate_clusters()
+        breakpoint()
         return dataframe_from_dict({x.name: x.get_entropy() for x in clusters})
 
 
