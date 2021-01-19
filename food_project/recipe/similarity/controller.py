@@ -42,11 +42,13 @@ class SimilarityController:
         query_ingredients = self.query_model.get_data(*request)
         #TODO use IngredientCluster.ingredient_in_cluster to get relevant clusters for all ingredients
         #TODO you have to run this on pandas to get access to images
-        breakpoint()
+        clusters = []
         for ingredient in query_ingredients:
             cluster = IngredientCluster.ingredient_in_cluster(ingredient)
-            print(cluster)
+            clusters.append(cluster)
 
+        breakpoint()
+        print(query_ingredients)
         test = IngredientQuery(*query_ingredients)
         mask = matcher.query_mask(test)
         return mask
