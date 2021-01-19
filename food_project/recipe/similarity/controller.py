@@ -51,11 +51,12 @@ class SimilarityController:
             cluster = IngredientCluster.ingredient_in_cluster(
                 "_".join(ingredient.split(" "))
             )
-            clusters.append(cluster)
+            if cluster:
+                clusters.append(cluster)
 
         breakpoint()
-        print(query_ingredients)
-        entropy_mask = get_entropy_mask(self.scaled_cluster_ingredients, len(query_ingredients))
+        n_clusters_in_recipe = len(set(clusters))
+        entropy_mask = get_entropy_mask(self.scaled_cluster_ingredients, n_clusters_in_recipe)
         test = IngredientQuery(*query_ingredients)
         mask = matcher.query_mask(test)
         return mask
