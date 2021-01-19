@@ -16,12 +16,12 @@ class SimilarityController:
         self.scoring_strategy = match_score
         self.scaled_cluster_ingredients = None
         self.scaled_ingredients = None
-        self.loaded_flag = self.scaled_cluster_ingredients is not None and self.scaled_ingredients is not None
+        self.loaded = lambda: self.scaled_cluster_ingredients is not None and self.scaled_ingredients is not None
     def handle(self, request, n):
         """Calculates similarities using mask and the scaled_cluster_ingredients df.
             Returns ids and similarity scores of the top n most similar recipes.
         """
-        if not self.loaded_flag:
+        if not self.loaded():
             print('A')
             self.load_data()
         print('B')
@@ -35,7 +35,7 @@ class SimilarityController:
         self.recipe_ingredient_entropies = (
             self.recipe_ingredient_model.calculate_recipe_ingredient_entropies()
         )
-
+        self.loaded_flag = True
 
     def _get_mask(self, request):
         matcher = IngredientMatcher(
