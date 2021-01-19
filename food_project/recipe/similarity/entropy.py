@@ -7,8 +7,9 @@ class Entropy:
     def __init__(self):
         self.collection = []
         self.freqs = {}
-        self.entropies = None
-        self.ranked_recipe_entropies = None
+        self.ingredient_entropies = None
+        self.cluster_entropies = None
+        self.ranked_cluster_entropies = None
         self.ranked_ingredient_entropies = None
 
     def get_item_entropy(self, item_name: str) -> float:
@@ -24,23 +25,25 @@ class Entropy:
             counts = collection.value_counts()
             freqs = counts / self.n_collection
 
-            self.entropies = -np.log10(freqs)
+            self.ingredient_entropies = -np.log10(freqs)
             self.freqs = freqs.to_dict()
         return self.freqs
 
-    def _rank_entropies(self):
-        self.ranked_ingredient_entropies = self.entropies.rank(
+    def _rank_ingredient_entropies(self):
+        self.ranked_ingredient_entropies = self.ingredient_entropies.rank(
             method="max", ascending=False
         )
 
-    def _rank_recipe_entropies(self, recipe_df):
+    def _rank_cluster_entropies(self):
         breakpoint()
-        self.ranked_recipe_entropies = None
+        if self.cluster_entropies:
+            self.ranked_cluster_entropies = self.cluster_entropies.rank(axis=1, ascending=False)
+
 
     def entropy_mask(self, df, n):
         """Only keeps the ingredients with n highest entropies in each recipe"""
-        if self.ranked_ingredient_entropies is None:
-            self._rank_entropies()
+        # if self.ranked_ingredient_entropies is None:
+        #     self._rank_ingredient_entropies()
         if self.ranked_recipe_entropies is None:
             self._rank_recipe_entropies(df)
         print("A")
@@ -61,6 +64,14 @@ class EntropyVisitor:
     def visit(self, element):
         element.collection = self.collection
         element.n_collection = self.n_collection
+
+
+class EntropyClusterVisitor:
+    def __init__(self, clusters_entropy_df):
+        self.cluster_entropies = clusters_entropy_df
+
+    def visit(self, element):
+        element.cluster_entropies = self.cluster_entropies
 
 
 __entropy = Entropy()

@@ -2,11 +2,11 @@
 
 
 class Ingredient:
-    def __init__(self, name, id, quantity):
+    def __init__(self, name, id, quantity, entropy):
         self.name = name
         self.id = id  # column number in recipe ingredients dataframe
         self.quantity = quantity
-
+        self.entropy = entropy
 
 # clusters = {}
 ingredients_to_clusters = {}  # TODO: put this into mongo
@@ -33,6 +33,9 @@ class IngredientCluster:
         self.quantity = sum([x.quantity for x in self.ingredients])
         return self.quantity
 
+    def get_entropy(self, ingredient_entropies):
+        self.entropy =  sum([x.entropy for x in self.ingredients])
+        return self.entropy
     @staticmethod
     def ingredient_in_cluster(ing_name):
         # return [

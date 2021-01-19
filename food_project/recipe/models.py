@@ -53,6 +53,9 @@ class RecipeModel:
             self._read_data()
         return partial(column_value, self.scaled_ingredients)(i)
 
+    def _get_ingredient_entropy(self, ingredient_name: str) -> float:
+        return get_item_entropy(ingredient_name)
+
 
 class RecipeClusterModel(RecipeModel):
     """Data after parsing raw recipes. Consolidated into clusters."""
@@ -60,26 +63,39 @@ class RecipeClusterModel(RecipeModel):
     # TODO: Model should only load/save data, extract logic in this to a controller helper class
     def __init__(self):
         super().__init__()
-
-    def get_data(self):
-        clusters = self._consolidate_clusters()
-        df = dataframe_from_dict({x.name: x.get_quantity() for x in clusters})
-        return self._recipe_percentage_normalize(df)
-
+        self.clusters = None
+        self.is_clusters_formed = lambda: self.clusters is not None
     def _consolidate_clusters(self):
         clusters = []
         for k, v in ingredient_clusters.items():
-            ingredients = [
-                Ingredient(
-                    self._get_ingredient_name(i),
-                    i,
-                    self._get_ingredient_quantity(i),
-                )
-                for i in v
-            ]
+            ingredients = []
+            for i in v:
+                name =  self._get_ingredient_name(i)
+                quantity = self._get_ingredient_quantity(i)
+                entropy = self._get_ingredient_entropy(name)
+                ingredients.append(Ingredient(name, i, quantity, entropy))
+            # ingredients = [
+            #     Ingredient(
+            #         self._get_ingredient_name(i),
+            #         i,
+            #         self._get_ingredient_quantity(i),
+            #         self._get_ingredient_entropy(i),
+            #     )
+            #     for i in v
+            # ]
             ic = IngredientCluster(k, *ingredients)
             clusters.append(ic)
         return clusters
+
+    def get_data(self):
+        if not self.is_clusters_formed():
+            clusters = self._consolidate_clusters()
+        df = dataframe_from_dict({x.name: x.get_quantity() for x in clusters})
+        return self._recipe_percentage_normalize(df)
+    def get_entropy(self):
+        if not self.is_clusters_formed():
+            clusters = self._consolidate_clusters()
+        return dataframe_from_dict({x.name: x.get_entropy() for x in clusters})
 
 
 class RecipeIngredientModel(RecipeModel):
@@ -90,26 +106,23 @@ class RecipeIngredientModel(RecipeModel):
         self._read_data()
         return self._recipe_percentage_normalize(self.scaled_ingredients)
 
-    def _calculate_ingredient_entropies(self):
-        if self.scaled_ingredients is None:
-            self._read_data()
-        self.entropies = self.scaled_ingredients.copy()
-        ingredients = self.scaled_ingredients.columns
-        entropies = {}
-        for ingredient in ingredients:
-            entropies[ingredient] = get_item_entropy(ingredient)
-        return entropies
+    # def _calculate_ingredient_entropies(self):
+    #     if self.scaled_ingredients is None:
+    #         self._read_data()
+    #     self.entropies = self.scaled_ingredients.copy()
+    #     ingredients = self.scaled_ingredients.columns
+    #     entropies = {}
+    #     for ingredient in ingredients:
+    #         entropies[ingredient] = get_item_entropy(ingredient)
+    #     return entropies
 
-    def calculate_recipe_ingredient_entropies(self):
-        entropies = self._calculate_ingredient_entropies()
+    # def calculate_recipe_ingredient_entropies(self):
+    #     entropies = self._calculate_ingredient_entropies()
 
-        for colname in self.entropies.columns:
-            values = self.entropies[colname]
-            self.entropies[colname] = values.apply(lambda x: entropies[colname] if x > 0 else 0)
-        return self.entropies
-
-    def get_ingredient_entropy(self, ingredient_name: str) -> float:
-        return get_item_entropy(ingredient_name)
+    #     for colname in self.entropies.columns:
+    #         values = self.entropies[colname]
+    #         self.entropies[colname] = values.apply(lambda x: entropies[colname] if x > 0 else 0)
+    #     return self.entropies
 
 
 class RecipeDBInitiator:

@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 
-from food_project.recipe.similarity.entropy import __entropy, EntropyVisitor
+from food_project.recipe.similarity.entropy import __entropy, EntropyVisitor, EntropyClusterVisitor
 
 def calculate_entropies(collection:list) -> dict:
     '''Calculates entropies for all the items in the collection. Entropy definition is taken from paper Complexity and Similarity of Recipes based on Entropy Measurement.
@@ -17,8 +17,12 @@ def get_entropy_mask(df, n):
 def get_item_entropy(item_name:str)->float:
     return __entropy.get_item_entropy(item_name)
 
-entropies = None
+# entropies = None
 
 def entropy_update(collection):
-    global entropies
+    # global entropies
     entropies = calculate_entropies(collection)
+
+def cluster_entropy_update(cluster_entropies):
+    ecv = EntropyClusterVisitor(cluster_entropies)
+    __entropy.accept(ecv)

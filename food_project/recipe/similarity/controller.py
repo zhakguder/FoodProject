@@ -6,7 +6,8 @@ from food_project.recipe.models import (
     RecipeIngredientModel,
 )
 from food_project.recipe.ingredient import IngredientCluster
-from food_project.recipe.similarity import get_entropy_mask
+from food_project.recipe.similarity import get_entropy_mask, cluster_entropy_update # update cluster entropies in main this is not good
+
 
 class SimilarityController:
     def __init__(self):
@@ -27,6 +28,8 @@ class SimilarityController:
         """
         if not self.loaded():
             self.load_data()
+
+        cluster_entropy_update(self.recipe_cluster_entropies) # this is not good here
         mask = self._get_mask(request)
         similarity_scores = self._get_similarity_scores(mask)
         return self._get_n_most_similar(similarity_scores, n)
@@ -34,9 +37,7 @@ class SimilarityController:
     def load_data(self):
         self.scaled_cluster_ingredients = self.recipe_cluster_model.get_data()
         self.scaled_ingredients = self.recipe_ingredient_model.get_data()
-        self.recipe_ingredient_entropies = (
-            self.recipe_ingredient_model.calculate_recipe_ingredient_entropies()
-        )
+        self.recipe_cluster_entropies = self.recipe_cluster_model.get_entropy()
         self.loaded_flag = True
 
     def _get_mask(self, request):
@@ -55,7 +56,9 @@ class SimilarityController:
                 clusters.append(cluster)
 
         n_clusters_in_recipe = len(set(clusters))
-        entropy_mask = get_entropy_mask(self.scaled_cluster_ingredients, n_clusters_in_recipe)
+        entropy_mask = get_entropy_mask(
+            self.recipe_cluster_entropies, n_clusters_in_recipe
+        )
         test = IngredientQuery(*query_ingredients)
         mask = matcher.query_mask(test)
         return mask
