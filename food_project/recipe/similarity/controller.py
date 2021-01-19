@@ -22,9 +22,7 @@ class SimilarityController:
             Returns ids and similarity scores of the top n most similar recipes.
         """
         if not self.loaded():
-            print('A')
             self.load_data()
-        print('B')
         mask = self._get_mask(request)
         similarity_scores = self._get_similarity_scores(mask)
         return self._get_n_most_similar(similarity_scores, n)
@@ -45,6 +43,10 @@ class SimilarityController:
         #TODO use IngredientCluster.ingredient_in_cluster to get relevant clusters for all ingredients
         #TODO you have to run this on pandas to get access to images
         breakpoint()
+        for ingredient in query_ingredients:
+            cluster = IngredientCluster.ingredient_in_cluster(ingredient)
+            print(cluster)
+
         test = IngredientQuery(*query_ingredients)
         mask = matcher.query_mask(test)
         return mask

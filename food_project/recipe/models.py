@@ -43,15 +43,15 @@ class RecipeModel:
         row_totals = df.sum(axis=1)
         return df.div(row_totals, axis=0)
 
-    def _get_ingredient_name(self):
+    def _get_ingredient_name(self, i):
         if self.scaled_ingredients is None:
             self._read_data()
-        return partial(column_name, self.scaled_ingredients)
+        return partial(column_name, self.scaled_ingredients)(i)
 
-    def _get_ingredient_quantity(self):
+    def _get_ingredient_quantity(self, i):
         if self.scaled_ingredients is None:
             self._read_data()
-        return partial(column_value, self.scaled_ingredients)
+        return partial(column_value, self.scaled_ingredients)(i)
 
 
 class RecipeClusterModel(RecipeModel):
@@ -71,9 +71,9 @@ class RecipeClusterModel(RecipeModel):
         for k, v in ingredient_clusters.items():
             ingredients = [
                 Ingredient(
-                    self._get_ingredient_name()(i),
+                    self._get_ingredient_name(i),
                     i,
-                    self._get_ingredient_quantity()(i),
+                    self._get_ingredient_quantity(i),
                 )
                 for i in v
             ]
