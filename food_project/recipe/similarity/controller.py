@@ -14,12 +14,14 @@ class SimilarityController:
         self.recipe_cluster_model = RecipeClusterModel()
         self.recipe_ingredient_model = RecipeIngredientModel()
         self.scoring_strategy = match_score
-
+        self.scaled_cluster_ingredients = None
+        self.scaled_ingredients = None
+        self.loaded_flag = self.scaled_cluster_ingredients is not None and self.scaled_ingredients is not None
     def handle(self, request, n):
         """Calculates similarities using mask and the scaled_cluster_ingredients df.
             Returns ids and similarity scores of the top n most similar recipes.
         """
-        if not self.scaled_cluster_ingredients:
+        if not self.loaded_flag:
             self.load_data()
         mask = self._get_mask(request)
         similarity_scores = self._get_similarity_scores(mask)
