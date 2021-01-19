@@ -32,7 +32,6 @@ class Entropy:
         self.ranked_ingredient_entropies = self.entropies.rank(method="max", ascending=False)
 
     def _rank_recipe_entropies(self, recipe_df):
-        breakpoint()
         self.ranked_recipe_entropies = None
     def entropy_mask(self, df, n):
         """Only keeps the ingredients with n highest entropies in each recipe"""
@@ -40,6 +39,7 @@ class Entropy:
             self._rank_entropies()
         if self.ranked.recipe_entropies is None:
             self._rank_recipe_entropies(df)
+        print('A')
         breakpoint()
         res = self.ranked_recipe_entropies[self.ranked_recipe_entropies < n].fillna(0)
         res[res!=0] = 1
