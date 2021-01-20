@@ -61,6 +61,7 @@ class SimilarityController:
         )
         test = IngredientQuery(*query_ingredients)
         mask = matcher.query_mask(test)
+        breakpoint()
         return mask
 
     def _get_similarity_scores(self, mask):

@@ -38,7 +38,7 @@ class Entropy:
         df[df != 0] = 1
         df = df * self.cluster_entropies
         if self.cluster_entropies is not None:
-            self.ranked_cluster_entropies =  df.rank(axis=1, method='max', ascending=False)
+            self.ranked_cluster_entropies =  df.rank(axis=1,  ascending=False)
         else:
             raise Exception("Cluster entropies are not calculated.")
 
@@ -48,8 +48,6 @@ class Entropy:
         #     self._rank_ingredient_entropies()
         if self.ranked_cluster_entropies is None:
             self._rank_cluster_entropies(df.copy())
-        print("A")
-        breakpoint()
         res = self.ranked_cluster_entropies[self.ranked_cluster_entropies < n].fillna(0)
         res[res != 0] = 1
         return res
