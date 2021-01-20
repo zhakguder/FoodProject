@@ -27,7 +27,6 @@ class SimilarityController:
             Returns ids and similarity scores of the top n most similar recipes.
         """
         if not self.loaded():
-            breakpoint()
             self.load_data()
 
         cluster_entropy_update(self.recipe_cluster_entropies) # this is not good here
@@ -58,7 +57,7 @@ class SimilarityController:
 
         n_clusters_in_recipe = len(set(clusters))
         entropy_mask = get_entropy_mask(
-            self.recipe_cluster_entropies, n_clusters_in_recipe
+            self.scaled_cluster_ingredients, n_clusters_in_recipe
         )
         test = IngredientQuery(*query_ingredients)
         mask = matcher.query_mask(test)
