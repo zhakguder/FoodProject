@@ -64,6 +64,7 @@ class SimilarityController:
         )
         test = IngredientQuery(*query_ingredients)
         mask = matcher.query_mask(test)
+        breakpoint()
         mask = mask * entropy_mask
 
         return mask
