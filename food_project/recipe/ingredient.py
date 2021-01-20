@@ -39,7 +39,7 @@ class IngredientCluster:
     def get_entropy(self):
         # self.entropy =  sum([x.entropy for x in self.ingredients])
         # return self.entropy
-        return sum([x.entropy for x in self.ingredients])
+        return sum([x.entropy for x in self.ingredients])/len(self.ingredients)
 
     @staticmethod
     def ingredient_in_cluster(ing_name):
