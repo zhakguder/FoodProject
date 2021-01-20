@@ -8,6 +8,7 @@ from food_project.util import (
     column_value,
     dataframe_from_dict,
     series_from_dict,
+    save_dataframe,
     read_json,
     list_content_with_matches,
     comparison,
@@ -83,9 +84,12 @@ class RecipeClusterModel(RecipeModel):
     def get_data(self):
         if not self.is_clusters_formed():
             clusters = self._consolidate_clusters()
-        df = dataframe_from_dict({x.name: x.get_quantity() for x in clusters})
+        df = dataframe_from_dict({x.name: x.get_quantity() for x in clusters}) # TODO: This shouldn't depend on the availability of entropies
         return self._recipe_percentage_normalize(df)
 
+    def export_cluster_df(self, path):
+        df = self.get_data()
+        save_dataframe(df, path)
     def get_entropy(self):
         if not self.is_clusters_formed():
             clusters = self._consolidate_clusters()
