@@ -44,7 +44,7 @@ sim_ctrl = SimilarityController()
 res = get_processed_ingredients_from_db()
 entropy_update(res)
 sim_ctrl.load_data()
-sim_ctrl_vis = SimilarityControllerVisitor(uniform_score)
+sim_ctrl_vis = SimilarityControllerVisitor(match_score)
 sim_ctrl_vis.visit(sim_ctrl)
 
 raw_data_dir = "data/recipes/raw"
