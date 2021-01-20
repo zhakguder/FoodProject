@@ -36,7 +36,7 @@ class SimilarityController:
         mask = self._get_mask(request)
         similarity_scores = self._get_similarity_scores(mask,n)
         print(similarity_scores.max())
-        return self._get_n_most_similar(similarity_scores, n)
+        return self._get_n_most_similar(similarity_scores, len(request))
 
     def load_data(self):
         self.scaled_cluster_ingredients = self.recipe_cluster_model.get_data()
