@@ -45,7 +45,7 @@ class Entropy:
         # if self.ranked_ingredient_entropies is None:
         #     self._rank_ingredient_entropies()
         if self.ranked_cluster_entropies is None:
-            self._rank_cluster_entropies(df)
+            self._rank_cluster_entropies()
         print("A")
         breakpoint()
         res = self.ranked_recipe_entropies[self.ranked_recipe_entropies < n].fillna(0)
