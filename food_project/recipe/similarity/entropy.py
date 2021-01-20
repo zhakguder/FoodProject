@@ -35,7 +35,6 @@ class Entropy:
         )
 
     def _rank_cluster_entropies(self):
-        breakpoint()
         if self.cluster_entropies:
             self.ranked_cluster_entropies = self.cluster_entropies.rank(axis=1, ascending=False)
         else:
@@ -48,7 +47,7 @@ class Entropy:
         if self.ranked_cluster_entropies is None:
             self._rank_cluster_entropies(df)
         print("A")
-
+        breakpoint()
         res = self.ranked_recipe_entropies[self.ranked_recipe_entropies < n].fillna(0)
         res[res != 0] = 1
         return res
