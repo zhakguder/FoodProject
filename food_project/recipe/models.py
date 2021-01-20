@@ -1,7 +1,6 @@
 #!/usr/bin/env python3
 import os
 
-from bson.objectid import ObjectId
 from functools import partial
 from food_project.util import (
     read_pickle,
@@ -76,15 +75,7 @@ class RecipeClusterModel(RecipeModel):
                 quantity = self._get_ingredient_quantity(i)
                 entropy = self._get_ingredient_entropy(name)
                 ingredients.append(Ingredient(name, i, quantity, entropy))
-            # ingredients = [
-            #     Ingredient(
-            #         self._get_ingredient_name(i),
-            #         i,
-            #         self._get_ingredient_quantity(i),
-            #         self._get_ingredient_entropy(i),
-            #     )
-            #     for i in v
-            # ]
+
             ic = IngredientCluster(k, *ingredients)
             clusters.append(ic)
         return clusters

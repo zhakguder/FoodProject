@@ -38,15 +38,17 @@ class Entropy:
         breakpoint()
         if self.cluster_entropies:
             self.ranked_cluster_entropies = self.cluster_entropies.rank(axis=1, ascending=False)
-
+        else:
+            raise Exception("Cluster entropies are not calculated.")
 
     def entropy_mask(self, df, n):
         """Only keeps the ingredients with n highest entropies in each recipe"""
         # if self.ranked_ingredient_entropies is None:
         #     self._rank_ingredient_entropies()
-        if self.ranked_recipe_entropies is None:
-            self._rank_recipe_entropies(df)
+        if self.ranked_cluster_entropies is None:
+            self._rank_cluster_entropies(df)
         print("A")
+
         res = self.ranked_recipe_entropies[self.ranked_recipe_entropies < n].fillna(0)
         res[res != 0] = 1
         return res
