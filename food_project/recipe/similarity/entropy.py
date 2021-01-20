@@ -48,7 +48,7 @@ class Entropy:
         #     self._rank_ingredient_entropies()
         if self.ranked_cluster_entropies is None:
             self._rank_cluster_entropies(df.copy())
-        res = self.ranked_cluster_entropies[self.ranked_cluster_entropies < n*3].fillna(0)
+        res = self.ranked_cluster_entropies[self.ranked_cluster_entropies < n].fillna(0)
         # res[res != 0] = 1
         return res
 
