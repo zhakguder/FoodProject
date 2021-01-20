@@ -35,7 +35,7 @@ class Entropy:
         )
 
     def _rank_cluster_entropies(self):
-        if self.cluster_entropies:
+        if self.cluster_entropies is not None:
             self.ranked_cluster_entropies = self.cluster_entropies.rank(axis=1, ascending=False)
         else:
             raise Exception("Cluster entropies are not calculated.")
