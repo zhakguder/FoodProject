@@ -73,8 +73,9 @@ class SimilarityController:
     def _get_similarity_scores(self, mask, n):
         ingredient_similarity_scores = mask * self.scaled_cluster_ingredients
         non_0_cnts = ingredient_similarity_scores.apply(lambda x: len(x[x!=0]), axis=1)
+        print(n)
         rng = non_0_cnts.between(n-2, n+2)
-        return ingredient_similarity_scores.sum(axis=1)[rng]
+        return ingredient_similarity_scores[rng].sum(axis=1)
 
     def _get_n_most_similar(self, arr, n):
 
