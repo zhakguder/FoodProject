@@ -73,6 +73,7 @@ class SimilarityController:
         ingredient_similarity_scores = mask * self.scaled_cluster_ingredients
         breakpoint()
         non_0_cnts = ingredient_similarity_scores.apply(lambda x: len(x[x!=0]), axis=1)
+        print(n)
         res = non_0_cnts[n-2<non_0_cnts<n+2]
 
         return ingredient_similarity_scores.sum(axis=1)
