@@ -41,10 +41,10 @@ class SimilarityController:
         return self._get_n_most_similar(similarity_scores, n)
 
     def recipe_ingredient_importance(self):
+        breakpoint()
         calculate_importance(self.scaled_cluster_ingredients)
     def load_data(self):
         self.scaled_cluster_ingredients = self.recipe_cluster_model.get_data()
-        breakpoint()
         self.scaled_ingredients = self.recipe_ingredient_model.get_data()
         self.recipe_cluster_entropies = self.recipe_cluster_model.get_entropy()
         self.loaded_flag = True
