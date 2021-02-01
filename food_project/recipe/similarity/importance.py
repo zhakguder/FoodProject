@@ -2,7 +2,7 @@
 from abc import ABCMeta, abstractmethod
 
 class ImportanceCalculator:
-    def _create_ranker(self):
+    def _create_ranker(self, mask_type):
         '''Return an importance ranker'''
         return EntropyRanker()
     def calculate_importances(self, mask, mask_type):
