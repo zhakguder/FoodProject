@@ -7,6 +7,7 @@ from food_project.util import (
     column_name,
     column_value,
     dataframe_from_dict,
+    dataframe_from_list,
     series_from_dict,
     save_dataframe,
     read_json,
@@ -34,7 +35,7 @@ class QueryModel:
 #
 class RecipeModel:
     def __init__(self):
-        self.filename = "data/recipes/recipe_ingredients_scaled_units_wide_df.pkl"
+        self.filename = None
         self.scaled_ingredients = None
 
     def _read_data(self):
@@ -58,7 +59,28 @@ class RecipeModel:
         return get_item_entropy(ingredient_name)
 
 
-class RecipeClusterModel(RecipeModel):
+class RecipeWeightIngredientModel(RecipeModel):
+    def __init__(self):
+        super().__init__()
+        self.conversion_file = "data/recipes/all_weight_cup.json"
+
+    def _read_data(self):
+        gram_data = read_json(self.conversion_file)
+        columns = ["id", "name", "qty", "unit"]  # TODO
+        tmp_df = dataframe_from_list(gram_data["data"], columns)
+        tmp_df = tmp_df[tmp_df["unit"] != "cup"]
+        tmp_df = tmp_df.astype({"qty": "float"})
+        tmp_df = tmp_df.drop_duplicates(subset=["id", "name"])
+        tmp_df = tmp_df.pivot(index="id", columns="name", values="qty")
+        tmp_df[tmp_df.isna()] = 0
+        self.scaled_ingredients = tmp_df
+
+    def get_data(self):
+        self._read_data()
+
+
+# class RecipeClusterModel(RecipeModel):
+class RecipeClusterModel(RecipeWeightIngredientModel):
     """Data after parsing raw recipes. Consolidated into clusters."""
 
     # TODO: Model should only load/save data, extract logic in this to a controller helper class
@@ -84,12 +106,15 @@ class RecipeClusterModel(RecipeModel):
     def get_data(self):
         if not self.is_clusters_formed():
             clusters = self._consolidate_clusters()
-        df = dataframe_from_dict({x.name: x.get_quantity() for x in clusters}) # TODO: This shouldn't depend on the availability of entropies
+        df = dataframe_from_dict(
+            {x.name: x.get_quantity() for x in clusters}
+        )  # TODO: This shouldn't depend on the availability of entropies
         return self._recipe_percentage_normalize(df)
 
     def export_cluster_df(self, path):
         df = self.get_data()
         save_dataframe(df, path)
+
     def get_entropy(self):
         if not self.is_clusters_formed():
             clusters = self._consolidate_clusters()
@@ -99,28 +124,11 @@ class RecipeClusterModel(RecipeModel):
 class RecipeIngredientModel(RecipeModel):
     def __init__(self):
         super().__init__()
+        self.filename = "data/recipes/recipe_ingredients_scaled_units_wide_df.pkl"
 
     def get_data(self):
         self._read_data()
         return self._recipe_percentage_normalize(self.scaled_ingredients)
-
-    # def _calculate_ingredient_entropies(self):
-    #     if self.scaled_ingredients is None:
-    #         self._read_data()
-    #     self.entropies = self.scaled_ingredients.copy()
-    #     ingredients = self.scaled_ingredients.columns
-    #     entropies = {}
-    #     for ingredient in ingredients:
-    #         entropies[ingredient] = get_item_entropy(ingredient)
-    #     return entropies
-
-    # def calculate_recipe_ingredient_entropies(self):
-    #     entropies = self._calculate_ingredient_entropies()
-
-    #     for colname in self.entropies.columns:
-    #         values = self.entropies[colname]
-    #         self.entropies[colname] = values.apply(lambda x: entropies[colname] if x > 0 else 0)
-    #     return self.entropies
 
 
 class RecipeDBInitiator:
