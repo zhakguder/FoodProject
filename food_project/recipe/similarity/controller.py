@@ -42,7 +42,7 @@ class SimilarityController:
 
     def recipe_ingredient_importance(self):
         breakpoint()
-        calculate_importance(self.scaled_cluster_ingredients)
+        calculate_importance(self.scaled_cluster_ingredients,'query_recipe')
     def load_data(self):
         self.scaled_cluster_ingredients = self.recipe_cluster_model.get_data()
         self.scaled_ingredients = self.recipe_ingredient_model.get_data()
