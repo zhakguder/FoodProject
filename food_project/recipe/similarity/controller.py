@@ -67,7 +67,6 @@ class SimilarityController:
         test = IngredientQuery(*query_ingredients)
         mask = matcher.query_mask(test)
         mask = mask * entropy_mask
-
         calculate_importance(mask)
         #TODO add importance ranking
         return mask
