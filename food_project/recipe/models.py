@@ -48,7 +48,10 @@ class RecipeModel:
     def _get_ingredient_name(self, i):
         if self.scaled_ingredients is None:
             self._read_data()
-        return partial(column_name, self.scaled_ingredients)(i)
+        try: #TODO: remove after abstract factory is implemented
+            return partial(column_name, self.scaled_ingredients)(i)
+        except:
+            raise Exception('Not existent')
 
     def _get_ingredient_quantity(self, i):
         if self.scaled_ingredients is None:
@@ -69,7 +72,7 @@ class RecipeWeightIngredientModel(RecipeModel):
         columns = ["id", "name", "qty", "unit"]  # TODO
         tmp_df = dataframe_from_list(gram_data["data"], columns)
         tmp_df = tmp_df[tmp_df["unit"] != "cup"]
-        tmp_df = tmp_df.astype({"qty": "float"})
+        tmp_df = tmp_df.astype({"qty": "float", 'id':'float'})
         tmp_df = tmp_df.drop_duplicates(subset=["id", "name"])
         tmp_df = tmp_df.pivot(index="id", columns="name", values="qty")
         tmp_df[tmp_df.isna()] = 0
@@ -94,9 +97,15 @@ class RecipeClusterModel(RecipeWeightIngredientModel):
         for k, v in ingredient_clusters.items():
             ingredients = []
             for i in v:
-                name = self._get_ingredient_name(i)
+
+                try: #TODO: remove after you have abstract factory class
+                    name = self._get_ingredient_name(i)
+                except:
+                        continue
                 quantity = self._get_ingredient_quantity(i)
                 entropy = self._get_ingredient_entropy(name)
+                print(name)
+                print(entropy)
                 ingredients.append(Ingredient(name, i, quantity, entropy))
 
             ic = IngredientCluster(k, *ingredients)
