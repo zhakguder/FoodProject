@@ -78,7 +78,6 @@ class SimilarityController:
         return ingredient_similarity_scores[rng].sum(axis=1)
 
     def _get_n_most_similar(self, arr, n):
-
         return arr.sort_values(ascending=False).iloc[:n]
 
     def accept(self, visitor):
