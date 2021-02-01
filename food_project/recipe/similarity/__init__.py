@@ -30,6 +30,6 @@ def cluster_entropy_update(cluster_entropies):
 def get_cluster_entropies():
     return __entropy.cluster_entropies
 
-def calculate_importance(mask, mask_type=None):
+def calculate_importance(mask, mask_type='db_recipes'):
     ic = ImportanceCalculator()
     return ic.calculate_importances(mask, mask_type)

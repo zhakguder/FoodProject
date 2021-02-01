@@ -37,8 +37,11 @@ class SimilarityController:
         cluster_entropy_update(self.recipe_cluster_entropies)  # this is not good here
         mask = self._get_mask(request)
         similarity_scores = self._get_similarity_scores(mask,self.n_clusters_in_recipe)
+        self.recipe_ingredient_importance()
         return self._get_n_most_similar(similarity_scores, n)
 
+    def recipe_ingredient_importance(self):
+        calculate_importance(self.scaled_cluster_ingredients)
     def load_data(self):
         self.scaled_cluster_ingredients = self.recipe_cluster_model.get_data()
         self.scaled_ingredients = self.recipe_ingredient_model.get_data()
