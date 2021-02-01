@@ -16,6 +16,6 @@ class Ranker(ABC):
 
 class EntropyRanker(Ranker):
     def get_ranks(self, mask):
-        ranks =  mask.sort_values(ascending=False, method='dense')
+        ranks =  mask.rank(ascending=False, method='dense')
         tmp = ranks[mask!=0]
         breakpoint()
