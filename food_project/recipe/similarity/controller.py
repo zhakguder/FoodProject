@@ -9,6 +9,7 @@ from food_project.recipe.ingredient import IngredientCluster
 from food_project.recipe.similarity import (
     get_entropy_mask,
     cluster_entropy_update,
+    calculate_importance
 )  # update cluster entropies in main this is not good
 
 
@@ -66,6 +67,8 @@ class SimilarityController:
         test = IngredientQuery(*query_ingredients)
         mask = matcher.query_mask(test)
         mask = mask * entropy_mask
+
+        calculate_importance(mask)
         #TODO add importance ranking
         return mask
 
