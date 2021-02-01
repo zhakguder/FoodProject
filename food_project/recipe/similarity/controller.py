@@ -42,7 +42,7 @@ class SimilarityController:
 
     def recipe_ingredient_importance(self):
         breakpoint()
-        calculate_importance(self.scaled_cluster_ingredients,'query_recipe')
+        calculate_importance(self.scaled_cluster_ingredients,)
     def load_data(self):
         self.scaled_cluster_ingredients = self.recipe_cluster_model.get_data()
         self.scaled_ingredients = self.recipe_ingredient_model.get_data()
@@ -71,7 +71,7 @@ class SimilarityController:
         test = IngredientQuery(*query_ingredients)
         mask = matcher.query_mask(test)
         mask = mask * entropy_mask
-        calculate_importance(mask)
+        calculate_importance(mask, 'query_recipe')
         #TODO add importance ranking
         return mask
 
