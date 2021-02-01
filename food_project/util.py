@@ -15,9 +15,12 @@ def read_json(path):
     return content
 
 
-def read_pickle(path):
+def read_pickle(path, encoding=None):
     with open(path, "rb") as f:
-        content = pickle.load(f)
+        if encoding:
+            content = pickle.load(f, encoding=encoding)
+        else:
+            content = pickle.load(f)
     return content
 
 
@@ -31,6 +34,9 @@ def column_value(df, i):
 
 def dataframe_from_dict(mydict):
     return pd.DataFrame(mydict)
+
+def dataframe_from_list(lst, columns):
+    return pd.DataFrame(lst, columns=columns)
 
 def save_dataframe(df, path):
     try:
