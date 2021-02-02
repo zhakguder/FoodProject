@@ -16,10 +16,13 @@ class Recipe:
 
     def _amount_of_cluster_of_ingredient(self, ingredient):
         cluster = self._cluster_of_ingredient(ingredient)
-        return self.cluster_amounts_model.get_amount_of_cluster_in_recipe(cluster, self.id_)
+        return self.cluster_amounts_model.get_amount_of_cluster_in_recipe(cluster, float(self.id_))
+
 
     def importance_ranked_ingredients(self):
-        breakpoint()
+        ingredient_ranks = []
         for ing in self.ingredients:
             res = self._amount_of_cluster_of_ingredient(ing)
-            print(res)
+            ingredient_ranks.append(ing, res)
+        breakpoint()
+        print(ing,res)

@@ -99,7 +99,7 @@ class RecipeClusterModel(RecipeModel):
     def get_amount_of_cluster_in_recipe(self, cluster_name, recipe_id):
         if self.normalized_data is None:
             data = self.get_data()
-        breakpoint()
+        return data.loc[recipe_id, cluster_name]
 
 class RecipeIngredientModel(RecipeModel):
     def __init__(self):

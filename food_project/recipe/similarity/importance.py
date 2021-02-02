@@ -31,4 +31,3 @@ class DBRecipesRanker(Ranker):
     def get_ranks(self, values):
         #TODO: GO FROM HERE!
         tmp = values.rank(ascending=False, method='dense', axis=1)
-        breakpoint()
