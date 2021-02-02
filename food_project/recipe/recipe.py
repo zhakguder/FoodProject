@@ -12,10 +12,11 @@ class Recipe:
         self.cluster_amounts_model = RecipeClusterModel()
 
     def _cluster_of_ingredient(self, ingredient):
-        cluster = IngredientCluster.ingredient_in_cluster(ingredient)
+        return IngredientCluster.ingredient_in_cluster(ingredient)
 
     def _amount_of_cluster_of_ingredient(self, ingredient):
-        return self.cluster_amounts_model.get_amount_of_cluster_in_recipe(ingredient, self.id_)
+        cluster = self._cluster_of_ingredient(ingredient)
+        return self.cluster_amounts_model.get_amount_of_cluster_in_recipe(cluster, self.id_)
 
     def importance_ranked_ingredients(self):
         breakpoint()
