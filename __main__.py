@@ -77,7 +77,7 @@ for recipe_id in random_ids:
             ingrs = get_recipe_from_db(id_).get('processed_ingredients', [])
             print(ingrs)
             recipe = Recipe(id_, *ingrs)
-            recipe.importance_ranged_ingredients()
+            recipe.importance_ranked_ingredients()
         hit.append(int(recipe_id) in recipe_ids)
     print('='*20)
 
