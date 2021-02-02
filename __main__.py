@@ -79,10 +79,10 @@ for recipe_id in random_ids:
             recipe = Recipe(id_, *ingrs)
 
             res = recipe.importance_ranked_ingredients(use_entropy=False)
-            print('Weight only importance')
+            print('*'*20,'Weight only importance', '*'*20)
             print(res)
             res = recipe.importance_ranked_ingredients()
-            print('Weight and entropy importance')
+            print('*'*20,'Weight and entropy importance', '*'*20)
             print(res)
         hit.append(int(recipe_id) in recipe_ids)
     print('='*20)
