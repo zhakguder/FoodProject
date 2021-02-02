@@ -73,9 +73,10 @@ for recipe_id in random_ids:
         print('-'*10)
         res = sim_ctrl.handle(preds, n_most_similar_recipes)
         recipe_ids = [int(x) for x in res.index.values]
-        for id_ in recipe_ids:
+        for i, id_ in enumerate(recipe_ids):
+            print(f"Most similar recipe {i}")
             ingrs = get_recipe_from_db(id_).get('processed_ingredients', [])
-            print(ingrs)
+
             recipe = Recipe(id_, *ingrs)
 
             res = recipe.importance_ranked_ingredients(use_entropy=False)
