@@ -19,6 +19,7 @@ from food_project.image_classification import (
     set_image_predictor,
     image_classification_model,
 )
+from food_project.recipe.recipe import Recipe
 from random import choices
 load_dotenv()
 
@@ -73,7 +74,10 @@ for recipe_id in random_ids:
         res = sim_ctrl.handle(preds, n_most_similar_recipes)
         recipe_ids = [int(x) for x in res.index.values]
         for id_ in recipe_ids:
-            print(get_recipe_from_db(id_).get('processed_ingredients', []))
+            ingrs = get_recipe_from_db(id_).get('processed_ingredients', [])
+            print(ingrs)
+            recipe = Recipe(id_, *ingrs)
+            recipe.importance_ranged_ingredients()
         hit.append(int(recipe_id) in recipe_ids)
     print('='*20)
 
