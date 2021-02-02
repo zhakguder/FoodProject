@@ -33,6 +33,5 @@ class Recipe:
             except:
                 continue
 
-        print("N INGREDIENTS ", len(self.ingredients))
-        print(ingredient_ranks)
-        breakpoint()
+        sorted_ingrs = sorted(ingredient_ranks, key=lambda x: x[1], reverse=True)
+        return [x[0] for x in sorted_ingrs]

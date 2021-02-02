@@ -77,7 +77,13 @@ for recipe_id in random_ids:
             ingrs = get_recipe_from_db(id_).get('processed_ingredients', [])
             print(ingrs)
             recipe = Recipe(id_, *ingrs)
-            recipe.importance_ranked_ingredients()
+
+            res = recipe.importance_ranked_ingredients(use_entropy=False)
+            print('Weight only importance')
+            print(res)
+            res = recipe.importance_ranked_ingredients()
+            print('Weight and entropy importance')
+            print(res)
         hit.append(int(recipe_id) in recipe_ids)
     print('='*20)
 
