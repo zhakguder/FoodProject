@@ -20,14 +20,15 @@ class Ranker(ABC):
     def get_ranks(self, values):
         pass
 
-
 class QueryRecipeRanker(Ranker):
     def get_ranks(self, values):
         ranks = values.rank(ascending=False, method="dense")
         tmp = ranks[values != 0]
-        return ranks
+        return tmp
 
 
 class DBRecipesRanker(Ranker):
     def get_ranks(self, values):
+        #TODO: GO FROM HERE!
+        tmp = values.rank(ascending=False, method='dense', axis=1)
         breakpoint()
