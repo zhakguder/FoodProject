@@ -24,8 +24,9 @@ class Recipe:
         for ing in self.ingredients:
             try:
                 res = self._amount_of_cluster_of_ingredient(ing)
+                ingredient_ranks.append((ing, res))
             except:
                 continue
-            ingredient_ranks.append((ing, res))
-        breakpoint()
-        print(ing,res)
+
+        print("N INGREDIENTS ", len(self.ingredients))
+        print(ingredient_ranks)
