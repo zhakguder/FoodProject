@@ -26,6 +26,6 @@ class Recipe:
                 res = self._amount_of_cluster_of_ingredient(ing)
             except:
                 continue
-            ingredient_ranks.append(ing, res)
+            ingredient_ranks.append((ing, res))
         breakpoint()
         print(ing,res)
