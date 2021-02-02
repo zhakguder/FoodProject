@@ -15,19 +15,24 @@ class Recipe:
         return IngredientCluster.ingredient_in_cluster(ingredient)
 
     def _amount_of_cluster_of_ingredient(self, ingredient):
-        breakpoint()
         cluster = self._cluster_of_ingredient(ingredient)
         return self.cluster_amounts_model.get_amount_of_cluster_in_recipe(cluster, float(self.id_))
 
 
-    def importance_ranked_ingredients(self):
+    def importance_ranked_ingredients(self, use_entropy=True):
         ingredient_ranks = []
-        for ing in self.ingredients:
+        for ing, cluster in zip(self.ingredients, self.clusters):
             try:
-                res = self._amount_of_cluster_of_ingredient(ing)
-                ingredient_ranks.append((ing, res))
+                amount = self._amount_of_cluster_of_ingredient(ing)
+                if use_entropy:
+                    entropy = self.cluster_entropies[cluster]
+                else:
+                    entropy = 1
+
+                ingredient_ranks.append((ing, amount*entropy))
             except:
                 continue
 
         print("N INGREDIENTS ", len(self.ingredients))
         print(ingredient_ranks)
+        breakpoint()
