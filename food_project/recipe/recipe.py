@@ -22,7 +22,10 @@ class Recipe:
     def importance_ranked_ingredients(self):
         ingredient_ranks = []
         for ing in self.ingredients:
-            res = self._amount_of_cluster_of_ingredient(ing)
+            try:
+                res = self._amount_of_cluster_of_ingredient(ing)
+            except:
+                continue
             ingredient_ranks.append(ing, res)
         breakpoint()
         print(ing,res)
