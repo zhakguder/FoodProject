@@ -15,6 +15,7 @@ from food_project.recipe.similarity import (
 class SimilarityController:
     def __init__(self):
         self.query_model = QueryModel()
+        breakpoint()
         self.recipe_cluster_model = get_recipe_cluster_model()
         self.recipe_ingredient_model = get_recipe_ingredient_model()
         self.scoring_strategy = match_score
