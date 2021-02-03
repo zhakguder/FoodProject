@@ -25,7 +25,7 @@ class RecipeModelVolumeFactory(RecipeModelAbstractFactory):
         return RecipeIngredientModel()
 
     def create_cluster_model(self):
-        return RecipeClusterModel
+        return RecipeClusterModel()
 
 
 class RecipeModelWeightFactory(RecipeModelAbstractFactory):
