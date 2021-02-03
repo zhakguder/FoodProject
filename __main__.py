@@ -20,6 +20,7 @@ from food_project.image_classification import (
     image_classification_model,
 )
 from food_project.recipe.recipe import Recipe
+from food_project.recipe.models import set_recipe_model
 from random import choices
 load_dotenv()
 
@@ -41,6 +42,7 @@ connect_to_database(uri, uname, pwd)
 
 set_image_predictor(classification_uri, classification_port, classification_route)
 
+set_recipe_model('volume') #can be volume or weight
 sim_ctrl = SimilarityController()
 res = get_processed_ingredients_from_db()
 entropy_update(res)

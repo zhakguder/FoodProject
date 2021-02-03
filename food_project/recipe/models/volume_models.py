@@ -45,6 +45,7 @@ class RecipeClusterModel(RecipeModel):
 
     # TODO: Model should only load/save data, extract logic in this to a controller helper class
     def __init__(self):
+        print("INIT VOLUME MODEL")
         super().__init__()
         self.clusters = None
         self.is_clusters_formed = lambda: self.clusters is not None
