@@ -2,8 +2,8 @@
 from food_project.recipe.matcher import IngredientQuery, match_score, IngredientMatcher
 from food_project.recipe.models import (
     QueryModel,
-    RecipeClusterModel,
-    RecipeIngredientModel,
+    get_recipe_cluster_model,
+    get_recipe_ingredient_model,
 )
 from food_project.recipe.ingredient import IngredientCluster
 from food_project.recipe.similarity import (
@@ -16,8 +16,8 @@ from food_project.recipe.similarity import (
 class SimilarityController:
     def __init__(self):
         self.query_model = QueryModel()
-        self.recipe_cluster_model = RecipeClusterModel()
-        self.recipe_ingredient_model = RecipeIngredientModel()
+        self.recipe_cluster_model = get_recipe_cluster_model()
+        self.recipe_ingredient_model = get_recipe_ingredient_model()
         self.scoring_strategy = match_score
         self.scaled_cluster_ingredients = None
         self.scaled_ingredients = None
@@ -36,12 +36,9 @@ class SimilarityController:
 
         cluster_entropy_update(self.recipe_cluster_entropies)  # this is not good here
         mask = self._get_mask(request)
-        similarity_scores = self._get_similarity_scores(mask,self.n_clusters_in_recipe)
-        # self.recipe_ingredient_importance()
+        similarity_scores = self._get_similarity_scores(mask, self.n_clusters_in_recipe)
         return self._get_n_most_similar(similarity_scores, n)
 
-    # def recipe_ingredient_importance(self):
-        # calculate_importance(self.scaled_cluster_ingredients)
     def load_data(self):
         self.scaled_cluster_ingredients = self.recipe_cluster_model.get_data()
         self.scaled_ingredients = self.recipe_ingredient_model.get_data()
@@ -70,17 +67,19 @@ class SimilarityController:
         test = IngredientQuery(*query_ingredients)
         mask = matcher.query_mask(test)
         mask = mask * entropy_mask
-        # calculate_importance(mask, 'query_recipe')
-        #TODO add importance ranking
+        # TODO add importance ranking
         return mask
 
     def _get_similarity_scores(self, mask, n):
         ingredient_similarity_scores = mask * self.scaled_cluster_ingredients
-        non_0_cnts = ingredient_similarity_scores.apply(lambda x: len(x[x!=0]), axis=1)
-        rng = non_0_cnts.between(n-2, n+2)
+        non_0_cnts = ingredient_similarity_scores.apply(
+            lambda x: len(x[x != 0]), axis=1
+        )
+        rng = non_0_cnts.between(n - 2, n + 2)
         return ingredient_similarity_scores[rng].sum(axis=1)
 
     def _get_n_most_similar(self, arr, n):
+
         return arr.sort_values(ascending=False).iloc[:n]
 
     def accept(self, visitor):
