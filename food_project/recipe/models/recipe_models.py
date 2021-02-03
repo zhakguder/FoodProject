@@ -10,7 +10,7 @@ from food_project.recipe.models.weight_models import (
 )
 
 
-class RecipeModelFactory(ABC):
+class RecipeModelAbstractFactory(ABC):
     @abstractmethod
     def create_ingredient_model(self):
         pass
