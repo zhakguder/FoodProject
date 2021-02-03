@@ -9,7 +9,6 @@ from food_project.recipe.ingredient import IngredientCluster
 from food_project.recipe.similarity import (
     get_entropy_mask,
     cluster_entropy_update,
-    calculate_importance
 )  # update cluster entropies in main this is not good
 
 
