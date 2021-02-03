@@ -32,16 +32,14 @@ recipe_cluster_model = None
 
 
 def set_recipe_model(modeltype="volume"):
-    breakpoint()
     global model_type
-    model_type = model_type
+    model_type = modeltype
     _set_recipe_model_factory()
     _set_recipe_ingredient_model()
     _set_recipe_cluster_model()
 
 
 def _set_recipe_model_factory():
-    breakpoint()
     global model_factory
     if model_type == "volume":
         model_factory = RecipeModelVolumeFactory()
