@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 
 from food_project.recipe.similarity.entropy import __entropy, EntropyVisitor, EntropyClusterVisitor
+from food_project.recipe.similarity.importance import ImportanceCalculator
 
 def calculate_entropies(collection:list) -> dict:
     '''Calculates entropies for all the items in the collection. Entropy definition is taken from paper Complexity and Similarity of Recipes based on Entropy Measurement.
@@ -28,3 +29,7 @@ def cluster_entropy_update(cluster_entropies):
 
 def get_cluster_entropies():
     return __entropy.cluster_entropies
+
+def calculate_importance(mask, mask_type='db_recipes'):
+    ic = ImportanceCalculator()
+    return ic.calculate_importances(mask, mask_type)

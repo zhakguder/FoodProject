@@ -66,6 +66,7 @@ class RecipeClusterModel(RecipeModel):
         super().__init__()
         self.clusters = None
         self.is_clusters_formed = lambda: self.clusters is not None
+        self.normalized_data = None
 
     def _consolidate_clusters(self):
         clusters = []
@@ -84,8 +85,10 @@ class RecipeClusterModel(RecipeModel):
     def get_data(self):
         if not self.is_clusters_formed():
             clusters = self._consolidate_clusters()
-        df = dataframe_from_dict({x.name: x.get_quantity() for x in clusters}) # TODO: This shouldn't depend on the availability of entropies
-        return self._recipe_percentage_normalize(df)
+        if self.normalized_data is None:
+            df = dataframe_from_dict({x.name: x.get_quantity() for x in clusters}) # TODO: This shouldn't depend on the availability of entropies
+            self.normalized_data = self._recipe_percentage_normalize(df)
+        return self.normalized_data
 
     def export_cluster_df(self, path):
         df = self.get_data()
@@ -94,7 +97,10 @@ class RecipeClusterModel(RecipeModel):
         if not self.is_clusters_formed():
             clusters = self._consolidate_clusters()
         return series_from_dict({x.name: x.get_entropy() for x in clusters})
+    def get_amount_of_cluster_in_recipe(self, cluster_name, recipe_id):
 
+        data = self.get_data()
+        return data.loc[recipe_id, cluster_name]
 
 class RecipeIngredientModel(RecipeModel):
     def __init__(self):
