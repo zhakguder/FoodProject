@@ -14,8 +14,8 @@ from food_project.recipe.cluster import ingredient_clusters
 from food_project.recipe.ingredient import Ingredient, IngredientCluster
 from food_project.recipe.similarity import get_item_entropy
 
-class RecipeModel:
 
+class RecipeModel:
     def __init__(self):
         self.filename = None
         self.scaled_ingredients = None
@@ -108,3 +108,8 @@ class RecipeWeightClusterModel(RecipeWeightIngredientModel):
         if not self.is_clusters_formed():
             clusters = self._consolidate_clusters()
         return series_from_dict({x.name: x.get_entropy() for x in clusters})
+
+    def get_amount_of_cluster_in_recipe(self, cluster_name, recipe_id):
+
+        data = self.get_data()
+        return data.loc[recipe_id, cluster_name]
