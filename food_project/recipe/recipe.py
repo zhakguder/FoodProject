@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 from food_project.recipe.ingredient import IngredientCluster
 from food_project.recipe.similarity import get_cluster_entropies
-from food_project.recipe.models import RecipeClusterModel
+from food_project.recipe.models import get_recipe_cluster_model
 
 class Recipe:
     def __init__(self, id_, *ingredients):
@@ -9,7 +9,7 @@ class Recipe:
         self.ingredients = ingredients
         self.cluster_entropies = get_cluster_entropies()
         self.clusters = [self._cluster_of_ingredient(x) for x in self.ingredients]
-        self.cluster_amounts_model = RecipeClusterModel()
+        self.cluster_amounts_model = get_recipe_cluster_model()
 
     def _cluster_of_ingredient(self, ingredient):
         return IngredientCluster.ingredient_in_cluster(ingredient)
