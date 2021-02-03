@@ -20,7 +20,6 @@ class Recipe:
 
 
     def importance_ranked_ingredients(self, use_entropy=True):
-        breakpoint()
         ingredient_ranks = []
         for ing, cluster in zip(self.ingredients, self.clusters):
             try:

@@ -42,7 +42,8 @@ connect_to_database(uri, uname, pwd)
 
 set_image_predictor(classification_uri, classification_port, classification_route)
 
-set_recipe_model('volume') #can be volume or weight
+unit_type = 'volume'
+set_recipe_model(unit_type) #can be volume or weight
 sim_ctrl = SimilarityController()
 res = get_processed_ingredients_from_db()
 entropy_update(res)
@@ -82,10 +83,10 @@ for recipe_id in random_ids:
             recipe = Recipe(id_, *ingrs)
 
             res = recipe.importance_ranked_ingredients(use_entropy=False)
-            print('*'*20,'Weight only importance', '*'*20)
+            print('*'*20, unit_type.capitalize(), 'only importance', '*'*20)
             print(res)
             res = recipe.importance_ranked_ingredients()
-            print('*'*20,'Weight and entropy importance', '*'*20)
+            print('*'*20,unit_type.capitalize(), 'and entropy importance', '*'*20)
             print(res)
         hit.append(int(recipe_id) in recipe_ids)
     print('='*20)
