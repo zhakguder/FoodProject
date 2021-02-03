@@ -41,6 +41,7 @@ class IngredientCluster:
         # return self.entropy
         try:
             print('individual entropies:')
+            breakpoint()
             n_ingredients = len([x for x in self.ingredients if x.entropy != 0])
             return sum([x.entropy for x in self.ingredients])/n_ingredients
         except:
