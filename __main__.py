@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 
 import os
-
+from sys import argv
 from dotenv import load_dotenv
 from food_project.recipe import SimilarityController, SimilarityControllerVisitor
 from food_project.recipe.matcher import match_score, uniform_score
@@ -42,8 +42,8 @@ connect_to_database(uri, uname, pwd)
 
 set_image_predictor(classification_uri, classification_port, classification_route)
 
-unit_type = 'volume'
-set_recipe_model(unit_type) #can be volume or weight
+unit_type = argv[1] #can be volume or weight
+set_recipe_model(unit_type)
 sim_ctrl = SimilarityController()
 res = get_processed_ingredients_from_db()
 entropy_update(res)
