@@ -4,6 +4,7 @@ import numpy as np
 import cv2
 from PIL import Image
 from tempfile import NamedTemporaryFile
+import json
 
 class ImageSplitter:
     def __init__(self, n, m):
@@ -95,9 +96,8 @@ class GridImagePredictionCollector:
                     temp = NamedTemporaryFile(suffix='.jpeg')
 
                     arr_to_jpeg(grid_image[i,j], temp.name)
-                    pred = self.classifier_client.get_ingredients(temp.name)
+                    pred = self.classifier_client.get_ingredients(temp.name, with_probs=True)
                     temp.close()
-                    print(pred)
                 else:
                     print('empty')
     #  self.classifier.predict

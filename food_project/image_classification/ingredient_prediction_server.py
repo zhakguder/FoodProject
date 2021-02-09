@@ -35,11 +35,9 @@ def class_probabilities(np_arr):
     probs = tf.nn.softmax(model.predict(np_arr)).numpy().reshape(-1)
     pred_probs = {}
     for i in range(probs.shape[0]):
-        print(i)
         cls = reverse_map[i]
         cls = parse.unquote_plus(cls)
         pred_probs[cls] = str(probs[i])
-    print(pred_probs)
     return pred_probs
 
 def limit_content_length(max_length):
@@ -63,11 +61,7 @@ def predict():
     image = np.array(Image.open(image), dtype=float)
     shp = image.shape
     image = image.reshape(1, *shp) / 255
-    # predictions = predict_class_labels(image)
     predictions = class_probabilities(image)
-    # result = [parse.unquote_plus(x) for x in predictions]
-    # print(image)
-    # print(predictions)
     predictions = json.dumps(predictions, indent = 4)
 
     return Response(predictions, status=200)
