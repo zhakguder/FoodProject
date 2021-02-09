@@ -35,7 +35,7 @@ def class_probabilities(np_arr):
     print(probs.shape)
     print(type(probs))
     pred_probs = {}
-    for i in range(len(probs)):
+    for i in range(probs.shape[0]):
         cls = reverse_map[i]
         cls = parse.unquote_plus(cls)
         pred_probs[cls] = probs[i]
