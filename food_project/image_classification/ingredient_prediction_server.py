@@ -63,6 +63,8 @@ def predict():
     # predictions = predict_class_labels(image)
     predictions = class_probabilities(image)
     # result = [parse.unquote_plus(x) for x in predictions]
+    print(image)
+    print(predictions)
     return Response(predictions, status=200)
 
 
