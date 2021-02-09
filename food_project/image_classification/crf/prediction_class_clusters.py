@@ -37,7 +37,6 @@ def _get_unwanted_words():
     return ["fruit", "fresh"]
 
 
-
 def get_cluster_of_ingredient(ingredient):
     cluster_names = get_cluster_names()
     clusters = []
@@ -62,3 +61,37 @@ def get_class_clusters():
         cluster = get_cluster_of_ingredient(cls)
         class_clusters[cls] = cluster
     return class_clusters
+
+
+class ClassCandidates:
+    def __init__(self, probs: dict):
+        self.probs = probs
+        self._classes = probs.keys()
+
+    @staticmethod
+    def class_to_cluster(pred_class):
+        return get_cluster_of_ingredient(pred_class)
+
+    @property
+    def classes(self):
+        return self._classes
+
+    def _sorted_classes(self):
+
+        return sorted(self.probs.items(), key=lambda x: x[1], reverse=True)
+
+    def top_n_clusters(self, n):
+        data = self._sorted_classes()
+        # 0: name, 1: cluster name, 2: prob
+        data = [(x[0], self.class_to_cluster(x[0]), x[1]) for x in data]
+        i = 0
+        selected = set()
+        selected_list = []
+        for point in data:
+            if i >= n:
+                break
+            if point[0] not in selected:
+                selected.add(point[1])
+                selected_list.append(point)
+                i += 1
+        return selected_list
