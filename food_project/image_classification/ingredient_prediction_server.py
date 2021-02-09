@@ -30,6 +30,14 @@ def predict_class_labels(arr):
     indexes = predict_class_indexes(arr).numpy()
     return [reverse_map[x] for x in indexes]
 
+def class_probabilities(np_arr):
+    probs = tf.nn.softmax(model.predict(np_arr))
+    pred_probs = {}
+    for i in range(len(probs)):
+        cls = reverse_map[i]
+        cls = parse.unquote_plus(cls)
+        pred_probs[cls] = probs[i]
+    return pred_probs
 
 def limit_content_length(max_length):
     def decorator(f):
@@ -52,9 +60,10 @@ def predict():
     image = np.array(Image.open(image), dtype=float)
     shp = image.shape
     image = image.reshape(1, *shp) / 255
-    predictions = predict_class_labels(image)
-    result = [parse.unquote_plus(x) for x in predictions]
-    return Response(result, status=200)
+    # predictions = predict_class_labels(image)
+    predictions = class_probabilities(image)
+    # result = [parse.unquote_plus(x) for x in predictions]
+    return Response(predictions, status=200)
 
 
 if __name__ == "__main__":
