@@ -79,7 +79,6 @@ class EdgePotentials:
 #     def potential(self):
 #         return self._potential
 
-# TODO: update this file, it is containing fewer than required number of pairs
 _edge_potentials = EdgePotentials('data/crf/edge_potentials_dict.pkl')
 def get_edge_potential(node1, node2):
     return _edge_potentials.bi_frequency(node1, node2)

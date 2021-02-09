@@ -16,4 +16,4 @@ def predict_image(image, prediction_format):
         return image_classification_model.get_ingredients(image)
     elif prediction_format == 'INGR':
         gipc = GridImagePredictionCollector(image_classification_model)
-        gipc.predict_grid_image(image)
+        return gipc.predict_grid_image(image)
