@@ -1,8 +1,9 @@
 #!/usr/bin/env python3
-
+import os
 import numpy as np
 import cv2
-
+from PIL import Image
+from tempfile import NamedTemporaryFile
 
 class ImageSplitter:
     def __init__(self, n, m):
@@ -29,12 +30,18 @@ class ImageSplitter:
         self.m = h_n
 
 
-def is_image_empty(path):
-    return cv2.imread(path)
+def is_image_empty(image):
+    breakpoint()
+    return len(np.unique(image)) == 1
 
 
 def read_image(path):
     return cv2.imread(path)
+
+
+def arr_to_jpeg(arr, path):
+    im = Image.fromarray(arr)
+    im.save(path)
 
 
 def split_image(image, v_n, h_n):
@@ -49,6 +56,51 @@ def get_individual_image(splitted_image, v_index, h_index):
     return image_splitter.get_image_at_index(splitted_image, v_index, h_index)
 
 
+# TODO: add a class to send individual pictures one by one then to convert the predictions to class Candidates
 
 
-#TODO: add a class to send individual pictures one by one then to convert the predictions to class Candidates
+class GridImageCollector:
+    def __init__(self, grid_image, v_n, h_n):
+        self.grid_image = grid_image
+        self._v_n = v_n
+        self._h_n = h_n
+
+    @property
+    def splitted(self):
+        return split_image(self.grid_image, self.n_vertical, self.n_horizontal)
+
+    def __getitem__(self, idx):
+        return get_individual_image(self.splitted, idx[0], idx[1])
+
+    @property
+    def n_vertical(self):
+        return self._v_n
+
+    @property
+    def n_horizontal(self):
+        return self._h_n
+
+
+class GridImagePredictionCollector:
+    def __init__(self, classifier_client):
+        self.classifier_client = classifier_client
+
+    def predict_grid_image(self, grid_image):
+        preds = []
+        # TODO: don't hardcode 3x3
+        grid_image = GridImageCollector(grid_image, 3, 3)
+        for i in range(grid_image.n_vertical):
+            for j in range(grid_image.n_horizontal):
+                image = grid_image[i, j]
+                if not is_image_empty(image):
+                    temp = NamedTemporaryFile(suffix='.jpeg')
+
+                    arr_to_jpeg(grid_image[i,j], temp.name)
+                    pred = self.classifier_client.get_ingredients(temp.name)
+                    temp.close()
+                    print(pred)
+                else:
+                    print('empty')
+    #  self.classifier.predict
+
+#TODO: Pictures are shifted in the grid!!!
