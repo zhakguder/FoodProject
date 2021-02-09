@@ -67,7 +67,7 @@ def predict():
     # result = [parse.unquote_plus(x) for x in predictions]
     # print(image)
     # print(predictions)
-    return Response(predictions, status=200)
+    return Response(predictions.json(), status=200)
 
 
 if __name__ == "__main__":
