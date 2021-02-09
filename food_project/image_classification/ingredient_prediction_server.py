@@ -38,7 +38,7 @@ def class_probabilities(np_arr):
         print(i)
         cls = reverse_map[i]
         cls = parse.unquote_plus(cls)
-        pred_probs[cls] = probs[i]
+        pred_probs[cls] = str(probs[i])
     print(pred_probs)
     return pred_probs
 
@@ -70,7 +70,7 @@ def predict():
     # print(predictions)
     predictions = json.dumps(predictions, indent = 4)
 
-    return Response(predictions.json(), status=200)
+    return Response(predictions, status=200)
 
 
 if __name__ == "__main__":
