@@ -32,15 +32,13 @@ def predict_class_labels(arr):
 
 def class_probabilities(np_arr):
     probs = tf.nn.softmax(model.predict(np_arr)).numpy().reshape(-1)
-    print(reverse_map)
-    print(probs.shape)
-    print(type(probs))
     pred_probs = {}
     for i in range(probs.shape[0]):
         print(i)
         cls = reverse_map[i]
         cls = parse.unquote_plus(cls)
         pred_probs[cls] = probs[i]
+    print(pred_probs)
     return pred_probs
 
 def limit_content_length(max_length):
