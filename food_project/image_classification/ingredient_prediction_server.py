@@ -31,7 +31,7 @@ def predict_class_labels(arr):
     return [reverse_map[x] for x in indexes]
 
 def class_probabilities(np_arr):
-    probs = tf.nn.softmax(model.predict(np_arr))
+    probs = tf.nn.softmax(model.predict(np_arr)).numpy()
     pred_probs = {}
     for i in range(len(probs)):
         cls = reverse_map[i]
