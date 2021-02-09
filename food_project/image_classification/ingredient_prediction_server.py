@@ -8,6 +8,7 @@ from PIL import Image
 from flask import Flask, request, Response
 from urllib import parse
 from functools import wraps
+import json
 
 app = Flask(__name__)
 
@@ -67,6 +68,8 @@ def predict():
     # result = [parse.unquote_plus(x) for x in predictions]
     # print(image)
     # print(predictions)
+    predictions = json.dumps(predictions, indent = 4)
+
     return Response(predictions.json(), status=200)
 
 
