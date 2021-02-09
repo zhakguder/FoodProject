@@ -31,7 +31,6 @@ class ImageSplitter:
 
 
 def is_image_empty(image):
-    breakpoint()
     return len(np.unique(image)) == 1
 
 
