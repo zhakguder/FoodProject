@@ -25,6 +25,8 @@ class Classifier:
         self.reverse_map = {v: k for k, v in mapping.items()}
         self.ready = True
     def get_ingredients(self, np_arr, with_probs):
+        shp = image.shape
+        image = image.reshape(1, *shp) / 255
         probs = tf.nn.softmax(self.model.predict(np_arr)).numpy().reshape(-1)
         pred_probs = {}
         for i in range(probs.shape[0]):
@@ -52,9 +54,7 @@ def limit_content_length(max_length):
 def predict():
     image = request.files["image"]
     image = np.array(Image.open(image), dtype=float)
-    shp = image.shape
-    print(shp)
-    image = image.reshape(1, *shp) / 255
+
     predictions = predict_image(image, image_classification_model=Classifier())
 
     crf = CRF(9, 5)
