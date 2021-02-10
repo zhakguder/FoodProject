@@ -44,7 +44,7 @@ def read_image(path):
 
 
 def arr_to_jpeg(arr, path):
-    print(im.shape)
+    print(arr.shape)
     im = Image.fromarray(arr)
     im.save(path)
 
