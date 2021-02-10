@@ -104,6 +104,7 @@ class GridImagePredictionCollector:
             preds_row = []
             for j in range(grid_image.n_horizontal):
                 image = grid_image[i, j]
+                print(image.shape)
                 if not is_image_empty(image):
                     temp = NamedTemporaryFile(suffix=".jpeg")
 
