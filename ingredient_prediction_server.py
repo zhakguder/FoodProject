@@ -32,7 +32,7 @@ class Classifier:
         for i in range(probs.shape[0]):
             cls = self.reverse_map[i]
             cls = parse.unquote_plus(cls)
-            pred_probs[cls] = str(probs[i])
+            pred_probs[cls] = probs[i]
         return pred_probs
 
 def limit_content_length(max_length):
