@@ -25,8 +25,8 @@ class Classifier:
         self.reverse_map = {v: k for k, v in mapping.items()}
         self.ready = True
     def get_ingredients(self, np_arr, with_probs):
-        shp = image.shape
-        image = image.reshape(1, *shp) / 255
+        shp = np_arr.shape
+        image = np_arr.reshape(1, *shp) / 255
         probs = tf.nn.softmax(self.model.predict(np_arr)).numpy().reshape(-1)
         pred_probs = {}
         for i in range(probs.shape[0]):
