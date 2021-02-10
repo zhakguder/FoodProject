@@ -106,13 +106,9 @@ class GridImagePredictionCollector:
             for j in range(grid_image.n_horizontal):
                 image = grid_image[i, j]
                 if not is_image_empty(image):
-                    #temp = NamedTemporaryFile(suffix=".jpeg")
-
-                    #arr_to_jpeg(image, temp.name)
                     pred = self.classifier_client.get_ingredients(
                         image, with_probs=True
                     )
-#                    temp.close()
                 else:
                     pred = {"empty": 1}
                 preds_row.append(ClassCandidates(pred))

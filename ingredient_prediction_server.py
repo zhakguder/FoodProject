@@ -56,7 +56,7 @@ def predict():
     image = np.array(Image.open(image), dtype=float)
 
     predictions = predict_image(image, image_classification_model=Classifier())
-
+    print(predictions)
     crf = CRF(9, 5)
     for i in range(3):
         for j in range(3):
