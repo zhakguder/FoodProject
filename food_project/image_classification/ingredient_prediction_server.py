@@ -2,17 +2,16 @@
 #!/usr/bin/env python
 import tensorflow as tf
 import numpy as np
-import pandas as pd
 import pickle
-from sys import argv
 from PIL import Image
 from flask import Flask, request, Response
+
 from urllib import parse
 from functools import wraps
 import json
-from tempfile import NamedTemporaryFile
 from food_project.image_classification import predict_image
 from food_project.image_classification.crf.crf_model import CRF
+from tempfile import NamedTemporaryFile
 
 
 app = Flask(__name__)
