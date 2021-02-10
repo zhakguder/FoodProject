@@ -15,5 +15,8 @@ def predict_image(image, prediction_format='INGR_SERVER', image_classification_m
     elif prediction_format == 'INGR_SERVER':
         gipc = GridImagePredictionCollector(image_classification_model)
         return gipc.predict_grid_image(image)
+    elif prediction_format == "INGR":
+        return image_classification_model.get_ingredients(image, with_probs=True)
+
     else:
         return image_classification_model.get_ingredients(image)

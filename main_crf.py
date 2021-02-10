@@ -29,8 +29,8 @@ classification_route = os.getenv(prefix + "ROUTE")
 set_image_predictor(classification_uri, classification_port, classification_route)
 grid_image_path = 'data/crf/test_images/compiled/1.jpeg'
 
-grid_image = read_image(grid_image_path)
-preds = predict_image(grid_image, classification_type)
+# grid_image = read_image(grid_image_path)
+preds = predict_image(grid_image_path, classification_type)
 breakpoint()
 
 # consider CRF for cases where only the model is less than 90% confident about its prediction

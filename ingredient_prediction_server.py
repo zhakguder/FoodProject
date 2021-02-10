@@ -23,6 +23,7 @@ class Classifier:
         with open(prefix + "hyvee_label.dict", "rb") as f:
             mapping = pickle.load(f)
         self.reverse_map = {v: k for k, v in mapping.items()}
+        self.ready = ready
     def get_ingredients(self, np_arr, with_probs):
         probs = tf.nn.softmax(self.model.predict(np_arr)).numpy().reshape(-1)
         pred_probs = {}
@@ -52,6 +53,7 @@ def predict():
     image = request.files["image"]
     image = np.array(Image.open(image), dtype=float)
     shp = image.shape
+    print(shp)
     image = image.reshape(1, *shp) / 255
     predictions = predict_image(image, image_classification_model=Classifier())
 
