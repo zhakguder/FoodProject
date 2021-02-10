@@ -44,6 +44,7 @@ def read_image(path):
 
 
 def arr_to_jpeg(arr, path):
+    print(im.shape)
     im = Image.fromarray(arr)
     im.save(path)
 
@@ -104,11 +105,10 @@ class GridImagePredictionCollector:
             preds_row = []
             for j in range(grid_image.n_horizontal):
                 image = grid_image[i, j]
-                print(image.shape)
                 if not is_image_empty(image):
                     temp = NamedTemporaryFile(suffix=".jpeg")
 
-                    arr_to_jpeg(grid_image[i, j], temp.name)
+                    arr_to_jpeg(image, temp.name)
                     pred = self.classifier_client.get_ingredients(
                         temp.name, with_probs=True
                     )

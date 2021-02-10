@@ -18,7 +18,6 @@ class ImageClassificationModel:
         self._ready = ready_or_not
 
     def get_ingredients(self, img_path, with_probs=False):
-        breakpoint()
         with open(img_path, "rb") as img:
             img_name = os.path.basename(img_path)
             files = {"image": (img_name, img, "multipart/form-data", {"Expires": "0"})}
