@@ -23,7 +23,7 @@ class Classifier:
         with open(prefix + "hyvee_label.dict", "rb") as f:
             mapping = pickle.load(f)
         self.reverse_map = {v: k for k, v in mapping.items()}
-        self.ready = ready
+        self.ready = True
     def get_ingredients(self, np_arr, with_probs):
         probs = tf.nn.softmax(self.model.predict(np_arr)).numpy().reshape(-1)
         pred_probs = {}
