@@ -26,6 +26,7 @@ class Classifier:
         self.ready = True
     def get_ingredients(self, np_arr, with_probs):
         shp = np_arr.shape
+        print(shp)
         image = np_arr.reshape(1, *shp) / 255
         probs = tf.nn.softmax(self.model.predict(np_arr)).numpy().reshape(-1)
         pred_probs = {}
