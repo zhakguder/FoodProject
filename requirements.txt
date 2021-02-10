@@ -1,4 +1,0 @@
-bson
-python-dotenv
-pandas
-pymongo
