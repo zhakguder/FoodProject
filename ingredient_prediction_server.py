@@ -48,7 +48,7 @@ def limit_content_length(max_length):
 
     return decorator
 
-
+#TODO: return with location information!!!
 @app.route("/predict-label/", methods=["POST"])
 @limit_content_length(1000 * 1024 * 1024)
 def predict():

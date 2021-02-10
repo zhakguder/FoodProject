@@ -25,7 +25,7 @@ class ImageClassificationModel:
                 r = s.post(self.uri, files=files)
             if with_probs:
                 data = json.loads(r.text)
-                return {k: float(v) for k, v in data.items()}
+                return data
         return [x.strip() for x in r.text.split(",")]
 
     def accept(self, visitor):
