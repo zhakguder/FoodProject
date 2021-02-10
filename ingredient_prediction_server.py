@@ -60,6 +60,7 @@ def predict():
     for i in range(3):
         for j in range(3):
             crf.add_node(predictions[i][j])
+    print(crf.nodes)
     prbs, bst = crf.get_best_config(threshold=0.9)
     print(bst)
     resp = json.loads({'prbs': prbs, 'best': bst})
