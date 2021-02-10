@@ -9,11 +9,11 @@ def set_image_predictor(uri, port, route):
     image_classification_model.ready = True
     return image_classification_model
 
-def predict_image(image, prediction_format):
+def predict_image(image, prediction_format='INGR_SERVER', image_classification_model=image_classification_model):
     if not image_classification_model.ready:
         raise Exception("Set the image predictor first!")
-    if prediction_format == 'DISH':
-        return image_classification_model.get_ingredients(image)
-    elif prediction_format == 'INGR':
+    elif prediction_format == 'INGR_SERVER':
         gipc = GridImagePredictionCollector(image_classification_model)
         return gipc.predict_grid_image(image)
+    else:
+        return image_classification_model.get_ingredients(image)

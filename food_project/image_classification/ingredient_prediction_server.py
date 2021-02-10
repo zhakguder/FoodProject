@@ -1,3 +1,4 @@
+#!/usr/bin/env python3
 #!/usr/bin/env python
 import tensorflow as tf
 import numpy as np
@@ -9,36 +10,28 @@ from flask import Flask, request, Response
 from urllib import parse
 from functools import wraps
 import json
+from tempfile import NamedTemporaryFile
+from food_project.image_classification import predict_image
+from food_project.image_classification.crf.crf_model import CRF
+
 
 app = Flask(__name__)
 
-
-prefix = "/FoodProject/data/image_classification/model/"
-
-model = tf.keras.models.load_model(prefix + "hyvee.best.hdf5")
-with open(prefix + "hyvee_label.dict", "rb") as f:
-    mapping = pickle.load(f)
-
-reverse_map = {v: k for k, v in mapping.items()}
-
-
-def predict_class_indexes(np_arr):
-    logits = model.predict(np_arr)
-    return tf.argmax(tf.nn.softmax(logits), axis=1)
-
-
-def predict_class_labels(arr):
-    indexes = predict_class_indexes(arr).numpy()
-    return [reverse_map[x] for x in indexes]
-
-def class_probabilities(np_arr):
-    probs = tf.nn.softmax(model.predict(np_arr)).numpy().reshape(-1)
-    pred_probs = {}
-    for i in range(probs.shape[0]):
-        cls = reverse_map[i]
-        cls = parse.unquote_plus(cls)
-        pred_probs[cls] = str(probs[i])
-    return pred_probs
+class Classifier:
+    def __init__(self):
+        prefix = "/FoodProject/data/image_classification/model/"
+        self.model = tf.keras.models.load_model(prefix + "hyvee.best.hdf5")
+        with open(prefix + "hyvee_label.dict", "rb") as f:
+            mapping = pickle.load(f)
+        self.reverse_map = {v: k for k, v in mapping.items()}
+    def get_ingredients(self, np_arr, with_probs):
+        probs = tf.nn.softmax(self.model.predict(np_arr)).numpy().reshape(-1)
+        pred_probs = {}
+        for i in range(probs.shape[0]):
+            cls = self.reverse_map[i]
+            cls = parse.unquote_plus(cls)
+            pred_probs[cls] = str(probs[i])
+        return pred_probs
 
 def limit_content_length(max_length):
     def decorator(f):
@@ -61,10 +54,15 @@ def predict():
     image = np.array(Image.open(image), dtype=float)
     shp = image.shape
     image = image.reshape(1, *shp) / 255
-    predictions = class_probabilities(image)
-    predictions = json.dumps(predictions, indent = 4)
+    predictions = predict_image(image, image_classification_model=Classifier())
 
-    return Response(predictions, status=200)
+    crf = CRF(9, 5)
+    for i in range(3):
+        for j in range(3):
+            crf.add_node(predictions[i][j])
+    prbs, bst = crf.get_best_config(threshold=0.9)
+    resp = json.loads({'prbs': prbs, 'best': bst})
+    return Response(resp, status=200)
 
 
 if __name__ == "__main__":

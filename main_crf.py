@@ -31,11 +31,11 @@ grid_image_path = 'data/crf/test_images/compiled/1.jpeg'
 
 grid_image = read_image(grid_image_path)
 preds = predict_image(grid_image, classification_type)
-
+breakpoint()
 
 # consider CRF for cases where only the model is less than 90% confident about its prediction
-crf = CRF(9, 5)
-for i in range(3):
-    for j in range(3):
-        crf.add_node(preds[i][j])
-prbs, bst = crf.get_best_config(threshold=0.9)
+# crf = CRF(9, 5)
+# for i in range(3):
+#     for j in range(3):
+#         crf.add_node(preds[i][j])
+# prbs, bst = crf.get_best_config(threshold=0.9)
