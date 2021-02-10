@@ -73,6 +73,7 @@ class CRF:
             except StopIteration:
                 break
             res = self.calc_setting_prob(setting)
+            print(res)
             if res > max_prob:
                 max_prob = res
                 best_setting = setting
