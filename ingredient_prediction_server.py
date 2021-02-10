@@ -9,8 +9,8 @@ from flask import Flask, request, Response
 from urllib import parse
 from functools import wraps
 import json
-from image_classification import predict_image
-from image_classification.crf.crf_model import CRF
+from food_project.image_classification import predict_image
+from food_project.image_classification.crf.crf_model import CRF
 from tempfile import NamedTemporaryFile
 
 
