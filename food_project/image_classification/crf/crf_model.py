@@ -46,7 +46,6 @@ class CRF:
         n = len(setting)
         for i in range(n):
             node1 = setting[i]
-            print(node1.potential)
             node_probs.append(node1.potential)
             for j in range(i + 1, n):
                 node2 = setting[j]
@@ -74,7 +73,6 @@ class CRF:
             except StopIteration:
                 break
             res = self.calc_setting_prob(setting)
-            print(res)
             if res > max_prob:
                 max_prob = res
                 best_setting = setting
