@@ -13,6 +13,7 @@ class Recipe:
         self.cluster_amounts_model = get_recipe_cluster_model()
 
     def _cluster_of_ingredient(self, ingredient):
+        print(f"ingredient: {ingredient}, cluster: {cluster}")
         return IngredientCluster.ingredient_in_cluster(ingredient)
 
     def _amount_of_cluster_of_ingredient(self, ingredient):
