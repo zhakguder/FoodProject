@@ -61,6 +61,7 @@ class RecipeWeightIngredientModel(RecipeModel):
             tmp_df = tmp_df.pivot(index="id", columns="name", values="qty")
             tmp_df[tmp_df.isna()] = 0
             self.scaled_ingredients = tmp_df
+            breakpoint()
 
     def get_data(self):
         self._read_data()
