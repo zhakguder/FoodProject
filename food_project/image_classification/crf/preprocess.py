@@ -49,6 +49,4 @@ def get_individual_image(splitted_image, v_index, h_index):
     return image_splitter.get_image_at_index(splitted_image, v_index, h_index)
 
 
-
-
-#TODO: add a class to send individual pictures one by one then to convert the predictions to class Candidates
+# TODO: add a class to send individual pictures one by one then to convert the predictions to class Candidates

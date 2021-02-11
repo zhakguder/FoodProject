@@ -64,6 +64,7 @@ def get_recipe_ingredient_model():
 def get_recipe_cluster_model():
     return recipe_cluster_model
 
+
 class QueryModel:
     def _set_data(self, ingredients):
         self.ingredients = ingredients
@@ -77,23 +78,23 @@ class QueryModel:
 #
 #
 
-    # def _calculate_ingredient_entropies(self):
-    #     if self.scaled_ingredients is None:
-    #         self._read_data()
-    #     self.entropies = self.scaled_ingredients.copy()
-    #     ingredients = self.scaled_ingredients.columns
-    #     entropies = {}
-    #     for ingredient in ingredients:
-    #         entropies[ingredient] = get_item_entropy(ingredient)
-    #     return entropies
+# def _calculate_ingredient_entropies(self):
+#     if self.scaled_ingredients is None:
+#         self._read_data()
+#     self.entropies = self.scaled_ingredients.copy()
+#     ingredients = self.scaled_ingredients.columns
+#     entropies = {}
+#     for ingredient in ingredients:
+#         entropies[ingredient] = get_item_entropy(ingredient)
+#     return entropies
 
-    # def calculate_recipe_ingredient_entropies(self):
-    #     entropies = self._calculate_ingredient_entropies()
+# def calculate_recipe_ingredient_entropies(self):
+#     entropies = self._calculate_ingredient_entropies()
 
-    #     for colname in self.entropies.columns:
-    #         values = self.entropies[colname]
-    #         self.entropies[colname] = values.apply(lambda x: entropies[colname] if x > 0 else 0)
-    #     return self.entropies
+#     for colname in self.entropies.columns:
+#         values = self.entropies[colname]
+#         self.entropies[colname] = values.apply(lambda x: entropies[colname] if x > 0 else 0)
+#     return self.entropies
 
 
 class RecipeDBInitiator:

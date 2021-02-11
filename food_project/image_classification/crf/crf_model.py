@@ -32,7 +32,7 @@ class CRF:
 
     def make_full(self):
         while len(self.nodes) < self.n:
-            self.nodes.append([NodePotential("empty", 'empty', 1)])
+            self.nodes.append([NodePotential("empty", "empty", 1)])
         self.all_possible_configs = itertools.product(*self.nodes)
 
     def get_edge_potential(self, node1: str, node2: str):
