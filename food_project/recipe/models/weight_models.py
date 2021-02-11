@@ -55,12 +55,16 @@ class RecipeWeightIngredientModel(RecipeModel):
             columns = ["id", "name", "qty", "unit"]  # TODO
             breakpoint()
             tmp_df = dataframe_from_list(gram_data["data"], columns)
-            tmp_df = tmp_df[tmp_df["unit"] != "cup"]
+            # tmp_df = tmp_df[tmp_df["unit"] != "cup"]
             tmp_df = tmp_df.astype({"qty": "float", "id": "float"})
-            tmp_df = tmp_df.drop_duplicates(subset=["id", "name"])
+            # tmp_df = tmp_df.drop_duplicates(subset=["id", "name"])
             tmp_df = tmp_df.pivot(index="id", columns="name", values="qty")
             tmp_df[tmp_df.isna()] = 0
             self.scaled_ingredients = tmp_df
+            tmp = read_pickle(
+                "data/recipes/recipe_ingredients_scaled_units_wide_df.pkl"
+            )
+
             breakpoint()
 
     def get_data(self):
