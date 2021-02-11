@@ -16,6 +16,7 @@ from tempfile import NamedTemporaryFile
 
 app = Flask(__name__)
 
+
 class Classifier:
     def __init__(self):
         prefix = "/FoodProject/data/image_classification/model/"
@@ -24,6 +25,7 @@ class Classifier:
             mapping = pickle.load(f)
         self.reverse_map = {v: k for k, v in mapping.items()}
         self.ready = True
+
     def get_ingredients(self, np_arr, with_probs):
         shp = np_arr.shape
         image = np_arr.reshape(1, *shp) / 255
@@ -34,6 +36,7 @@ class Classifier:
             cls = parse.unquote_plus(cls)
             pred_probs[cls] = probs[i]
         return pred_probs
+
 
 def limit_content_length(max_length):
     def decorator(f):
@@ -48,7 +51,8 @@ def limit_content_length(max_length):
 
     return decorator
 
-#TODO: return with location information!!!
+
+# TODO: return with location information!!!
 @app.route("/predict-label/", methods=["POST"])
 @limit_content_length(1000 * 1024 * 1024)
 def predict():
@@ -61,7 +65,7 @@ def predict():
         for j in range(3):
             crf.add_node(predictions[i][j])
     prbs, bst = crf.get_best_config(threshold=0.9)
-    resp = json.dumps({'prbs': prbs, 'best': bst})
+    resp = json.dumps({"prbs": prbs, "best": bst})
     return Response(resp, status=200)
 
 

@@ -33,7 +33,9 @@ class CRF:
     def make_full(self):
         # while len(self.nodes) < self.n:
         #     self.nodes.append([NodePotential("empty", 'empty', 1)])
-        self.nodes = [x for x in self.nodes if x[0].name !='empty'] # this is hardcoded but is correct, when the image is empty in the grid, classifier returns {'empty':1} as response
+        self.nodes = [
+            x for x in self.nodes if x[0].name != "empty"
+        ]  # this is hardcoded but is correct, when the image is empty in the grid, classifier returns {'empty':1} as response
         self.all_possible_configs = itertools.product(*self.nodes)
 
     def get_edge_potential(self, node1: str, node2: str):
@@ -56,7 +58,7 @@ class CRF:
     def get_node_config(self):
         return next(self.all_possible_configs)
 
-    def filter_at_threshold(self,threshold):
+    def filter_at_threshold(self, threshold):
         for i in range(len(self.nodes)):
             node = self.nodes[i]
             if node[0].potential >= threshold:

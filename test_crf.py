@@ -4,7 +4,11 @@ from food_project.image_classification.crf.crf_model import CRF
 from food_project.image_classification.crf.prediction_class_clusters import (
     ClassCandidates,
 )
-from food_project.image_classification.crf.preprocess import split_image, get_individual_image, read_image
+from food_project.image_classification.crf.preprocess import (
+    split_image,
+    get_individual_image,
+    read_image,
+)
 
 # crf = CRF(5, 10)
 
@@ -18,7 +22,7 @@ from food_project.image_classification.crf.preprocess import split_image, get_in
 # 3x3 image grid
 v_n = 3
 h_n = 3
-image = read_image('data/crf/test_images/compiled/1.jpeg')
+image = read_image("data/crf/test_images/compiled/1.jpeg")
 splitted_image = split_image(image, v_n, h_n)
 res = get_individual_image(splitted_image, 0, 1)
 

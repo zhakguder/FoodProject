@@ -80,6 +80,8 @@ class EdgePotentials:
 #     def potential(self):
 #         return self._potential
 
-_edge_potentials = EdgePotentials('data/crf/edge_potentials_dict.pkl')
+_edge_potentials = EdgePotentials("data/crf/edge_potentials_dict.pkl")
+
+
 def get_edge_potential(node1, node2):
     return _edge_potentials.bi_frequency(node1, node2)
