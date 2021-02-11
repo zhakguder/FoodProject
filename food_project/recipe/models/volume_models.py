@@ -35,6 +35,7 @@ class RecipeModel:
 
     def _get_ingredient_quantity(self, i):
         if self.scaled_ingredients is None:
+            print("here")
             self._read_data()
         return partial(column_value, self.scaled_ingredients)(i)
 
