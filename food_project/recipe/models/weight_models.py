@@ -63,7 +63,9 @@ class RecipeWeightIngredientModel(RecipeModel):
             tmp = read_pickle(
                 "data/recipes/recipe_ingredients_scaled_units_wide_df.pkl"
             )
-
+            missing_columns = set(tmp.columns) - set(tmp_df.columns)
+            missing_col_dict = {k: 0 for k in missing_columns}
+            tmp_df.assign(**missing_col_dict)
             breakpoint()
 
     def get_data(self):
