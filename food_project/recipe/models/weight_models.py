@@ -47,6 +47,7 @@ class RecipeModel:
 class RecipeWeightIngredientModel(RecipeModel):
     def __init__(self):
         super().__init__()
+        print("INIT WEIGHT INGREDIENT MODEL")
         # self.conversion_file = "data/recipes/all_weight_cup.json"
         self.conversion_file = "data/recipes/unit_conversion/new_corrected_meta.json"
 
@@ -70,7 +71,7 @@ class RecipeWeightClusterModel(RecipeWeightIngredientModel):
 
     # TODO: Model should only load/save data, extract logic in this to a controller helper class
     def __init__(self):
-        print("INIT WEIGHT MODEL")
+        print("INIT WEIGHT CLUSTER MODEL")
         super().__init__()
         self.clusters = None
         self.is_clusters_formed = lambda: self.clusters is not None
