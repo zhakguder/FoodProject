@@ -21,7 +21,6 @@ class RecipeModel:
         self.scaled_ingredients = None
 
     def _read_data(self):
-        breakpoint()
         self.scaled_ingredients = read_pickle(self.filename)
 
     def _recipe_percentage_normalize(self, df):
@@ -30,12 +29,13 @@ class RecipeModel:
 
     def _get_ingredient_name(self, i):
         if self.scaled_ingredients is None:
+            print('B')
             self._read_data()
         return partial(column_name, self.scaled_ingredients)(i)
 
     def _get_ingredient_quantity(self, i):
         if self.scaled_ingredients is None:
-            print("here")
+            print("A")
             self._read_data()
         return partial(column_value, self.scaled_ingredients)(i)
 
