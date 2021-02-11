@@ -56,7 +56,12 @@ class RecipeClusterModel(RecipeModel):
         for k, v in ingredient_clusters.items():
             ingredients = []
             for i in v:
-                name = self._get_ingredient_name(i)
+                try:
+                    name = self._get_ingredient_name(i)
+                except:
+                    print("name not found")
+                    continue
+
                 quantity = self._get_ingredient_quantity(i)
                 entropy = self._get_ingredient_entropy(name)
                 ingredients.append(Ingredient(name, i, quantity, entropy))

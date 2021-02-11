@@ -84,7 +84,9 @@ class RecipeWeightClusterModel(RecipeWeightIngredientModel):
 
                 try:  # TODO: remove after you have abstract factory class
                     name = self._get_ingredient_name(i)
+
                 except:
+                    print("name not found")
                     continue
                 quantity = self._get_ingredient_quantity(i)
                 entropy = self._get_ingredient_entropy(name)
