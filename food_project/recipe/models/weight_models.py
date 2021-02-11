@@ -72,6 +72,7 @@ class RecipeWeightIngredientModel(RecipeModel):
         missing_columns = set(tmp.columns) - set(tmp_df.columns)
         missing_col_dict = {k: 0 for k in missing_columns}
         tmp_df = tmp_df.assign(**missing_col_dict)
+        breakpoint()
         return tmp_df.reindex(sorted(tmp_df.columns), axis=1)
 
 
