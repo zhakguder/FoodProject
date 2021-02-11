@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-'''Currently, this classes are not used. Importance is calculated using recipe.recipe.Recipe class'''
+"""Currently, these classes are not used. Importance is calculated using recipe.recipe.Recipe class"""
 from abc import ABC, abstractmethod
 
 
@@ -21,6 +21,7 @@ class Ranker(ABC):
     def get_ranks(self, values):
         pass
 
+
 class QueryRecipeRanker(Ranker):
     def get_ranks(self, values):
         ranks = values.rank(ascending=False, method="dense")
@@ -30,5 +31,5 @@ class QueryRecipeRanker(Ranker):
 
 class DBRecipesRanker(Ranker):
     def get_ranks(self, values):
-        #TODO: GO FROM HERE!
-        tmp = values.rank(ascending=False, method='dense', axis=1)
+        # TODO: GO FROM HERE!
+        tmp = values.rank(ascending=False, method="dense", axis=1)

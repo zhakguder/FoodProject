@@ -18,12 +18,7 @@ class TestImageCompiler:
         )
         self.n_color = 3  # for RGB
         self.img_empty_grid = lambda height, width: np.zeros(
-            (
-                height * self.n,
-                width * self.n,
-                self.n_color,
-            ),
-            np.uint8,
+            (height * self.n, width * self.n, self.n_color), np.uint8
         )
 
     def compile_test_image(self, *image_paths):

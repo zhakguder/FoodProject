@@ -48,7 +48,7 @@ class RecipeWeightIngredientModel(RecipeModel):
     def __init__(self):
         super().__init__()
         # self.conversion_file = "data/recipes/all_weight_cup.json"
-        self.conversion_file = 'data/recipes/unit_conversion/new_corrected_meta.json'
+        self.conversion_file = "data/recipes/unit_conversion/new_corrected_meta.json"
 
     def _read_data(self):
         gram_data = read_json(self.conversion_file)

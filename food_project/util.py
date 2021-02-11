@@ -35,8 +35,10 @@ def column_value(df, i):
 def dataframe_from_dict(mydict):
     return pd.DataFrame(mydict)
 
+
 def dataframe_from_list(lst, columns):
     return pd.DataFrame(lst, columns=columns)
+
 
 def save_dataframe(df, path):
     try:
