@@ -62,7 +62,7 @@ processed_data_dir = "data/recipes/processed"
 
 all_recipe_ids = get_recipe_ids_from_db()
 hits = []
-random_ids = choices(all_recipe_ids, k=10)
+random_ids = choices(all_recipe_ids, k=1)
 for recipe_id in random_ids:
     hit = []
     recipe = get_recipe_from_db(int(recipe_id))
