@@ -21,22 +21,19 @@ class RecipeModel:
         self.scaled_ingredients = None
 
     def _read_data(self):
-        self.scaled_ingredients = read_pickle(self.filename)
+        if self.scaled_ingredients is None:
+            self.scaled_ingredients = read_pickle(self.filename)
 
     def _recipe_percentage_normalize(self, df):
         row_totals = df.sum(axis=1)
         return df.div(row_totals, axis=0)
 
     def _get_ingredient_name(self, i):
-        if self.scaled_ingredients is None:
-            print("B")
-            self._read_data()
+        self._read_data()
         return partial(column_name, self.scaled_ingredients)(i)
 
     def _get_ingredient_quantity(self, i):
-        if self.scaled_ingredients is None:
-            print("A")
-            self._read_data()
+        self._read_data()
         return partial(column_value, self.scaled_ingredients)(i)
 
     def _get_ingredient_entropy(self, ingredient_name: str) -> float:

@@ -20,24 +20,22 @@ class RecipeModel:
         self.filename = None
         self.scaled_ingredients = None
 
-    def _read_data(self):
-        self.scaled_ingredients = read_pickle(self.filename)
+    # def _read_data(self):
+        # self.scaled_ingredients = read_pickle(self.filename)
 
     def _recipe_percentage_normalize(self, df):
         row_totals = df.sum(axis=1)
         return df.div(row_totals, axis=0)
 
     def _get_ingredient_name(self, i):
-        if self.scaled_ingredients is None:
-            self._read_data()
+        self._read_data()
         try:  # TODO: remove after abstract factory is implemented
             return partial(column_name, self.scaled_ingredients)(i)
         except:
             raise Exception("Not existent")
 
     def _get_ingredient_quantity(self, i):
-        if self.scaled_ingredients is None:
-            self._read_data()
+        self._read_data()
         return partial(column_value, self.scaled_ingredients)(i)
 
     def _get_ingredient_entropy(self, ingredient_name: str) -> float:
@@ -52,20 +50,20 @@ class RecipeWeightIngredientModel(RecipeModel):
         self.conversion_file = "data/recipes/unit_conversion/new_corrected_meta.json"
 
     def _read_data(self):
-        gram_data = read_json(self.conversion_file)
-        columns = ["id", "name", "qty", "unit"]  # TODO
-        breakpoint()
-        tmp_df = dataframe_from_list(gram_data["data"], columns)
-        tmp_df = tmp_df[tmp_df["unit"] != "cup"]
-        tmp_df = tmp_df.astype({"qty": "float", "id": "float"})
-        tmp_df = tmp_df.drop_duplicates(subset=["id", "name"])
-        tmp_df = tmp_df.pivot(index="id", columns="name", values="qty")
-        tmp_df[tmp_df.isna()] = 0
-        self.scaled_ingredients = tmp_df
+        if self.scaled_ingredients is None:
+            gram_data = read_json(self.conversion_file)
+            columns = ["id", "name", "qty", "unit"]  # TODO
+            breakpoint()
+            tmp_df = dataframe_from_list(gram_data["data"], columns)
+            tmp_df = tmp_df[tmp_df["unit"] != "cup"]
+            tmp_df = tmp_df.astype({"qty": "float", "id": "float"})
+            tmp_df = tmp_df.drop_duplicates(subset=["id", "name"])
+            tmp_df = tmp_df.pivot(index="id", columns="name", values="qty")
+            tmp_df[tmp_df.isna()] = 0
+            self.scaled_ingredients = tmp_df
 
     def get_data(self):
-        if self.scaled_ingredients is None:
-            self._read_data()
+        self._read_data()
 
 
 class RecipeWeightClusterModel(RecipeWeightIngredientModel):
