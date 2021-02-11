@@ -21,7 +21,7 @@ class RecipeModel:
         self.scaled_ingredients = None
 
     # def _read_data(self):
-        # self.scaled_ingredients = read_pickle(self.filename)
+    # self.scaled_ingredients = read_pickle(self.filename)
 
     def _recipe_percentage_normalize(self, df):
         row_totals = df.sum(axis=1)
