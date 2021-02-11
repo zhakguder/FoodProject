@@ -29,7 +29,7 @@ class RecipeModel:
 
     def _get_ingredient_name(self, i):
         if self.scaled_ingredients is None:
-            print('B')
+            print("B")
             self._read_data()
         return partial(column_name, self.scaled_ingredients)(i)
 
