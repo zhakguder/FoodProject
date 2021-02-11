@@ -14,7 +14,7 @@ class ImageClassificationModel:
             with requests.Session() as s:
                 r = s.post(self.uri, files=files)
 
-        return [x.strip() for x in r.text.split(',')]
+        return [x.strip() for x in r.text.split(",")]
 
     def accept(self, visitor):
         visitor.visit(self)
@@ -26,5 +26,6 @@ class ImageClassificationModelInitiator:
 
     def visit(self, element):
         element.uri = self.uri
+
 
 image_classification_model = ImageClassificationModel()

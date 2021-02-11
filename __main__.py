@@ -12,7 +12,7 @@ from food_project.recipe import (
     get_recipe_from_db,
     get_recipe_ids_from_db,
     get_processed_ingredients_from_db,
-    populate_db_processed
+    populate_db_processed,
 )
 from food_project.recipe.similarity import entropy_update
 from food_project.image_classification import (
@@ -21,6 +21,7 @@ from food_project.image_classification import (
 )
 from food_project.recipe.recipe import Recipe
 from random import choices
+
 load_dotenv()
 
 
@@ -54,7 +55,7 @@ processed_data_dir = "data/recipes/processed"
 # for directory in os.listdir(raw_data_dir):
 #     populate_db_recipes(os.path.join(raw_data_dir, directory))
 #     populate_db_images(os.path.join(raw_data_dir, directory))
-    # populate_db_processed(os.path.join(processed_data_dir, directory))
+# populate_db_processed(os.path.join(processed_data_dir, directory))
 
 all_recipe_ids = get_recipe_ids_from_db()
 hits = []
@@ -62,31 +63,31 @@ random_ids = choices(all_recipe_ids, k=10)
 for recipe_id in random_ids:
     hit = []
     recipe = get_recipe_from_db(int(recipe_id))
-    recipe_ingredients = recipe.get('processed_ingredients', '')
-    print("*"*10)
+    recipe_ingredients = recipe.get("processed_ingredients", "")
+    print("*" * 10)
     print(recipe_ingredients)
-    print("*"*10)
+    print("*" * 10)
     for image in recipe["images"]:
         preds = image_classification_model.get_ingredients(image)
-        print('-'*10)
+        print("-" * 10)
         print(preds)
-        print('-'*10)
+        print("-" * 10)
         res = sim_ctrl.handle(preds, n_most_similar_recipes)
         recipe_ids = [int(x) for x in res.index.values]
         for i, id_ in enumerate(recipe_ids):
             print(f"Most similar recipe {i}")
-            ingrs = get_recipe_from_db(id_).get('processed_ingredients', [])
+            ingrs = get_recipe_from_db(id_).get("processed_ingredients", [])
 
             recipe = Recipe(id_, *ingrs)
 
             res = recipe.importance_ranked_ingredients(use_entropy=False)
-            print('*'*20,'Weight only importance', '*'*20)
+            print("*" * 20, "Weight only importance", "*" * 20)
             print(res)
             res = recipe.importance_ranked_ingredients()
-            print('*'*20,'Weight and entropy importance', '*'*20)
+            print("*" * 20, "Weight and entropy importance", "*" * 20)
             print(res)
         hit.append(int(recipe_id) in recipe_ids)
-    print('='*20)
+    print("=" * 20)
 
 
 #     hits.append(hit)

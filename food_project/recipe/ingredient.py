@@ -40,11 +40,12 @@ class IngredientCluster:
         # self.entropy =  sum([x.entropy for x in self.ingredients])
         # return self.entropy
         try:
-            print('individual entropies:')
+            print("individual entropies:")
             n_ingredients = len([x for x in self.ingredients if x.entropy != 0])
-            return sum([x.entropy for x in self.ingredients])/n_ingredients
+            return sum([x.entropy for x in self.ingredients]) / n_ingredients
         except:
             return 0
+
     @staticmethod
     def ingredient_in_cluster(ing_name):
         # return [

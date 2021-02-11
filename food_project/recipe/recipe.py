@@ -3,6 +3,7 @@ from food_project.recipe.ingredient import IngredientCluster
 from food_project.recipe.similarity import get_cluster_entropies
 from food_project.recipe.models import RecipeClusterModel
 
+
 class Recipe:
     def __init__(self, id_, *ingredients):
         self.id_ = id_
@@ -16,8 +17,9 @@ class Recipe:
 
     def _amount_of_cluster_of_ingredient(self, ingredient):
         cluster = self._cluster_of_ingredient(ingredient)
-        return self.cluster_amounts_model.get_amount_of_cluster_in_recipe(cluster, float(self.id_))
-
+        return self.cluster_amounts_model.get_amount_of_cluster_in_recipe(
+            cluster, float(self.id_)
+        )
 
     def importance_ranked_ingredients(self, use_entropy=True):
         ingredient_ranks = []
@@ -29,7 +31,7 @@ class Recipe:
                 else:
                     entropy = 1
 
-                ingredient_ranks.append((ing, amount*entropy))
+                ingredient_ranks.append((ing, amount * entropy))
             except:
                 continue
 

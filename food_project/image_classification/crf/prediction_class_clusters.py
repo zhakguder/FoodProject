@@ -37,7 +37,6 @@ def _get_unwanted_words():
     return ["fruit", "fresh"]
 
 
-
 def get_cluster_of_ingredient(ingredient):
     cluster_names = get_cluster_names()
     clusters = []
