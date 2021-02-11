@@ -61,7 +61,6 @@ class RecipeWeightIngredientModel(RecipeModel):
             tmp_df[tmp_df.isna()] = 0
 
             self.scaled_ingredients = self._fix_missing_and_extra_columns(tmp_df)
-            breakpoint()
 
     def get_data(self):
         self._read_data()
@@ -72,8 +71,7 @@ class RecipeWeightIngredientModel(RecipeModel):
         missing_columns = set(tmp.columns) - set(tmp_df.columns)
         missing_col_dict = {k: 0 for k in missing_columns}
         tmp_df = tmp_df.assign(**missing_col_dict)
-        breakpoint()
-        return tmp_df.reindex(sorted(tmp_df.columns), axis=1)
+        return tmp_df[tmp.columns]
 
 
 class RecipeWeightClusterModel(RecipeWeightIngredientModel):
