@@ -59,17 +59,20 @@ class RecipeWeightIngredientModel(RecipeModel):
             tmp_df = tmp_df.drop_duplicates(subset=["id", "name"])
             tmp_df = tmp_df.pivot(index="id", columns="name", values="qty")
             tmp_df[tmp_df.isna()] = 0
-            self.scaled_ingredients = tmp_df
-            tmp = read_pickle(
-                "data/recipes/recipe_ingredients_scaled_units_wide_df.pkl"
-            )
-            missing_columns = set(tmp.columns) - set(tmp_df.columns)
-            missing_col_dict = {k: 0 for k in missing_columns}
-            tmp_df.assign(**missing_col_dict)
+
+            self.scaled_ingredients = self._fix_missing_and_extra_columns(tmp_df)
             breakpoint()
 
     def get_data(self):
         self._read_data()
+
+    def _fix_missing_and_extra_columns(self, tmp_df):
+        tmp = read_pickle("data/recipes/recipe_ingredients_scaled_units_wide_df.pkl")
+        diff_no_want = set(tmp_df.columns) - set(tmp.columns)
+        missing_columns = set(tmp.columns) - set(tmp_df.columns)
+        missing_col_dict = {k: 0 for k in missing_columns}
+        tmp_df = tmp_df.assign(**missing_col_dict)
+        return df.reindex(sorted(tmp_df.columns), axis=1)
 
 
 class RecipeWeightClusterModel(RecipeWeightIngredientModel):
