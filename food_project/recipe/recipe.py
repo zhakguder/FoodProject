@@ -10,6 +10,7 @@ class Recipe:
         self.ingredients = ingredients
         self.cluster_entropies = get_cluster_entropies()
         self.clusters = [self._cluster_of_ingredient(x) for x in self.ingredients]
+        print(f"ingredient: {ingredients}, cluster: {clusters}")
         self.cluster_amounts_model = get_recipe_cluster_model()
 
     def _cluster_of_ingredient(self, ingredient):
@@ -17,7 +18,6 @@ class Recipe:
 
     def _amount_of_cluster_of_ingredient(self, ingredient):
         cluster = self._cluster_of_ingredient(ingredient)
-        print(f"ingredient: {ingredient}, cluster: {cluster}")
         return self.cluster_amounts_model.get_amount_of_cluster_in_recipe(
             cluster, float(self.id_)
         )
