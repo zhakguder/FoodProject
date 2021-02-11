@@ -30,6 +30,7 @@ def predict_class_labels(arr):
     indexes = predict_class_indexes(arr).numpy()
     return [reverse_map[x] for x in indexes]
 
+
 def class_probabilities(np_arr):
     probs = tf.nn.softmax(model.predict(np_arr))
     pred_probs = {}
@@ -38,6 +39,7 @@ def class_probabilities(np_arr):
         cls = parse.unquote_plus(cls)
         pred_probs[cls] = probs[i]
     return pred_probs
+
 
 def limit_content_length(max_length):
     def decorator(f):

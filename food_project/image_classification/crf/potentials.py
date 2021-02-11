@@ -8,6 +8,7 @@ from food_project.image_classification.crf.prediction_class_clusters import (
 
 # All names are in terms of clusters
 
+
 def name_potential(node1, node2):
     return "+".join(sorted([node1, node2]))
 
@@ -21,7 +22,6 @@ class NodePotential:
     @property
     def potential(self):
         return self._potential
-
 
 
 class EdgePotentials:
@@ -67,6 +67,7 @@ class EdgePotentials:
         except:
             return 1
 
+
 # class EdgePotential:
 #     potentials = EdgePotentials()
 #     def __init__(self, node1, node2):
@@ -80,6 +81,8 @@ class EdgePotentials:
 #         return self._potential
 
 # TODO: update this file, it is containing fewer than required number of pairs
-_edge_potentials = EdgePotentials('data/crf/edge_potentials_dict.pkl')
+_edge_potentials = EdgePotentials("data/crf/edge_potentials_dict.pkl")
+
+
 def get_edge_potential(node1, node2):
     return _edge_potentials.bi_frequency(node1, node2)

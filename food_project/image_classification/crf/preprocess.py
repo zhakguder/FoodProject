@@ -5,6 +5,7 @@ import cv2
 from PIL import Image
 from tempfile import NamedTemporaryFile
 
+
 class ImageSplitter:
     def __init__(self, n, m):
 
@@ -92,14 +93,16 @@ class GridImagePredictionCollector:
             for j in range(grid_image.n_horizontal):
                 image = grid_image[i, j]
                 if not is_image_empty(image):
-                    temp = NamedTemporaryFile(suffix='.jpeg')
+                    temp = NamedTemporaryFile(suffix=".jpeg")
 
-                    arr_to_jpeg(grid_image[i,j], temp.name)
+                    arr_to_jpeg(grid_image[i, j], temp.name)
                     pred = self.classifier_client.get_ingredients(temp.name)
                     temp.close()
                     print(pred)
                 else:
-                    print('empty')
+                    print("empty")
+
     #  self.classifier.predict
 
-#TODO: Pictures are shifted in the grid!!!
+
+# TODO: Pictures are shifted in the grid!!!
