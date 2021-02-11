@@ -57,7 +57,7 @@ class RecipeWeightIngredientModel(RecipeModel):
             tmp_df = dataframe_from_list(gram_data["data"], columns)
             # tmp_df = tmp_df[tmp_df["unit"] != "cup"]
             tmp_df = tmp_df.astype({"qty": "float", "id": "float"})
-            # tmp_df = tmp_df.drop_duplicates(subset=["id", "name"])
+            tmp_df = tmp_df.drop_duplicates(subset=["id", "name"])
             tmp_df = tmp_df.pivot(index="id", columns="name", values="qty")
             tmp_df[tmp_df.isna()] = 0
             self.scaled_ingredients = tmp_df
