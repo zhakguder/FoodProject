@@ -64,7 +64,8 @@ class RecipeWeightIngredientModel(RecipeModel):
         self.scaled_ingredients = tmp_df
 
     def get_data(self):
-        self._read_data()
+        if self.scaled_ingredients is None:
+            self._read_data()
 
 
 class RecipeWeightClusterModel(RecipeWeightIngredientModel):
