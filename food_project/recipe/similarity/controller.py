@@ -1,15 +1,15 @@
 #!/usr/bin/env python3
-from food_project.recipe.matcher import IngredientQuery, match_score, IngredientMatcher
+from food_project.recipe.ingredient import IngredientCluster
+from food_project.recipe.matcher import IngredientMatcher, IngredientQuery, match_score
 from food_project.recipe.models import (
     QueryModel,
     get_recipe_cluster_model,
     get_recipe_ingredient_model,
 )
-from food_project.recipe.ingredient import IngredientCluster
-from food_project.recipe.similarity import (
-    get_entropy_mask,
+from food_project.recipe.similarity import (  # update cluster entropies in main this is not good
     cluster_entropy_update,
-)  # update cluster entropies in main this is not good
+    get_entropy_mask,
+)
 
 
 class SimilarityController:

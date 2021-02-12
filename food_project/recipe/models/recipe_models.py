@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 from abc import ABC, abstractmethod
+
 from food_project.recipe.models.volume_models import (
     RecipeClusterModel,
     RecipeIngredientModel,

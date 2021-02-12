@@ -1,12 +1,13 @@
 #!/usr/bin/env python3
 
-import pickle
-import pandas as pd
 import json
 import os
+import pickle
 import re
-from functools import partial
 from difflib import SequenceMatcher
+from functools import partial
+
+import pandas as pd
 
 
 def read_json(path):

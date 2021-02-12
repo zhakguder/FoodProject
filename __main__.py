@@ -1,27 +1,29 @@
 #!/usr/bin/env python3
 
 import os
+from random import choices
 from sys import argv
+
 from dotenv import load_dotenv
-from food_project.recipe import SimilarityController, SimilarityControllerVisitor
-from food_project.recipe.matcher import match_score, uniform_score
+from food_project.image_classification import (
+    image_classification_model,
+    set_image_predictor,
+)
 from food_project.recipe import (
+    SimilarityController,
+    SimilarityControllerVisitor,
     connect_to_database,
-    populate_db_recipes,
-    populate_db_images,
+    get_processed_ingredients_from_db,
     get_recipe_from_db,
     get_recipe_ids_from_db,
-    get_processed_ingredients_from_db,
+    populate_db_images,
     populate_db_processed,
+    populate_db_recipes,
 )
-from food_project.recipe.similarity import entropy_update
-from food_project.image_classification import (
-    set_image_predictor,
-    image_classification_model,
-)
-from food_project.recipe.recipe import Recipe
+from food_project.recipe.matcher import match_score, uniform_score
 from food_project.recipe.models import set_recipe_model
-from random import choices
+from food_project.recipe.recipe import Recipe
+from food_project.recipe.similarity import entropy_update
 
 load_dotenv()
 
@@ -62,7 +64,7 @@ processed_data_dir = "data/recipes/processed"
 
 all_recipe_ids = get_recipe_ids_from_db()
 hits = []
-random_ids = choices(all_recipe_ids, k=1)
+random_ids = choices(all_recipe_ids, k=10)
 for recipe_id in random_ids:
     hit = []
     recipe = get_recipe_from_db(int(recipe_id))

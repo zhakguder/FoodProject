@@ -1,18 +1,17 @@
 #!/usr/bin/env python3
 #!/usr/bin/env python
-import tensorflow as tf
-import numpy as np
-import pickle
-from PIL import Image
-from flask import Flask, request, Response
-
-from urllib import parse
-from functools import wraps
 import json
+import pickle
+from functools import wraps
+from tempfile import NamedTemporaryFile
+from urllib import parse
+
+import numpy as np
+import tensorflow as tf
+from flask import Flask, Response, request
 from food_project.image_classification import predict_image
 from food_project.image_classification.crf.crf_model import CRF
-from tempfile import NamedTemporaryFile
-
+from PIL import Image
 
 app = Flask(__name__)
 

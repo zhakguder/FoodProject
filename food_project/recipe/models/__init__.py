@@ -1,29 +1,26 @@
 #!/usr/bin/env python3
 import os
-
 from functools import partial
-from food_project.util import (
-    read_pickle,
-    column_name,
-    column_value,
-    dataframe_from_dict,
-    series_from_dict,
-    save_dataframe,
-    read_json,
-    list_content_with_matches,
-    comparison,
-)
+
 from food_project.recipe.cluster import ingredient_clusters
 from food_project.recipe.ingredient import Ingredient, IngredientCluster
-from food_project.recipe.similarity import get_item_entropy
-
-from pymongo import MongoClient
-
-
 from food_project.recipe.models.recipe_models import (
     RecipeModelVolumeFactory,
     RecipeModelWeightFactory,
 )
+from food_project.recipe.similarity import get_item_entropy
+from food_project.util import (
+    column_name,
+    column_value,
+    comparison,
+    dataframe_from_dict,
+    list_content_with_matches,
+    read_json,
+    read_pickle,
+    save_dataframe,
+    series_from_dict,
+)
+from pymongo import MongoClient
 
 model_type = None
 model_factory = None

@@ -1,5 +1,9 @@
 #!/usr/bin/env python3
 from functools import partial
+
+from food_project.recipe.cluster import ingredient_clusters
+from food_project.recipe.ingredient import Ingredient, IngredientCluster
+from food_project.recipe.similarity import get_item_entropy
 from food_project.util import (
     column_name,
     column_value,
@@ -10,9 +14,6 @@ from food_project.util import (
     save_dataframe,
     series_from_dict,
 )
-from food_project.recipe.cluster import ingredient_clusters
-from food_project.recipe.ingredient import Ingredient, IngredientCluster
-from food_project.recipe.similarity import get_item_entropy
 
 
 class RecipeModel:

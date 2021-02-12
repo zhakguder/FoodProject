@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 
 import os
+
 from dotenv import load_dotenv
 from food_project.recipe import (
     connect_to_database,
@@ -8,7 +9,6 @@ from food_project.recipe import (
     save_cluster_df,
 )
 from food_project.recipe.similarity import entropy_update
-
 
 load_dotenv()
 uri = os.getenv("MONGODB_URI")

@@ -1,9 +1,9 @@
 #!/usr/bin/env python3
 
 from food_project.recipe.similarity.entropy import (
-    __entropy,
-    EntropyVisitor,
     EntropyClusterVisitor,
+    EntropyVisitor,
+    __entropy,
 )
 
 # from food_project.recipe.similarity.importance import ImportanceCalculator

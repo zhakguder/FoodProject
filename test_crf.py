@@ -5,9 +5,9 @@ from food_project.image_classification.crf.prediction_class_clusters import (
     ClassCandidates,
 )
 from food_project.image_classification.crf.preprocess import (
-    split_image,
     get_individual_image,
     read_image,
+    split_image,
 )
 
 # crf = CRF(5, 10)

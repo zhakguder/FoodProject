@@ -1,10 +1,11 @@
 #!/usr/bin/env python3
 import os
 import pickle
-from food_project.recipe.crf import get_recipe_counts_with_both, get_number_of_recipes
+
 from food_project.image_classification.crf.prediction_class_clusters import (
     get_class_clusters,
 )
+from food_project.recipe.crf import get_number_of_recipes, get_recipe_counts_with_both
 
 # All names are in terms of clusters
 

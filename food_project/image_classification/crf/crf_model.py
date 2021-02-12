@@ -1,7 +1,8 @@
 #!/usr/bin/env python3
-import math
-import numpy as np
 import itertools
+import math
+
+import numpy as np
 from food_project.image_classification.crf.potentials import (
     NodePotential,
     get_edge_potential,

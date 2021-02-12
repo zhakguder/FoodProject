@@ -1,13 +1,14 @@
 #!/usr/bin/env python3
-import os
-import numpy as np
-import cv2
-from PIL import Image
-from tempfile import NamedTemporaryFile
 import json
+import os
+from tempfile import NamedTemporaryFile
+
+import cv2
+import numpy as np
 from food_project.image_classification.crf.prediction_class_clusters import (
     ClassCandidates,
 )
+from PIL import Image
 
 
 class ImageSplitter:
