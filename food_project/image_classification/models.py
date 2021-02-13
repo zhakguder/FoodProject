@@ -1,6 +1,8 @@
 #!/usr/bin/env python3
-import requests
+import json
 import os
+
+import requests
 
 
 class ImageClassificationModel:
@@ -23,7 +25,8 @@ class ImageClassificationModel:
             with requests.Session() as s:
                 r = s.post(self.uri, files=files)
             if with_probs:
-                return r
+                data = json.loads(r.text)
+                return data
         return [x.strip() for x in r.text.split(",")]
 
     def accept(self, visitor):

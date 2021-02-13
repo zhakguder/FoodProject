@@ -2,9 +2,9 @@
 !/food_project/
 !/data
 /data/*
-!*main*.py
+!*.py
 !.gitignore
-!requirements.txt
+
 
 __pycache__/
 *.py[cod]
