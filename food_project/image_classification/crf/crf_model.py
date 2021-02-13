@@ -65,7 +65,9 @@ class CRF:
 
     def get_node_config(self):
         for nt in self.all_possible_configs:
+            print(nt)
             for prd in itertools.product(*nt):
+                print(prd)
                 yield prd
 
         # return next(self.all_possible_configs)
