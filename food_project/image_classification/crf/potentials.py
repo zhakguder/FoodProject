@@ -42,6 +42,8 @@ class CliquePotentials:
         for ci in clusters:
             for cj in clusters:
                 name = name_potential(ci, cj)
+                if ci == cj:
+                    continue
                 if name not in self.clique_potentials:
                     cnt = get_recipe_counts_containing_ingredients(ci, cj)
                     freq = cnt / self.n_total_recipes
