@@ -37,7 +37,9 @@ class CRF:
         ]  # this is hardcoded but is correct, when the image is empty in the grid, classifier returns {'empty':1} as response
 
         def adjusted_powerset(it):
-            yield from chain.from_iterable(combinations(it, r) for r in range(2, 4))
+            yield from itertools.chain.from_iterable(
+                itertools.combinations(it, r) for r in range(2, 4)
+            )
 
         self.all_possible_configs = adjusted_powerset(self.nodes)
 
