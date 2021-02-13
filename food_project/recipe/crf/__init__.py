@@ -6,6 +6,7 @@ from food_project.recipe.crf.cluster_bi_occurrences import cluster_df
 def get_recipe_counts_containing_ingredients(*ings):
     """Returns the number of recipes that contain both ing1 and ing2"""
 
+    print(list(ings))
     ingrs_df = cluster_df[list(ings)]
     print(ingrs_df)
     res = sum(ingrs_df.all(axis=1))
