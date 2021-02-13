@@ -49,6 +49,7 @@ class CRF:
         edge_probs = []
         node_probs = []
         n = len(setting)
+        print(setting)
         for i in range(n):
             node1 = setting[i]
             node_probs.append(node1.potential)
