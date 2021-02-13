@@ -35,8 +35,6 @@ class CRF:
         self.nodes = [
             x for x in self.nodes if x[0].name != "empty"
         ]  # this is hardcoded but is correct, when the image is empty in the grid, classifier returns {'empty':1} as response
-        comb_2 = itertools.combinations(self.nodes, 2)
-        comb_3 = itertools.combinations(self.nodes, 3)
 
         def adjusted_powerset(it):
             yield from chain.from_iterable(combinations(it, r) for r in range(2, 4))
@@ -64,9 +62,7 @@ class CRF:
 
     def get_node_config(self):
         for nt in self.all_possible_configs:
-            print(nt)
             for prd in itertools.product(*nt):
-                print(prd)
                 yield prd
 
         # return next(self.all_possible_configs)
@@ -82,14 +78,21 @@ class CRF:
         self.filter_at_threshold(threshold)
         max_prob = -math.inf
         best_setting = None
-        while True:
-            try:
-                setting = self.get_node_config()
-            except StopIteration:
-                break
+        config_gen = self.get_node_config()
+        for setting in config_gen:
             res = self.calc_setting_prob(setting)
             if res > max_prob:
                 max_prob = res
                 best_setting = setting
+
+        # while True:
+        #     try:
+        #         setting = self.get_node_config()
+        #     except StopIteration:
+        #         break
+        #     res = self.calc_setting_prob(setting)
+        #     if res > max_prob:
+        #         max_prob = res
+        #         best_setting = setting
         best_setting = [x.name for x in best_setting if x.name != "empty"]
         return max_prob, best_setting
