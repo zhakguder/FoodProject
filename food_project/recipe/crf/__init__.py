@@ -9,6 +9,7 @@ def get_recipe_counts_containing_ingredients(*ings):
     ingrs_df = cluster_df[list(ings)]
     res = sum(ingrs_df.all(axis=1))
     # res = sum(cluster_df.apply(lambda x: x[ings[0]] == 1 and x[ings[1]] == 1, axis=1))
+    print(res)
     return res
 
 
