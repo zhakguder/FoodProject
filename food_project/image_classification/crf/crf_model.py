@@ -35,7 +35,7 @@ class CRF:
         self.nodes = [
             x for x in self.nodes if x[0].name != "empty"
         ]  # this is hardcoded but is correct, when the image is empty in the grid, classifier returns {'empty':1} as response
-
+        print(len(self.nodes))
         comb_2 = itertools.combinations(self.nodes, 2)
         comb_3 = itertools.combinations(self.nodes, 3)
 
