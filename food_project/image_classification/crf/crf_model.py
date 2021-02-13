@@ -39,7 +39,7 @@ class CRF:
         comb_2 = itertools.combinations(self.nodes, 2)
         comb_3 = itertools.combinations(self.nodes, 3)
 
-        self.all_possible_configs = itertools.chain(comb3, comb2)
+        self.all_possible_configs = itertools.chain(comb_3, comb_2)
 
     def get_edge_potential(self, node1: str, node2: str):
         return get_clique_potential(node1, node2)
