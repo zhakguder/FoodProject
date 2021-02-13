@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 from food_project.image_classification.crf.prediction_classes import classes
-from food_project.image_classification.crf.recipe_cluster_names import cluster_names
+from food_project.image_classification.crf.recipe_cluster_names import \
+    cluster_names
 from food_project.util import clean_word, matchsubstring
 
 word_separator = "_"

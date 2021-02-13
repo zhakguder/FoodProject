@@ -5,21 +5,16 @@ from random import choices
 from sys import argv
 
 from dotenv import load_dotenv
-from food_project.image_classification import (
-    image_classification_model,
-    set_image_predictor,
-)
-from food_project.recipe import (
-    SimilarityController,
-    SimilarityControllerVisitor,
-    connect_to_database,
-    get_processed_ingredients_from_db,
-    get_recipe_from_db,
-    get_recipe_ids_from_db,
-    populate_db_images,
-    populate_db_processed,
-    populate_db_recipes,
-)
+
+from food_project.image_classification import (image_classification_model,
+                                               set_image_predictor)
+from food_project.recipe import (SimilarityController,
+                                 SimilarityControllerVisitor,
+                                 connect_to_database,
+                                 get_processed_ingredients_from_db,
+                                 get_recipe_from_db, get_recipe_ids_from_db,
+                                 populate_db_images, populate_db_processed,
+                                 populate_db_recipes)
 from food_project.recipe.matcher import match_score, uniform_score
 from food_project.recipe.models import set_recipe_model
 from food_project.recipe.recipe import Recipe

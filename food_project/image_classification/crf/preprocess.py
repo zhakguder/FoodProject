@@ -5,10 +5,10 @@ from tempfile import NamedTemporaryFile
 
 import cv2
 import numpy as np
-from food_project.image_classification.crf.prediction_class_clusters import (
-    ClassCandidates,
-)
 from PIL import Image
+
+from food_project.image_classification.crf.prediction_class_clusters import \
+    ClassCandidates
 
 
 class ImageSplitter:
@@ -16,8 +16,8 @@ class ImageSplitter:
 
         """Args:
 
-                n: number of desired images along height
-                m: number of desired images along width
+        n: number of desired images along height
+        m: number of desired images along width
         """
 
         self.n = n

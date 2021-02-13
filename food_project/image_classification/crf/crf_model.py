@@ -3,13 +3,11 @@ import itertools
 import math
 
 import numpy as np
+
 from food_project.image_classification.crf.potentials import (
-    NodePotential,
-    get_edge_potential,
-)
-from food_project.image_classification.crf.prediction_class_clusters import (
-    ClassCandidates,
-)
+    NodePotential, get_edge_potential)
+from food_project.image_classification.crf.prediction_class_clusters import \
+    ClassCandidates
 
 
 class CRF:

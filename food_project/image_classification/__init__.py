@@ -1,13 +1,9 @@
 #!/usr/bin/env python3
 
 from food_project.image_classification.crf.preprocess import (
-    GridImagePredictionCollector,
-    read_image,
-)
+    GridImagePredictionCollector, read_image)
 from food_project.image_classification.models import (
-    ImageClassificationModelInitiator,
-    image_classification_model,
-)
+    ImageClassificationModelInitiator, image_classification_model)
 
 
 def set_image_predictor(uri, port, route):

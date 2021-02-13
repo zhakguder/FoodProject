@@ -12,7 +12,8 @@ import os
 from dotenv import load_dotenv
 
 # from food_project.image_classification.crf import edge_potentials_dict, make_test_image
-from food_project.image_classification import predict_image, set_image_predictor
+from food_project.image_classification import (predict_image,
+                                               set_image_predictor)
 from food_project.image_classification.crf.crf_model import CRF
 from food_project.image_classification.crf.preprocess import read_image
 

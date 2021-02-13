@@ -1,15 +1,11 @@
 #!/usr/bin/env python3
 from food_project.recipe.ingredient import IngredientCluster
-from food_project.recipe.matcher import IngredientMatcher, IngredientQuery, match_score
-from food_project.recipe.models import (
-    QueryModel,
-    get_recipe_cluster_model,
-    get_recipe_ingredient_model,
-)
+from food_project.recipe.matcher import (IngredientMatcher, IngredientQuery,
+                                         match_score)
+from food_project.recipe.models import (QueryModel, get_recipe_cluster_model,
+                                        get_recipe_ingredient_model)
 from food_project.recipe.similarity import (  # update cluster entropies in main this is not good
-    cluster_entropy_update,
-    get_entropy_mask,
-)
+    cluster_entropy_update, get_entropy_mask)
 
 
 class SimilarityController:
@@ -28,7 +24,7 @@ class SimilarityController:
 
     def handle(self, request, n):
         """Calculates similarities using mask and the scaled_cluster_ingredients df.
-            Returns ids and similarity scores of the top n most similar recipes.
+        Returns ids and similarity scores of the top n most similar recipes.
         """
         if not self.loaded():
             self.load_data()
