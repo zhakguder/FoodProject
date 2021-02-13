@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
 from food_project.image_classification.crf.prediction_classes import classes
-from food_project.image_classification.crf.recipe_cluster_names import cluster_names
+from food_project.image_classification.crf.recipe_cluster_names import \
+    cluster_names
 from food_project.util import clean_word, matchsubstring
-
 
 word_separator = "_"
 
@@ -83,7 +83,9 @@ class ClassCandidates:
     def top_n_clusters(self, n):
         data = self._sorted_classes()
         # 0: name, 1: cluster name, 2: prob
-        data = [(x[0], self.class_to_cluster(x[0]), x[1]) for x in data]
+        data = [
+            (x[0], self.class_to_cluster(x[0]), x[1]) for x in data if x[1] > 0
+        ]  # don't consider 0 probability classes
         i = 0
         selected = set()
         selected_list = []

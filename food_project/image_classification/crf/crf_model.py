@@ -1,14 +1,13 @@
 #!/usr/bin/env python3
-import math
-import numpy as np
 import itertools
+import math
+
+import numpy as np
+
 from food_project.image_classification.crf.potentials import (
-    NodePotential,
-    get_edge_potential,
-)
-from food_project.image_classification.crf.prediction_class_clusters import (
-    ClassCandidates,
-)
+    NodePotential, get_clique_potential)
+from food_project.image_classification.crf.prediction_class_clusters import \
+    ClassCandidates
 
 
 class CRF:
@@ -31,12 +30,15 @@ class CRF:
         self.nodes.append(node)
 
     def make_full(self):
-        while len(self.nodes) < self.n:
-            self.nodes.append([NodePotential("empty", "empty", 1)])
+        # while len(self.nodes) < self.n:
+        #     self.nodes.append([NodePotential("empty", 'empty', 1)])
+        self.nodes = [
+            x for x in self.nodes if x[0].name != "empty"
+        ]  # this is hardcoded but is correct, when the image is empty in the grid, classifier returns {'empty':1} as response
         self.all_possible_configs = itertools.product(*self.nodes)
 
     def get_edge_potential(self, node1: str, node2: str):
-        return get_edge_potential(node1, node2)
+        return get_clique_potential(node1, node2)
 
     def calc_setting_prob(self, setting):
 
@@ -50,13 +52,20 @@ class CRF:
                 node2 = setting[j]
                 if node1 != node2:
                     edge_probs.append(self.get_edge_potential(node1.name, node2.name))
-
         return np.sum(np.log(edge_probs)) + np.sum(np.log(node_probs))
 
     def get_node_config(self):
         return next(self.all_possible_configs)
 
-    def get_best_config(self):
+    def filter_at_threshold(self, threshold):
+        for i in range(len(self.nodes)):
+            node = self.nodes[i]
+            if node[0].potential >= threshold:
+                self.nodes[i] = [node[0]]
+
+    def get_best_config(self, threshold):
+        self.make_full()
+        self.filter_at_threshold(threshold)
         max_prob = -math.inf
         best_setting = None
         while True:
@@ -70,7 +79,3 @@ class CRF:
                 best_setting = setting
         best_setting = [x.name for x in best_setting if x.name != "empty"]
         return max_prob, best_setting
-
-
-# TODO: KeyError: 'naan_breads+pineapple'
-# TODO: fix some ingredients to given choice, so we don't try all possible combinations

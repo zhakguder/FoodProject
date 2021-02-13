@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 from food_project.recipe.ingredient import IngredientCluster
-from food_project.recipe.similarity import get_cluster_entropies
 from food_project.recipe.models import get_recipe_cluster_model
+from food_project.recipe.similarity import get_cluster_entropies
 
 
 class Recipe:

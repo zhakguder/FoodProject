@@ -1,18 +1,12 @@
 #!/usr/bin/env python3
 from functools import partial
-from food_project.util import (
-    column_name,
-    column_value,
-    dataframe_from_dict,
-    dataframe_from_list,
-    read_json,
-    read_pickle,
-    save_dataframe,
-    series_from_dict,
-)
+
 from food_project.recipe.cluster import ingredient_clusters
 from food_project.recipe.ingredient import Ingredient, IngredientCluster
 from food_project.recipe.similarity import get_item_entropy
+from food_project.util import (column_name, column_value, dataframe_from_dict,
+                               dataframe_from_list, read_json, read_pickle,
+                               save_dataframe, series_from_dict)
 
 
 class RecipeModel:
@@ -20,24 +14,22 @@ class RecipeModel:
         self.filename = None
         self.scaled_ingredients = None
 
-    def _read_data(self):
-        self.scaled_ingredients = read_pickle(self.filename)
+    # def _read_data(self):
+    # self.scaled_ingredients = read_pickle(self.filename)
 
     def _recipe_percentage_normalize(self, df):
         row_totals = df.sum(axis=1)
         return df.div(row_totals, axis=0)
 
     def _get_ingredient_name(self, i):
-        if self.scaled_ingredients is None:
-            self._read_data()
+        self._read_data()
         try:  # TODO: remove after abstract factory is implemented
             return partial(column_name, self.scaled_ingredients)(i)
         except:
             raise Exception("Not existent")
 
     def _get_ingredient_quantity(self, i):
-        if self.scaled_ingredients is None:
-            self._read_data()
+        self._read_data()
         return partial(column_value, self.scaled_ingredients)(i)
 
     def _get_ingredient_entropy(self, ingredient_name: str) -> float:
@@ -47,21 +39,33 @@ class RecipeModel:
 class RecipeWeightIngredientModel(RecipeModel):
     def __init__(self):
         super().__init__()
-        self.conversion_file = "data/recipes/all_weight_cup.json"
+        print("INIT WEIGHT INGREDIENT MODEL")
+        # self.conversion_file = "data/recipes/all_weight_cup.json"
+        self.conversion_file = "data/recipes/unit_conversion/new_corrected_meta.json"
 
     def _read_data(self):
-        gram_data = read_json(self.conversion_file)
-        columns = ["id", "name", "qty", "unit"]  # TODO
-        tmp_df = dataframe_from_list(gram_data["data"], columns)
-        tmp_df = tmp_df[tmp_df["unit"] != "cup"]
-        tmp_df = tmp_df.astype({"qty": "float", "id": "float"})
-        tmp_df = tmp_df.drop_duplicates(subset=["id", "name"])
-        tmp_df = tmp_df.pivot(index="id", columns="name", values="qty")
-        tmp_df[tmp_df.isna()] = 0
-        self.scaled_ingredients = tmp_df
+        if self.scaled_ingredients is None:
+            gram_data = read_json(self.conversion_file)
+            columns = ["id", "name", "qty", "unit"]  # TODO
+            tmp_df = dataframe_from_list(gram_data["data"], columns)
+            # tmp_df = tmp_df[tmp_df["unit"] != "cup"]
+            tmp_df = tmp_df.astype({"qty": "float", "id": "float"})
+            tmp_df = tmp_df.drop_duplicates(subset=["id", "name"])
+            tmp_df = tmp_df.pivot(index="id", columns="name", values="qty")
+            tmp_df[tmp_df.isna()] = 0
+
+            self.scaled_ingredients = self._fix_missing_and_extra_columns(tmp_df)
 
     def get_data(self):
         self._read_data()
+
+    def _fix_missing_and_extra_columns(self, tmp_df):
+        tmp = read_pickle("data/recipes/recipe_ingredients_scaled_units_wide_df.pkl")
+        diff_no_want = set(tmp_df.columns) - set(tmp.columns)
+        missing_columns = set(tmp.columns) - set(tmp_df.columns)
+        missing_col_dict = {k: 0 for k in missing_columns}
+        tmp_df = tmp_df.assign(**missing_col_dict)
+        return tmp_df[tmp.columns]
 
 
 class RecipeWeightClusterModel(RecipeWeightIngredientModel):
@@ -69,7 +73,7 @@ class RecipeWeightClusterModel(RecipeWeightIngredientModel):
 
     # TODO: Model should only load/save data, extract logic in this to a controller helper class
     def __init__(self):
-        print("INIT WEIGHT MODEL")
+        print("INIT WEIGHT CLUSTER MODEL")
         super().__init__()
         self.clusters = None
         self.is_clusters_formed = lambda: self.clusters is not None
@@ -82,7 +86,9 @@ class RecipeWeightClusterModel(RecipeWeightIngredientModel):
 
                 try:  # TODO: remove after you have abstract factory class
                     name = self._get_ingredient_name(i)
+
                 except:
+                    print("name not found")
                     continue
                 quantity = self._get_ingredient_quantity(i)
                 entropy = self._get_ingredient_entropy(name)
