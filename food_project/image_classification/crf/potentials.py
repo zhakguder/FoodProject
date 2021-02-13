@@ -39,6 +39,7 @@ class CliquePotentials:
     def _calculate_bi_frequencies(self):
         """Calculates cliques of size 2 and 3."""
         clusters = self.clusters
+        print("here")
         for ci in clusters:
             for cj in clusters:
                 name = name_potential(ci, cj)
@@ -79,4 +80,5 @@ _clique_potentials = CliquePotentials("data/crf/clique_potentials_dict.pkl")
 
 
 def get_clique_potential(*nodes):
+    print(nodes)
     return _clique_potentials.clique_potential(*nodes)
