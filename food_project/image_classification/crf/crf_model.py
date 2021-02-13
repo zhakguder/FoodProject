@@ -36,10 +36,13 @@ class CRF:
             x for x in self.nodes if x[0].name != "empty"
         ]  # this is hardcoded but is correct, when the image is empty in the grid, classifier returns {'empty':1} as response
         print(self.nodes)
-        comb_2 = itertools.product(self.nodes, self.nodes)
-        comb_3 = itertools.product(self.nodes, self.nodes, self.nodes)
+        comb_2 = itertools.combinations(self.nodes, 2)
+        comb_3 = itertools.combinations(self.nodes, 3)
 
-        self.all_possible_configs = itertools.chain(comb_3, comb_2)
+        def adjusted_powerset(it):
+            yield from chain.from_iterable(combinations(it, r) for r in range(2, 4))
+
+        self.all_possible_configs = adjusted_powerset(self.nodes)
 
     def get_edge_potential(self, node1: str, node2: str):
         return get_clique_potential(node1, node2)
@@ -61,7 +64,11 @@ class CRF:
         return np.sum(np.log(edge_probs)) + np.sum(np.log(node_probs))
 
     def get_node_config(self):
-        return next(self.all_possible_configs)
+        for nt in self.all_possible_configs:
+            for prd in itertools.product(*nt):
+                yield prd
+
+        # return next(self.all_possible_configs)
 
     def filter_at_threshold(self, threshold):
         for i in range(len(self.nodes)):
