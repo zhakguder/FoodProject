@@ -50,9 +50,7 @@ class CRF:
             node_probs.append(node1.potential)
             for j in range(i + 1, n):
                 node2 = setting[j]
-                print(node1)
-                print(node2)
-                if node1 != node2:
+                if node1.name != node2.name:
                     print("in")
                     edge_probs.append(self.get_edge_potential(node1.name, node2.name))
         return np.sum(np.log(edge_probs)) + np.sum(np.log(node_probs))
