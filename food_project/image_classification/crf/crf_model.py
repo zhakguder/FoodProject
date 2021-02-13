@@ -51,7 +51,7 @@ class CRF:
         n = len(setting)
         for i in range(n):
             node1 = setting[i]
-            print(node1.__dict__)
+            print(node1)
             node_probs.append(node1.potential)
             for j in range(i + 1, n):
                 node2 = setting[j]
