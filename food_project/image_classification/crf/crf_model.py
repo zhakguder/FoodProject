@@ -39,7 +39,6 @@ class CRF:
         self.all_possible_configs = itertools.product(*self.nodes)
 
     def get_clique_potential(self, *nodes):
-        print("here")
         return get_clique_potential(*nodes)
 
     def calc_setting_prob(self, setting):
@@ -47,7 +46,6 @@ class CRF:
         edge_probs = []
         node_probs = []
         n = len(setting)
-        print([x.name for x in setting])
 
         for clique in self.cliques(setting):
             node_names = [x.name for x in clique]
