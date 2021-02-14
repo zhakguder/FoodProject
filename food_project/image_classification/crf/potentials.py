@@ -70,12 +70,15 @@ class CliquePotentials:
                 pickle.dump(frequencies, f)
 
     def get_frequencies(self):
+        print("A")
         if not os.path.exists(self.path):
+            print("B")
             self._calculate_bi_frequencies()
             self._calculate_tri_frequencies()
             print(clique_potentials)
             self._save_frequencies(self.clique_potentials)
         else:
+            print("C")
             with open(self.path, "rb") as f:
                 self.clique_potentials = pickle.load(f)
         return self.clique_potentials
