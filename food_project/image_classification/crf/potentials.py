@@ -94,11 +94,10 @@ class CliquePotentials:
         # TODO: is it good to keep this 1? This might be useful when we have
         # empty nodes to make it ineffective
         try:
-            print("there")
-            print(self.clique_potentials)
+            print("A")
             return self.clique_potentials[name_potential(*nodes)]
         except:
-            print("and there")
+            print("B")
             return 1
 
 
