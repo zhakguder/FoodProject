@@ -9,9 +9,17 @@ from food_project.recipe.crf import (get_number_of_recipes,
 
 # All names are in terms of clusters
 
+class_clusters = get_class_clusters()
+clusters = class_clusters.values()
+n_clusters = clusters
+id_clusters = {x[0]: x[1] for x in zip(range(len(n_clusters)), clusters)}
+clusters_ids = {v: k for k, v in id_clusters.items()}
+
 
 def name_potential(*nodes):
-    return "+".join(sorted(nodes))
+    classes = [class_clusters[x] for x in nodes]
+    node_ids = [str(clusters_ids[x]) for x in classes]
+    return "+".join(sorted(node_ids))
 
 
 class NodePotential:
@@ -42,10 +50,26 @@ class CliquePotentials:
         for ci in clusters:
             for cj in clusters:
                 name = name_potential(ci, cj)
+                if ci == cj:
+                    continue
                 if name not in self.clique_potentials:
                     cnt = get_recipe_counts_containing_ingredients(ci, cj)
                     freq = cnt / self.n_total_recipes
-                    self.clique_potentials[name_potential(ci, cj)] = freq
+                    self.clique_potentials[name] = freq
+        return self.clique_potentials
+
+    def _calculate_tri_frequencies(self):
+        clusters = self.clusters
+        for ci in clusters:
+            for cj in clusters:
+                for ck in clusters:
+                    if len(set([ci, cj, ck])) != 3:
+                        continue
+                    name = name_potential(ci, cj, ck)
+                    if name not in self.clique_potentials:
+                        cnt = get_recipe_counts_containing_ingredients(ci, cj, ck)
+                        freq = cnt / self.n_total_recipes
+                        self.clique_potentials[name] = freq
         return self.clique_potentials
 
     def _save_frequencies(self, frequencies):
@@ -53,17 +77,20 @@ class CliquePotentials:
             with open(self.path, "wb") as f:
                 pickle.dump(frequencies, f)
 
-    def get_bi_frequencies(self):
+    def get_frequencies(self):
         if not os.path.exists(self.path):
-            self.bi_freq = self._calculate_bi_frequencies()
-            self._save_frequencies(self.bi_freq)
+            self._calculate_bi_frequencies()
+            self._calculate_tri_frequencies()
+            self._save_frequencies(self.clique_potentials)
         else:
-            with open(self.path, "rb") as f:
-                self.bi_freq = pickle.load(f)
-        return self.bi_freq
+            if not self.clique_potentials:
+                with open(self.path, "rb") as f:
+                    self.clique_potentials = pickle.load(f)
+        return self.clique_potentials
 
     def clique_potential(self, *nodes):
-        self.get_bi_frequencies()
+        if not self.clique_potentials:
+            self.get_frequencies()
 
         # TODO: is it good to keep this 1? This might be useful when we have
         # empty nodes to make it ineffective

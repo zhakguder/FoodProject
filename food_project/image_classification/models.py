@@ -24,6 +24,7 @@ class ImageClassificationModel:
             files = {"image": (img_name, img, "multipart/form-data", {"Expires": "0"})}
             with requests.Session() as s:
                 r = s.post(self.uri, files=files)
+
             if with_probs:
                 data = json.loads(r.text)
                 return data

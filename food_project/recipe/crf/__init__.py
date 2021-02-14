@@ -4,9 +4,9 @@ from food_project.recipe.crf.cluster_bi_occurrences import cluster_df
 
 
 def get_recipe_counts_containing_ingredients(*ings):
-    """Returns the number of recipes that contain both ing1 and ing2"""
-    breakpoint()
-    return sum(cluster_df.apply(lambda x: x[ings[0]] == 1 and x[ings[1]] == 1, axis=1))
+    """Returns the number of recipes that contain all ingredients in ings"""
+    ingrs_df = cluster_df[list(ings)]
+    return sum(ingrs_df.all(axis=1))
 
 
 def get_number_of_recipes():
