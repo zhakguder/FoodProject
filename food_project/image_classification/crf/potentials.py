@@ -77,24 +77,19 @@ class CliquePotentials:
                 pickle.dump(frequencies, f)
 
     def get_frequencies(self):
-        print("get freq")
         if not os.path.exists(self.path):
-            print("path doesnt exist")
             self._calculate_bi_frequencies()
-            print("bi calc finished")
             self._calculate_tri_frequencies()
-            print("tri calc finished")
             self._save_frequencies(self.clique_potentials)
         else:
-            print("path exists")
             if not self.clique_potentials:
                 with open(self.path, "rb") as f:
                     self.clique_potentials = pickle.load(f)
         return self.clique_potentials
 
     def clique_potential(self, *nodes):
-        print("here")
-        self.get_frequencies()
+        if not self.clique_potentials:
+            self.get_frequencies()
 
         # TODO: is it good to keep this 1? This might be useful when we have
         # empty nodes to make it ineffective

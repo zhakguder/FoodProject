@@ -11,10 +11,12 @@ import tensorflow as tf
 from flask import Flask, Response, request
 from PIL import Image
 
-from food_project.image_classification import predict_image
+from food_project.image_classification import (calculate_clique_potentials,
+                                               predict_image)
 from food_project.image_classification.crf.crf_model import CRF
 
 app = Flask(__name__)
+calculate_clique_potentials()
 
 
 class Classifier:
