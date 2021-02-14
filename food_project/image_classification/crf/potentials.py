@@ -89,13 +89,16 @@ class CliquePotentials:
         return self.clique_potentials
 
     def clique_potential(self, *nodes):
+        print("here")
         self.get_frequencies()
 
         # TODO: is it good to keep this 1? This might be useful when we have
         # empty nodes to make it ineffective
         try:
+            print("there")
             return self.clique_potentials[name_potential(*nodes)]
         except:
+            print("and there")
             return 1
 
 
