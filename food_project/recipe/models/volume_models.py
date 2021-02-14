@@ -24,7 +24,6 @@ class RecipeModel:
 
     def _get_ingredient_name(self, i):
         self._read_data()
-        breakpoint()
         return partial(column_name, self.scaled_ingredients)(i)
 
     def _get_ingredient_quantity(self, i):
