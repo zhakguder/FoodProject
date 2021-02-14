@@ -100,6 +100,7 @@ class CliquePotentials:
         # empty nodes to make it ineffective
         try:
             print("there")
+            print(self.clique_potentials)
             return self.clique_potentials[name_potential(*nodes)]
         except:
             print("and there")
