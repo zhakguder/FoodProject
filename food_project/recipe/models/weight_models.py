@@ -23,7 +23,6 @@ class RecipeModel:
 
     def _get_ingredient_name(self, i):
         self._read_data()
-        breakpoint()
         try:  # TODO: remove after abstract factory is implemented
             return partial(column_name, self.scaled_ingredients)(i)
         except:
@@ -85,7 +84,6 @@ class RecipeWeightClusterModel(RecipeWeightIngredientModel):
         for k, v in ingredient_clusters.items():
             ingredients = []
             for i in v:
-                breakpoint()
                 try:  # TODO: remove after you have abstract factory class
 
                     name = self._get_ingredient_name(i)
