@@ -51,7 +51,9 @@ class CRF:
 
         for clique in self.cliques(setting):
             node_names = [x.name for x in clique]
-            if len(set(node_names)) == len(setting):
+            # TODO: problem might be here??
+
+            if len(set(node_names)) == len(clique):
                 edge_probs.append(self.get_clique_potential(*node_names))
         node_probs.extend([x.potential for x in setting])
         # for i in range(n):
