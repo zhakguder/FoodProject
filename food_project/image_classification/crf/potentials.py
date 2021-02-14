@@ -9,9 +9,16 @@ from food_project.recipe.crf import (get_number_of_recipes,
 
 # All names are in terms of clusters
 
+class_clusters = get_class_clusters()
+clusters = class_clusters.values()
+n_clusters = clusters
+id_clusters = {x[0]: x[1] for x in zip(range(len(n_clusters)), clusters)}
+clusters_ids = {v: k for k, v in id_clusters.items()}
+
 
 def name_potential(*nodes):
-    return "+".join(sorted(nodes))
+    node_ids = [clusters_ids[x] for x in nodes]
+    return "+".join(sorted(node_ids))
 
 
 class NodePotential:
@@ -72,7 +79,9 @@ class CliquePotentials:
     def get_frequencies(self):
         if not os.path.exists(self.path):
             self._calculate_bi_frequencies()
+            print("bi calc finished")
             self._calculate_tri_frequencies()
+            print("tri calc finished")
             self._save_frequencies(self.clique_potentials)
         else:
             with open(self.path, "rb") as f:
