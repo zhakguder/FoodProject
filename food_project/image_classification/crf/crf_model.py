@@ -39,6 +39,7 @@ class CRF:
         self.all_possible_configs = itertools.product(*self.nodes)
 
     def get_clique_potential(self, *nodes):
+        print("here")
         return get_clique_potential(*nodes)
 
     def calc_setting_prob(self, setting):

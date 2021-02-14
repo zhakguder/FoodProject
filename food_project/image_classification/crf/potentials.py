@@ -98,5 +98,6 @@ _clique_potentials = CliquePotentials("data/crf/clique_potentials_dict.pkl")
 
 
 def get_clique_potential(*nodes):
+    print("there")
     print(nodes)
     return _clique_potentials.clique_potential(*nodes)
