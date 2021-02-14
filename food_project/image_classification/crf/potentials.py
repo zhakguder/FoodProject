@@ -87,8 +87,9 @@ class CliquePotentials:
             self._save_frequencies(self.clique_potentials)
         else:
             print("path exists")
-            with open(self.path, "rb") as f:
-                self.clique_potentials = pickle.load(f)
+            if not self.clique_potentials:
+                with open(self.path, "rb") as f:
+                    self.clique_potentials = pickle.load(f)
         return self.clique_potentials
 
     def clique_potential(self, *nodes):
