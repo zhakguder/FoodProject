@@ -48,7 +48,7 @@ class CRF:
         n = len(setting)
         print([x.name for x in setting])
 
-        for clique in self.two_cliques(setting):
+        for clique in self.cliques(setting):
             node_names = [x.name for x in clique]
             if len(set(node_names)) == len(setting):
                 edge_probs.append(self.get_clique_potential(*node_names))
@@ -86,8 +86,8 @@ class CRF:
         self.filter_at_threshold(threshold)
         max_prob = -math.inf
         best_setting = None
-        config_gen = self.get_node_config()
-        for setting in config_gen:
+        # config_gen = self.get_node_config()
+        for setting in self.all_possible_configs:
             res = self.calc_setting_prob(setting)
             if res > max_prob:
                 max_prob = res
