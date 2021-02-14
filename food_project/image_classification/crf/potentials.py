@@ -17,7 +17,7 @@ clusters_ids = {v: k for k, v in id_clusters.items()}
 
 
 def name_potential(*nodes):
-    node_ids = [clusters_ids[x] for x in nodes]
+    node_ids = [str[clusters_ids[x]] for x in nodes]
     return "+".join(sorted(node_ids))
 
 
