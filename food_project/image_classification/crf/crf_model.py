@@ -5,12 +5,9 @@ import math
 import numpy as np
 
 from food_project.image_classification.crf.potentials import (
-    NodePotential,
-    get_clique_potential,
-)
-from food_project.image_classification.crf.prediction_class_clusters import (
-    ClassCandidates,
-)
+    NodePotential, get_clique_potential)
+from food_project.image_classification.crf.prediction_class_clusters import \
+    ClassCandidates
 
 
 class CRF:
@@ -72,11 +69,11 @@ class CRF:
         )
 
     def get_node_config(self):
-        for nt in self.all_possible_configs:
-            for prd in itertools.product(*nt):
-                yield prd
+        # for nt in self.all_possible_configs:
+        #     for prd in itertools.product(*nt):
+        # yield prd
 
-        # return next(self.all_possible_configs)
+        return next(self.all_possible_configs)
 
     def filter_at_threshold(self, threshold):
         for i in range(len(self.nodes)):
