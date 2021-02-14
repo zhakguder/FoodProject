@@ -55,7 +55,7 @@ class CliquePotentials:
         for ci in clusters:
             for cj in clusters:
                 for ck in clusters:
-                    if len(set(ci, cj, ck)) > 1:
+                    if len(set([ci, cj, ck])) != 3:
                         continue
                     name = name_potential(ci, cj, ck)
                     if name not in self.clique_potentials:
@@ -70,15 +70,12 @@ class CliquePotentials:
                 pickle.dump(frequencies, f)
 
     def get_frequencies(self):
-        print("A")
         if not os.path.exists(self.path):
-            print("B")
             self._calculate_bi_frequencies()
             self._calculate_tri_frequencies()
             print(clique_potentials)
             self._save_frequencies(self.clique_potentials)
         else:
-            print("C")
             with open(self.path, "rb") as f:
                 self.clique_potentials = pickle.load(f)
         return self.clique_potentials
