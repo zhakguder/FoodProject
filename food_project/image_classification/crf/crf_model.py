@@ -63,7 +63,7 @@ class CRF:
         return np.sum(np.log(edge_probs)) + np.sum(np.log(node_probs))
 
     def cliques(self, selected_nodes):
-        return itertools.chain.from_iterable(
+        return itertools.chain(
             itertools.combinations(selected_nodes, 2),
             itertools.combinations(selected_nodes, 3),
         )
