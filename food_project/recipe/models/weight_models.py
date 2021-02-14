@@ -84,8 +84,9 @@ class RecipeWeightClusterModel(RecipeWeightIngredientModel):
         for k, v in ingredient_clusters.items():
             ingredients = []
             for i in v:
-
+                breakpoint()
                 try:  # TODO: remove after you have abstract factory class
+
                     name = self._get_ingredient_name(i)
 
                 except:
