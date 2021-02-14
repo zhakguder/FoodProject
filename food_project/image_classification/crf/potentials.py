@@ -73,6 +73,7 @@ class CliquePotentials:
         if not os.path.exists(self.path):
             self._calculate_bi_frequencies()
             self._calculate_tri_frequencies()
+            print(clique_potentials)
             self._save_frequencies(self.clique_potentials)
         else:
             with open(self.path, "rb") as f:
