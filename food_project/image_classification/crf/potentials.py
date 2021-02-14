@@ -101,7 +101,6 @@ class CliquePotentials:
         try:
             print("there")
             print(self.clique_potentials)
-            breakpoint()
             return self.clique_potentials[name_potential(*nodes)]
         except:
             print("and there")
