@@ -1,16 +1,25 @@
 #!/usr/bin/env python3
 import os
 import pickle
-from food_project.recipe.crf import get_recipe_counts_with_both, get_number_of_recipes
-from food_project.image_classification.crf.prediction_class_clusters import (
-    get_class_clusters,
-)
+
+from food_project.image_classification.crf.prediction_class_clusters import \
+    get_class_clusters
+from food_project.recipe.crf import (get_number_of_recipes,
+                                     get_recipe_counts_containing_ingredients)
 
 # All names are in terms of clusters
 
+class_clusters = get_class_clusters()
+clusters = class_clusters.values()
+n_clusters = clusters
+id_clusters = {x[0]: x[1] for x in zip(range(len(n_clusters)), clusters)}
+clusters_ids = {v: k for k, v in id_clusters.items()}
 
-def name_potential(node1, node2):
-    return "+".join(sorted([node1, node2]))
+
+def name_potential(*nodes):
+    classes = [class_clusters[x] for x in nodes]
+    node_ids = [str(clusters_ids[x]) for x in classes]
+    return "+".join(sorted(node_ids))
 
 
 class NodePotential:
@@ -24,24 +33,44 @@ class NodePotential:
         return self._potential
 
 
-class EdgePotentials:
+class CliquePotentials:
     def __init__(self, path):
         class_clusters = get_class_clusters()
         self.clusters = list(class_clusters.values())
         self.n_total_recipes = get_number_of_recipes()
-        self.edge_potentials = {}
+        self.clique_potentials = {}
         self.path = path  # This is ugly
 
+        self.bi_freq = None
+        self.tri_freq = None
+
     def _calculate_bi_frequencies(self):
+        """Calculates cliques of size 2 and 3."""
         clusters = self.clusters
         for ci in clusters:
             for cj in clusters:
                 name = name_potential(ci, cj)
-                if name not in self.edge_potentials:
-                    cnt = get_recipe_counts_with_both(ci, cj)
+                if ci == cj:
+                    continue
+                if name not in self.clique_potentials:
+                    cnt = get_recipe_counts_containing_ingredients(ci, cj)
                     freq = cnt / self.n_total_recipes
-                    self.edge_potentials[name_potential(ci, cj)] = freq
-        return self.edge_potentials
+                    self.clique_potentials[name] = freq
+        return self.clique_potentials
+
+    def _calculate_tri_frequencies(self):
+        clusters = self.clusters
+        for ci in clusters:
+            for cj in clusters:
+                for ck in clusters:
+                    if len(set([ci, cj, ck])) != 3:
+                        continue
+                    name = name_potential(ci, cj, ck)
+                    if name not in self.clique_potentials:
+                        cnt = get_recipe_counts_containing_ingredients(ci, cj, ck)
+                        freq = cnt / self.n_total_recipes
+                        self.clique_potentials[name] = freq
+        return self.clique_potentials
 
     def _save_frequencies(self, frequencies):
         if not os.path.exists(self.path):
@@ -50,38 +79,29 @@ class EdgePotentials:
 
     def get_frequencies(self):
         if not os.path.exists(self.path):
-            self.frequencies = self._calculate_bi_frequencies()
-            self._save_frequencies(self.frequencies)
+            self._calculate_bi_frequencies()
+            self._calculate_tri_frequencies()
+            self._save_frequencies(self.clique_potentials)
         else:
-            with open(self.path, "rb") as f:
-                self.frequencies = pickle.load(f)
-        return self.frequencies
+            if not self.clique_potentials:
+                with open(self.path, "rb") as f:
+                    self.clique_potentials = pickle.load(f)
+        return self.clique_potentials
 
-    def bi_frequency(self, c_i, c_j):
-        self.get_frequencies()
+    def clique_potential(self, *nodes):
+        if not self.clique_potentials:
+            self.get_frequencies()
 
         # TODO: is it good to keep this 1? This might be useful when we have
         # empty nodes to make it ineffective
         try:
-            return self.edge_potentials[name_potential(c_i, c_j)]
+            return self.clique_potentials[name_potential(*nodes)]
         except:
             return 1
 
 
-# class EdgePotential:
-#     potentials = EdgePotentials()
-#     def __init__(self, node1, node2):
-#         self.node1 = node1
-#         self.node2 = node2
-#         self.name = name_potential(node1, node2)
-#         self._potential = EdgePotential.potentials.bi_frequency(node1, node2)
-
-#     @property
-#     def potential(self):
-#         return self._potential
-
-_edge_potentials = EdgePotentials("data/crf/edge_potentials_dict.pkl")
+_clique_potentials = CliquePotentials("data/crf/clique_potentials_dict.pkl")
 
 
-def get_edge_potential(node1, node2):
-    return _edge_potentials.bi_frequency(node1, node2)
+def get_clique_potential(*nodes):
+    return _clique_potentials.clique_potential(*nodes)

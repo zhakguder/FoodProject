@@ -1,13 +1,14 @@
 #!/usr/bin/env python3
-import os
-import numpy as np
-import cv2
-from PIL import Image
-from tempfile import NamedTemporaryFile
 import json
-from food_project.image_classification.crf.prediction_class_clusters import (
-    ClassCandidates,
-)
+import os
+from tempfile import NamedTemporaryFile
+
+import cv2
+import numpy as np
+from PIL import Image
+
+from food_project.image_classification.crf.prediction_class_clusters import \
+    ClassCandidates
 
 
 class ImageSplitter:
@@ -15,8 +16,8 @@ class ImageSplitter:
 
         """Args:
 
-                n: number of desired images along height
-                m: number of desired images along width
+        n: number of desired images along height
+        m: number of desired images along width
         """
 
         self.n = n

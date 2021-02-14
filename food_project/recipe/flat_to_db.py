@@ -1,16 +1,12 @@
 #!/usr/bin/env python3
 import os
 from functools import partial
-from food_project.recipe.models import (
-    RecipeFilePathSetter,
-    raw_recipe_model,
-    raw_recipe_reader,
-    RawRecipeGroup,
-    RawRecipeImageGroup,
-    RawImageGroup,
-    ProcessedRecipeGroup,
-    ProcessedRecipeReader,
-)
+
+from food_project.recipe.models import (ProcessedRecipeGroup,
+                                        ProcessedRecipeReader, RawImageGroup,
+                                        RawRecipeGroup, RawRecipeImageGroup,
+                                        RecipeFilePathSetter, raw_recipe_model,
+                                        raw_recipe_reader)
 
 
 def set_recipe_filename(path, obj):

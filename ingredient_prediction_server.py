@@ -1,18 +1,19 @@
 #!/usr/bin/env python3
 #!/usr/bin/env python
-import tensorflow as tf
-import numpy as np
-import pickle
-from PIL import Image
-from flask import Flask, request, Response
-
-from urllib import parse
-from functools import wraps
 import json
-from food_project.image_classification import predict_image
-from food_project.image_classification.crf.crf_model import CRF
+import pickle
+from functools import wraps
 from tempfile import NamedTemporaryFile
+from urllib import parse
 
+import numpy as np
+import tensorflow as tf
+from flask import Flask, Response, request
+from PIL import Image
+
+from food_project.image_classification import (calculate_clique_potentials,
+                                               predict_image)
+from food_project.image_classification.crf.crf_model import CRF
 
 app = Flask(__name__)
 
@@ -56,6 +57,7 @@ def limit_content_length(max_length):
 @app.route("/predict-label/", methods=["POST"])
 @limit_content_length(1000 * 1024 * 1024)
 def predict():
+    calculate_clique_potentials()
     image = request.files["image"]
     image = np.array(Image.open(image), dtype=float)
 

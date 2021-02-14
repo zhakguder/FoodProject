@@ -8,12 +8,14 @@
 # get_recipe_counts_with_both(clusters[0], clusters[1])
 
 import os
+
 from dotenv import load_dotenv
 
 # from food_project.image_classification.crf import edge_potentials_dict, make_test_image
-from food_project.image_classification import set_image_predictor, predict_image
-from food_project.image_classification.crf.preprocess import read_image
+from food_project.image_classification import (predict_image,
+                                               set_image_predictor)
 from food_project.image_classification.crf.crf_model import CRF
+from food_project.image_classification.crf.preprocess import read_image
 
 # print(edge_potentials_dict)
 
@@ -32,7 +34,7 @@ grid_image_path = "data/crf/test_images/compiled/1.jpeg"
 
 # grid_image = read_image(grid_image_path)
 res = predict_image(grid_image_path, classification_type)
-
+breakpoint()
 # consider CRF for cases where only the model is less than 90% confident about its prediction
 # crf = CRF(9, 5)
 # for i in range(3):

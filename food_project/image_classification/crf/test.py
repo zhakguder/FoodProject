@@ -1,13 +1,14 @@
 #!/usr/bin/env python3
+import os
+
 import cv2
 import numpy as np
-import os
 
 
 class TestImageCompiler:
     def __init__(self, n):
         """Args:
-                n: number of grids in nxn placements of image
+        n: number of grids in nxn placements of image
         """
         self.n = n
         self.single_image_width = 28

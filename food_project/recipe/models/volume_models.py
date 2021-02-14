@@ -1,18 +1,12 @@
 #!/usr/bin/env python3
 from functools import partial
-from food_project.util import (
-    column_name,
-    column_value,
-    dataframe_from_dict,
-    dataframe_from_list,
-    read_json,
-    read_pickle,
-    save_dataframe,
-    series_from_dict,
-)
+
 from food_project.recipe.cluster import ingredient_clusters
 from food_project.recipe.ingredient import Ingredient, IngredientCluster
 from food_project.recipe.similarity import get_item_entropy
+from food_project.util import (column_name, column_value, dataframe_from_dict,
+                               dataframe_from_list, read_json, read_pickle,
+                               save_dataframe, series_from_dict)
 
 
 class RecipeModel:
@@ -21,20 +15,19 @@ class RecipeModel:
         self.scaled_ingredients = None
 
     def _read_data(self):
-        self.scaled_ingredients = read_pickle(self.filename)
+        if self.scaled_ingredients is None:
+            self.scaled_ingredients = read_pickle(self.filename)
 
     def _recipe_percentage_normalize(self, df):
         row_totals = df.sum(axis=1)
         return df.div(row_totals, axis=0)
 
     def _get_ingredient_name(self, i):
-        if self.scaled_ingredients is None:
-            self._read_data()
+        self._read_data()
         return partial(column_name, self.scaled_ingredients)(i)
 
     def _get_ingredient_quantity(self, i):
-        if self.scaled_ingredients is None:
-            self._read_data()
+        self._read_data()
         return partial(column_value, self.scaled_ingredients)(i)
 
     def _get_ingredient_entropy(self, ingredient_name: str) -> float:
@@ -56,7 +49,12 @@ class RecipeClusterModel(RecipeModel):
         for k, v in ingredient_clusters.items():
             ingredients = []
             for i in v:
-                name = self._get_ingredient_name(i)
+                try:
+                    name = self._get_ingredient_name(i)
+                except:
+                    print("name not found")
+                    continue
+
                 quantity = self._get_ingredient_quantity(i)
                 entropy = self._get_ingredient_entropy(name)
                 ingredients.append(Ingredient(name, i, quantity, entropy))
