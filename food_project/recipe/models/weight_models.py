@@ -47,9 +47,10 @@ class RecipeWeightIngredientModel(RecipeModel):
     def _read_data(self):
         if self.scaled_ingredients is None:
             gram_data = read_json(self.conversion_file)
-            columns = ["id", "name", "qty", "unit"]  # TODO
+            columns = ["id", "name", "qty", "unit", "tag"]  # TODO
             tmp_df = dataframe_from_list(gram_data["data"], columns)
             # tmp_df = tmp_df[tmp_df["unit"] != "cup"]
+            tmp_df = tmp_df.drop(columns="tag")
             tmp_df = tmp_df.astype({"qty": "float", "id": "float"})
             tmp_df = tmp_df.drop_duplicates(subset=["id", "name"])
             tmp_df = tmp_df.pivot(index="id", columns="name", values="qty")
