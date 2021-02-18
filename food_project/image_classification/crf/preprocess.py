@@ -100,7 +100,9 @@ class GridImagePredictionCollector:
     def predict_grid_image(self, grid_image):
         preds = []
         # TODO: don't hardcode 3x3
-        grid_image = GridImageCollector(grid_image, 3, 3)
+        grid_image = GridImageCollector(
+            grid_image, grid_image.n_vertical, grid_image.n_horizontal
+        )
         for i in range(grid_image.n_vertical):
             preds_row = []
             for j in range(grid_image.n_horizontal):

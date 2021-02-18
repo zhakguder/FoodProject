@@ -77,6 +77,11 @@ class ImageSizeSetter:
         element.single_image_height = self.height
 
 
+def read_individual_image(path):
+    gi = GridImage(path, 200, 200)
+    return gi.image
+
+
 def make_test_image(
     test_image_dir: str,
     n: int,
@@ -93,9 +98,11 @@ def make_test_image(
 
     Args:
 
-        n: number of grids in nxn placements of images. k: number of
-        images to use test_image_dir: relative folder from which to get test
-        images from
+        n: number of grids in nxn placements of images.
+
+        k: number of images to use
+
+        test_image_dir: relative folder from which to get test images from
 
         Kwargs:
             path: path to write the compiled image if write is True
