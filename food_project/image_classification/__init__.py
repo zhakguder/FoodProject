@@ -3,8 +3,7 @@
 from food_project.image_classification.crf.potentials import _clique_potentials
 from food_project.image_classification.crf.preprocess import (
     GridImagePredictionCollector, read_image)
-from food_project.image_classification.crf.test import \
-    RecipeIngredientImageCompiler
+from food_project.image_classification.crf.test import RecipeIngredientLister
 from food_project.image_classification.models import (
     ImageClassificationModelInitiator, image_classification_model)
 
@@ -41,8 +40,8 @@ def calculate_clique_potentials():
 
 def compile_test_images_from_recipe_ingredients(n_recipes):
     try:
-        riic = RecipeIngredientImageCompiler()
+        ril = RecipeIngredientLister()
     except:
         print("Initialize the recipe database first!")
 
-    return riic.get_recipe_ingredient_images(n_recipes)
+    return ril.get_recipe_ingredient_images(n_recipes)
