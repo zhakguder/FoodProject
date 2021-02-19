@@ -22,7 +22,7 @@ class IngredientImagePaths:
         image_folder = os.path.join(ingredient_data_path, cls)
         paths = os.listdir(image_folder)
         chosen = random.choice(paths)
-        return os.path.join(ingredient_data_path, chosen)
+        return os.path.join(image_folder, chosen)
 
 
 ingredient_image_paths = IngredientImagePaths()
@@ -62,7 +62,6 @@ class TestImageCompiler:
                 if image_idx < n_images:
                     image_path = image_paths[image_idx]
                     image = GridImage(image_path, *self.single_image_size())
-                    breakpoint()
                     y = i * height
                     x = j * width
                     canvas[y : y + height, x : x + width, :] = image.image
