@@ -136,6 +136,7 @@ class RecipeIngredientLister:
 class GridImage:
     def __init__(self, path, width=28, height=28):
         self.path = path
+        breakpoint()
         self._image = cv2.imread(path)
         self.size = (width, height)
         self._image = cv2.resize(self.image, self.size)
