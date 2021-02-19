@@ -65,7 +65,7 @@ for recipe_id in random_ids:
     recipe = get_recipe_from_db(int(recipe_id))
     recipe_ingredients = recipe.get("processed_ingredients", "")
     print("*" * 10)
-    print(f"Recipe: {recipe_id} ingredients: [recipe_ingredients]")
+    print(f"Recipe: {recipe_id} ingredients: {recipe_ingredients}")
     print("*" * 10)
     for image in recipe["images"]:
         preds = image_classification_model.get_ingredients(image)
@@ -73,7 +73,6 @@ for recipe_id in random_ids:
         print(preds)
         print("-" * 10)
         res = sim_ctrl.handle(preds, n_most_similar_recipes)
-        breakpoint()
         recipe_ids = [int(x) for x in res.index.values]
         similarity_scores = res.values
         for i, id_ in enumerate(recipe_ids):
