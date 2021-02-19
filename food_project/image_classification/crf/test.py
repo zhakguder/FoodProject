@@ -29,7 +29,7 @@ ingredient_image_paths = IngredientImagePaths()
 
 
 def get_random_ingredient_path_from_class(cls):
-    return ingredient_image_paths(cls)
+    return ingredient_image_paths.get_image_path_for_class(cls)
 
 
 class TestImageCompiler:
