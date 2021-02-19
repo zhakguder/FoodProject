@@ -127,12 +127,14 @@ class RecipeIngredientLister:
                 tic = TestImageCompiler(3)
                 iss = ImageSizeSetter(size, size)
                 iss.visit(tic)
-
-                image = tic.compile_test_image(*image_paths)
-                path = os.path.join(
-                    "data/image_classification", "grid", f"{recipe_id}.jpeg"
-                )
-                tic.write(path, image)
+                try:
+                    image = tic.compile_test_image(*image_paths)
+                    path = os.path.join(
+                        "data/image_classification", "grid", f"{recipe_id}.jpeg"
+                    )
+                    tic.write(path, image)
+                except:
+                    pass
 
 
 class GridImage:
