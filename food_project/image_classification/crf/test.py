@@ -112,7 +112,7 @@ class RecipeIngredientLister:
             for x in self.recipes[recipe_id].get("processed_ingredients", [])
         ]
 
-    def get_recipe_ingredient_images(self, n_recipes):
+    def get_recipe_ingredient_images(self, n_recipes, size):
         recipes = self._random_recipes(n_recipes)
         if not self.recipe_ingredients:
             for recipe_id, _ in recipes.items():
@@ -125,6 +125,9 @@ class RecipeIngredientLister:
                     for x in self.recipe_ingredients[recipe_id]
                 ]
                 tic = TestImageCompiler(3)
+                iss = ImageSizeSetter(size, size)
+                iss.visit(tic)
+
                 image = tic.compile_test_image(*image_paths)
                 path = os.path.join(
                     "data/image_classification", "grid", f"{recipe_id}.jpeg"

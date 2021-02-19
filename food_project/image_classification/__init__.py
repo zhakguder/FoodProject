@@ -38,10 +38,13 @@ def calculate_clique_potentials():
     print("Clique potentials calculated")
 
 
-def compile_test_images_from_recipe_ingredients(n_recipes):
+def compile_test_images_from_recipe_ingredients(n_recipes, ind_image_size=200):
+    '''Args:
+            ind_image_size: individual image size for size x size image
+    '''
     try:
         ril = RecipeIngredientLister()
     except:
         print("Initialize the recipe database first!")
 
-    return ril.get_recipe_ingredient_images(n_recipes)
+    return ril.get_recipe_ingredient_images(n_recipes,ind_image_size)
