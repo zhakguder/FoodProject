@@ -1,8 +1,35 @@
 #!/usr/bin/env python3
 import os
+import random
 
 import cv2
 import numpy as np
+
+from food_project.image_classification.crf.prediction_class_clusters import \
+    _get_prediction_class_list
+from food_project.recipe import (get_processed_ingredients_from_db,
+                                 get_recipe_from_db, get_recipe_ids_from_db)
+from food_project.util import matchsubstring
+
+ingredient_data_path = "data/image_classification/hyvee"
+
+
+class IngredientImagePaths:
+    def __init__(self, random=True):
+        random.seed(42)
+
+    def get_image_path_for_class(self, cls):
+        image_folder = os.path.join(ingredient_data_path, cls)
+        paths = os.listdir(image_folder)
+        chosen = random.choice(paths)
+        return os.path.join(ingredient_data_path, chosen)
+
+
+ingredient_image_paths = IngredientImagePaths()
+
+
+def get_random_ingredient_path_from_class(cls):
+    return ingredient_image_paths(cls)
 
 
 class TestImageCompiler:
@@ -48,6 +75,64 @@ class TestImageCompiler:
         visitor.visit(self)
 
 
+class RecipeIngredientLister:
+    # def __init__(self, recipe_db):
+    # self.recipe_db = recipe_db
+    def __init__(self):
+        self.recipe_ids = get_recipe_ids_from_db()
+        self.recipes = {}
+        self.recipe_ingredients = {}
+        self.seed = 42
+        random.seed(self.seed)
+        self.valid_classes = _get_prediction_class_list()
+
+    def _random_recipes(self, k):
+        if not self.recipes:
+            self.random_recipe_ids = random.choices(self.recipe_ids, k=k)
+            self.recipes = {
+                id_: get_recipe_from_db(int(id_)) for id_ in self.random_recipe_ids
+            }
+
+        return self.recipes
+
+    def _ingredient_matching_class(self, ingredient):
+        ingredient = ingredient.lower()
+        max_score = 0
+        best_match = ""
+        for cls in self.valid_classes:
+            score = matchsubstring(cls, ingredient)
+            if score > max_score:
+                best_match = cls
+                max_score = score
+        return best_match
+
+    def _get_recipe_ingredients(self, recipe_id):
+        return [
+            self._ingredient_matching_class(x)
+            for x in self.recipes[recipe_id].get("processed_ingredients", [])
+        ]
+
+    def get_recipe_ingredient_images(self, n_recipes):
+        recipes = self._random_recipes(n_recipes)
+        if not self.recipe_ingredients:
+            for recipe_id, _ in recipes.items():
+                self.recipe_ingredients[recipe_id] = list(
+                    set(self._get_recipe_ingredients(recipe_id))
+                )
+
+                image_paths = [
+                    get_random_ingredient_path_from_class(x)
+                    for x in self.recipe_ingredients[recipe_id]
+                ]
+                tic = TestImageCompiler(3)
+                image = tic.compile_test_image(*image_paths)
+                path = os.path.join(
+                    "data/image_classification", "grid", f"{recipe_id}.jpeg"
+                )
+                tic.write(path, image)
+        # TODO: need to return the grid images!
+
+
 class GridImage:
     def __init__(self, path, width=28, height=28):
         self.path = path
@@ -88,7 +173,7 @@ def make_test_image(
     image_ext: str = ".jpeg",
     write: bool = False,
     size: int = 200,
-    **kwargs
+    **kwargs,
 ) -> np.array:
     """Creates a nxn image grid consisting of images in the folder. If folder
         contains more than nxn images randomly places nxn of the images in the
