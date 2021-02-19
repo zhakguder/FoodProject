@@ -17,5 +17,4 @@ pwd = os.getenv("MONGODB_PWD")
 
 connect_to_database(uri, uname, pwd)
 
-recipe_ingredients = compile_test_images_from_recipe_ingredients(5)
-print(recipe_ingredients)
+recipe_ingredients = compile_test_images_from_recipe_ingredients(500)
