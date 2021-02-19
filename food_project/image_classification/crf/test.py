@@ -62,6 +62,7 @@ class TestImageCompiler:
                 if image_idx < n_images:
                     image_path = image_paths[image_idx]
                     image = GridImage(image_path, *self.single_image_size())
+                    breakpoint()
                     y = i * height
                     x = j * width
                     canvas[y : y + height, x : x + width, :] = image.image
