@@ -1,14 +1,19 @@
 #!/usr/bin/env python3
+import json
 import os
 import random
 
 import cv2
 import numpy as np
 
-from food_project.image_classification.crf.prediction_class_clusters import \
-    _get_prediction_class_list
-from food_project.recipe import (get_processed_ingredients_from_db,
-                                 get_recipe_from_db, get_recipe_ids_from_db)
+from food_project.image_classification.crf.prediction_class_clusters import (
+    _get_prediction_class_list,
+)
+from food_project.recipe import (
+    get_processed_ingredients_from_db,
+    get_recipe_from_db,
+    get_recipe_ids_from_db,
+)
 from food_project.util import matchsubstring
 
 ingredient_data_path = "data/image_classification/hyvee"
@@ -75,16 +80,31 @@ class TestImageCompiler:
         visitor.visit(self)
 
 
+class GridImageLabels:
+    def __init__(self, save_path):
+        self.save_path = save_path
+
+    def save_id(self, id_, labels):
+        tmp = {}
+        if os.path.exists(self.save_path):
+            with open(self.save_path, 'r') as f:
+                tmp = json.load(f)
+
+        with open(self.save_path, "w") as f:
+            tmp.update({id_: labels})
+            json.dump(tmp, f)
+
 class RecipeIngredientLister:
     # def __init__(self, recipe_db):
     # self.recipe_db = recipe_db
-    def __init__(self):
+    def __init__(self, label_file_path):
         self.recipe_ids = get_recipe_ids_from_db()
         self.recipes = {}
         self.recipe_ingredients = {}
         self.seed = 42
         random.seed(self.seed)
         self.valid_classes = _get_prediction_class_list()
+        self.label_writer = GridImageLabels(label_file_path)
 
     def _random_recipes(self, k):
         if not self.recipes:
@@ -133,8 +153,10 @@ class RecipeIngredientLister:
                         "data/image_classification", "grid", f"{recipe_id}.jpeg"
                     )
                     tic.write(path, image)
+                    self.label_writer(self.recipe_ingredients[recipe_id])
                 except:
                     pass
+
 
 
 class GridImage:

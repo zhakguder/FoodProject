@@ -16,5 +16,5 @@ uname = os.getenv("MONGODB_USERNAME")
 pwd = os.getenv("MONGODB_PWD")
 
 connect_to_database(uri, uname, pwd)
-
-recipe_ingredients = compile_test_images_from_recipe_ingredients(500)
+recipe_label_path = '/data/image_classification/grid/labels.json'
+recipe_ingredients = compile_test_images_from_recipe_ingredients(500, recipe_label_path = recipe_label_path)
