@@ -6,10 +6,14 @@ import random
 import cv2
 import numpy as np
 
-from food_project.image_classification.crf.prediction_class_clusters import \
-    _get_prediction_class_list
-from food_project.recipe import (get_processed_ingredients_from_db,
-                                 get_recipe_from_db, get_recipe_ids_from_db)
+from food_project.image_classification.crf.prediction_class_clusters import (
+    _get_prediction_class_list,
+)
+from food_project.recipe import (
+    get_processed_ingredients_from_db,
+    get_recipe_from_db,
+    get_recipe_ids_from_db,
+)
 from food_project.util import matchsubstring
 
 ingredient_data_path = "data/image_classification/hyvee"
@@ -90,7 +94,6 @@ class GridImageLabels:
             tmp.update({id_: labels})
             json.dump(tmp, f)
 
-
 class RecipeIngredientLister:
     # def __init__(self, recipe_db):
     # self.recipe_db = recipe_db
@@ -153,6 +156,7 @@ class RecipeIngredientLister:
                     self.label_writer(self.recipe_ingredients[recipe_id])
                 except:
                     pass
+
 
 
 class GridImage:
