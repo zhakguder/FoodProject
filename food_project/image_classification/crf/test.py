@@ -15,7 +15,7 @@ ingredient_data_path = "data/image_classification/hyvee"
 
 
 class IngredientImagePaths:
-    def __init__(self, random=True):
+    def __init__(self):
         random.seed(42)
 
     def get_image_path_for_class(self, cls):
@@ -130,7 +130,6 @@ class RecipeIngredientLister:
                     "data/image_classification", "grid", f"{recipe_id}.jpeg"
                 )
                 tic.write(path, image)
-        # TODO: need to return the grid images!
 
 
 class GridImage:
