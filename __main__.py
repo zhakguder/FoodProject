@@ -78,9 +78,7 @@ for recipe_id in random_ids:
         for i, id_ in enumerate(recipe_ids):
             print(f"Most similar recipe {i}: {id_}, score: {similarity_scores[i]}")
             ingrs = get_recipe_from_db(id_).get("processed_ingredients", [])
-
-            recipe = Recipe(id_, *ingrs)
-
+            recipe = Recipe(id_, *set(ingrs))
             res = recipe.importance_ranked_ingredients(use_entropy=False)
             print("*" * 20, unit_type.capitalize(), "only importance", "*" * 20)
             print(res)
